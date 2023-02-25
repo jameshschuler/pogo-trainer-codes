@@ -12,17 +12,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Log {
   id      Int    @id @default(autoincrement())
   level   Level
   message String
   meta    Json
+  log_type LogType
 }
 
+model Trainer {
+  id Int @id @default(autoincrement())
+  username String @unique
+  trainer_name String @unique
+  trainer_code String @unique
+  alt_trainer_name String? @unique
+  alt_trainer_code String? @unique
+  created_at DateTime
+  last_updated_at DateTime?
+}
 
 enum Level {
   Info
   Warn
   Error
+}
+
+enum LogType {
+  Request
+  Internal
 }
