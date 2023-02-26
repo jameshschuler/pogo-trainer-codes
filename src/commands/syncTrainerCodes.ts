@@ -1,4 +1,4 @@
-import { parse as parseCsv } from "https://deno.land/std@0.82.0/encoding/csv.ts";
+import { parse as parseCsv } from "https://deno.land/std/encoding/csv.ts";
 import { Trainer } from "../../generated/client/deno/index.d.ts";
 import { ApiResponse } from "../../types/common.ts";
 import { TrainerRowData } from "../../types/models.ts";
