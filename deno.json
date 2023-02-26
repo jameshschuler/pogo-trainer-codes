@@ -1,0 +1,19 @@
+{
+  "tasks": {
+    "dev": "npx dotenv -- deno run -A --unstable --watch ./index.ts",
+    "run": "npx dotenv -- deno run -A --unstable ./index.ts",
+    "db:push": "deno run -A --unstable npm:prisma db push && deno run -A --unstable npm:prisma generate --data-proxy"
+  },
+  "importMap": "./import_map.json",
+  "compilerOptions": {
+    "noImplicitAny": false
+  },
+  "fmt": {
+    "files": {
+      "include": ["index.ts", "src/"]
+    },
+    "options": {
+      "lineWidth": 150
+    }
+  }
+}

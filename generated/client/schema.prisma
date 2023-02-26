@@ -2,9 +2,9 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["deno"]
-  output = "../generated/client"
+  output          = "../generated/client"
 }
 
 datasource db {
@@ -12,17 +12,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Log {
-  id      Int    @id @default(autoincrement())
-  level   Level
-  message String
-  meta    Json
+  id       Int     @id @default(autoincrement())
+  level    Level
+  message  String
+  meta     Json
+  log_type LogType
 }
 
+model Trainer {
+  id           Int          @id @default(autoincrement())
+  username     String
+  trainer_name String
+  trainer_code String
+  created_at   DateTime     @default(now())
+  alts         TrainerAlt[]
+}
+
+model TrainerAlt {
+  id               Int     @id @default(autoincrement())
+  trainer          Trainer @relation(fields: [trainer_id], references: [id])
+  trainer_id       Int
+  alt_trainer_name String  @unique
+  alt_trainer_code String  @unique
+}
+
+model SyncHistory {
+  id                  Int      @id @default(autoincrement())
+  total_rows_imported Int
+  total_rows_deleted  Int
+  total_row_created   Int
+  created_at          DateTime @default(now())
+}
 
 enum Level {
   Info
   Warn
   Error
+}
+
+enum LogType {
+  Request
+  Internal
 }

@@ -103,7 +103,8 @@ exports.Prisma.LogScalarFieldEnum = makeEnum({
   id: 'id',
   level: 'level',
   message: 'message',
-  meta: 'meta'
+  meta: 'meta',
+  log_type: 'log_type'
 });
 
 exports.Prisma.QueryMode = makeEnum({
@@ -114,6 +115,29 @@ exports.Prisma.QueryMode = makeEnum({
 exports.Prisma.SortOrder = makeEnum({
   asc: 'asc',
   desc: 'desc'
+});
+
+exports.Prisma.SyncHistoryScalarFieldEnum = makeEnum({
+  id: 'id',
+  total_rows_imported: 'total_rows_imported',
+  total_rows_deleted: 'total_rows_deleted',
+  total_row_created: 'total_row_created',
+  created_at: 'created_at'
+});
+
+exports.Prisma.TrainerAltScalarFieldEnum = makeEnum({
+  id: 'id',
+  trainer_id: 'trainer_id',
+  alt_trainer_name: 'alt_trainer_name',
+  alt_trainer_code: 'alt_trainer_code'
+});
+
+exports.Prisma.TrainerScalarFieldEnum = makeEnum({
+  id: 'id',
+  username: 'username',
+  trainer_name: 'trainer_name',
+  trainer_code: 'trainer_code',
+  created_at: 'created_at'
 });
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
@@ -128,8 +152,16 @@ exports.Level = makeEnum({
   Error: 'Error'
 });
 
+exports.LogType = makeEnum({
+  Request: 'Request',
+  Internal: 'Internal'
+});
+
 exports.Prisma.ModelName = makeEnum({
-  Log: 'Log'
+  Log: 'Log',
+  Trainer: 'Trainer',
+  TrainerAlt: 'TrainerAlt',
+  SyncHistory: 'SyncHistory'
 });
 
 /**

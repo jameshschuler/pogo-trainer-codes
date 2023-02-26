@@ -19,6 +19,42 @@ export type Log = {
   level: Level
   message: string
   meta: Prisma.JsonValue
+  log_type: LogType
+}
+
+/**
+ * Model Trainer
+ * 
+ */
+export type Trainer = {
+  id: number
+  username: string
+  trainer_name: string
+  trainer_code: string
+  created_at: Date
+}
+
+/**
+ * Model TrainerAlt
+ * 
+ */
+export type TrainerAlt = {
+  id: number
+  trainer_id: number
+  alt_trainer_name: string
+  alt_trainer_code: string
+}
+
+/**
+ * Model SyncHistory
+ * 
+ */
+export type SyncHistory = {
+  id: number
+  total_rows_imported: number
+  total_rows_deleted: number
+  total_row_created: number
+  created_at: Date
 }
 
 
@@ -36,6 +72,14 @@ export const Level: {
 };
 
 export type Level = (typeof Level)[keyof typeof Level]
+
+
+export const LogType: {
+  Request: 'Request',
+  Internal: 'Internal'
+};
+
+export type LogType = (typeof LogType)[keyof typeof LogType]
 
 
 /**
@@ -164,6 +208,36 @@ export class PrismaClient<
     * ```
     */
   get log(): Prisma.LogDelegate<GlobalReject>;
+
+  /**
+   * `prisma.trainer`: Exposes CRUD operations for the **Trainer** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Trainers
+    * const trainers = await prisma.trainer.findMany()
+    * ```
+    */
+  get trainer(): Prisma.TrainerDelegate<GlobalReject>;
+
+  /**
+   * `prisma.trainerAlt`: Exposes CRUD operations for the **TrainerAlt** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TrainerAlts
+    * const trainerAlts = await prisma.trainerAlt.findMany()
+    * ```
+    */
+  get trainerAlt(): Prisma.TrainerAltDelegate<GlobalReject>;
+
+  /**
+   * `prisma.syncHistory`: Exposes CRUD operations for the **SyncHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SyncHistories
+    * const syncHistories = await prisma.syncHistory.findMany()
+    * ```
+    */
+  get syncHistory(): Prisma.SyncHistoryDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -633,7 +707,10 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    Log: 'Log'
+    Log: 'Log',
+    Trainer: 'Trainer',
+    TrainerAlt: 'TrainerAlt',
+    SyncHistory: 'SyncHistory'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -794,6 +871,48 @@ export namespace Prisma {
    */
 
 
+  /**
+   * Count Type TrainerCountOutputType
+   */
+
+
+  export type TrainerCountOutputType = {
+    alts: number
+  }
+
+  export type TrainerCountOutputTypeSelect = {
+    alts?: boolean
+  }
+
+  export type TrainerCountOutputTypeGetPayload<S extends boolean | null | undefined | TrainerCountOutputTypeArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? TrainerCountOutputType :
+    S extends undefined ? never :
+    S extends { include: any } & (TrainerCountOutputTypeArgs)
+    ? TrainerCountOutputType 
+    : S extends { select: any } & (TrainerCountOutputTypeArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof TrainerCountOutputType ? TrainerCountOutputType[P] : never
+  } 
+      : TrainerCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * TrainerCountOutputType without action
+   */
+  export type TrainerCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerCountOutputType
+     */
+    select?: TrainerCountOutputTypeSelect | null
+  }
+
+
 
   /**
    * Models
@@ -824,12 +943,14 @@ export namespace Prisma {
     id: number | null
     level: Level | null
     message: string | null
+    log_type: LogType | null
   }
 
   export type LogMaxAggregateOutputType = {
     id: number | null
     level: Level | null
     message: string | null
+    log_type: LogType | null
   }
 
   export type LogCountAggregateOutputType = {
@@ -837,6 +958,7 @@ export namespace Prisma {
     level: number
     message: number
     meta: number
+    log_type: number
     _all: number
   }
 
@@ -853,12 +975,14 @@ export namespace Prisma {
     id?: true
     level?: true
     message?: true
+    log_type?: true
   }
 
   export type LogMaxAggregateInputType = {
     id?: true
     level?: true
     message?: true
+    log_type?: true
   }
 
   export type LogCountAggregateInputType = {
@@ -866,6 +990,7 @@ export namespace Prisma {
     level?: true
     message?: true
     meta?: true
+    log_type?: true
     _all?: true
   }
 
@@ -961,6 +1086,7 @@ export namespace Prisma {
     level: Level
     message: string
     meta: JsonValue
+    log_type: LogType
     _count: LogCountAggregateOutputType | null
     _avg: LogAvgAggregateOutputType | null
     _sum: LogSumAggregateOutputType | null
@@ -987,6 +1113,7 @@ export namespace Prisma {
     level?: boolean
     message?: boolean
     meta?: boolean
+    log_type?: boolean
   }
 
 
@@ -1704,6 +1831,2885 @@ export namespace Prisma {
 
 
   /**
+   * Model Trainer
+   */
+
+
+  export type AggregateTrainer = {
+    _count: TrainerCountAggregateOutputType | null
+    _avg: TrainerAvgAggregateOutputType | null
+    _sum: TrainerSumAggregateOutputType | null
+    _min: TrainerMinAggregateOutputType | null
+    _max: TrainerMaxAggregateOutputType | null
+  }
+
+  export type TrainerAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TrainerSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TrainerMinAggregateOutputType = {
+    id: number | null
+    username: string | null
+    trainer_name: string | null
+    trainer_code: string | null
+    created_at: Date | null
+  }
+
+  export type TrainerMaxAggregateOutputType = {
+    id: number | null
+    username: string | null
+    trainer_name: string | null
+    trainer_code: string | null
+    created_at: Date | null
+  }
+
+  export type TrainerCountAggregateOutputType = {
+    id: number
+    username: number
+    trainer_name: number
+    trainer_code: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type TrainerAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type TrainerSumAggregateInputType = {
+    id?: true
+  }
+
+  export type TrainerMinAggregateInputType = {
+    id?: true
+    username?: true
+    trainer_name?: true
+    trainer_code?: true
+    created_at?: true
+  }
+
+  export type TrainerMaxAggregateInputType = {
+    id?: true
+    username?: true
+    trainer_name?: true
+    trainer_code?: true
+    created_at?: true
+  }
+
+  export type TrainerCountAggregateInputType = {
+    id?: true
+    username?: true
+    trainer_name?: true
+    trainer_code?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type TrainerAggregateArgs = {
+    /**
+     * Filter which Trainer to aggregate.
+     */
+    where?: TrainerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trainers to fetch.
+     */
+    orderBy?: Enumerable<TrainerOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TrainerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trainers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trainers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Trainers
+    **/
+    _count?: true | TrainerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TrainerAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TrainerSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TrainerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TrainerMaxAggregateInputType
+  }
+
+  export type GetTrainerAggregateType<T extends TrainerAggregateArgs> = {
+        [P in keyof T & keyof AggregateTrainer]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTrainer[P]>
+      : GetScalarType<T[P], AggregateTrainer[P]>
+  }
+
+
+
+
+  export type TrainerGroupByArgs = {
+    where?: TrainerWhereInput
+    orderBy?: Enumerable<TrainerOrderByWithAggregationInput>
+    by: TrainerScalarFieldEnum[]
+    having?: TrainerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TrainerCountAggregateInputType | true
+    _avg?: TrainerAvgAggregateInputType
+    _sum?: TrainerSumAggregateInputType
+    _min?: TrainerMinAggregateInputType
+    _max?: TrainerMaxAggregateInputType
+  }
+
+
+  export type TrainerGroupByOutputType = {
+    id: number
+    username: string
+    trainer_name: string
+    trainer_code: string
+    created_at: Date
+    _count: TrainerCountAggregateOutputType | null
+    _avg: TrainerAvgAggregateOutputType | null
+    _sum: TrainerSumAggregateOutputType | null
+    _min: TrainerMinAggregateOutputType | null
+    _max: TrainerMaxAggregateOutputType | null
+  }
+
+  type GetTrainerGroupByPayload<T extends TrainerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<TrainerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TrainerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TrainerGroupByOutputType[P]>
+            : GetScalarType<T[P], TrainerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TrainerSelect = {
+    id?: boolean
+    username?: boolean
+    trainer_name?: boolean
+    trainer_code?: boolean
+    created_at?: boolean
+    alts?: boolean | Trainer$altsArgs
+    _count?: boolean | TrainerCountOutputTypeArgs
+  }
+
+
+  export type TrainerInclude = {
+    alts?: boolean | Trainer$altsArgs
+    _count?: boolean | TrainerCountOutputTypeArgs
+  }
+
+  export type TrainerGetPayload<S extends boolean | null | undefined | TrainerArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Trainer :
+    S extends undefined ? never :
+    S extends { include: any } & (TrainerArgs | TrainerFindManyArgs)
+    ? Trainer  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'alts' ? Array < TrainerAltGetPayload<S['include'][P]>>  :
+        P extends '_count' ? TrainerCountOutputTypeGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (TrainerArgs | TrainerFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'alts' ? Array < TrainerAltGetPayload<S['select'][P]>>  :
+        P extends '_count' ? TrainerCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Trainer ? Trainer[P] : never
+  } 
+      : Trainer
+
+
+  type TrainerCountArgs = 
+    Omit<TrainerFindManyArgs, 'select' | 'include'> & {
+      select?: TrainerCountAggregateInputType | true
+    }
+
+  export interface TrainerDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Trainer that matches the filter.
+     * @param {TrainerFindUniqueArgs} args - Arguments to find a Trainer
+     * @example
+     * // Get one Trainer
+     * const trainer = await prisma.trainer.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends TrainerFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, TrainerFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Trainer'> extends True ? Prisma__TrainerClient<TrainerGetPayload<T>> : Prisma__TrainerClient<TrainerGetPayload<T> | null, null>
+
+    /**
+     * Find one Trainer that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {TrainerFindUniqueOrThrowArgs} args - Arguments to find a Trainer
+     * @example
+     * // Get one Trainer
+     * const trainer = await prisma.trainer.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends TrainerFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, TrainerFindUniqueOrThrowArgs>
+    ): Prisma__TrainerClient<TrainerGetPayload<T>>
+
+    /**
+     * Find the first Trainer that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerFindFirstArgs} args - Arguments to find a Trainer
+     * @example
+     * // Get one Trainer
+     * const trainer = await prisma.trainer.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends TrainerFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, TrainerFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Trainer'> extends True ? Prisma__TrainerClient<TrainerGetPayload<T>> : Prisma__TrainerClient<TrainerGetPayload<T> | null, null>
+
+    /**
+     * Find the first Trainer that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerFindFirstOrThrowArgs} args - Arguments to find a Trainer
+     * @example
+     * // Get one Trainer
+     * const trainer = await prisma.trainer.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends TrainerFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, TrainerFindFirstOrThrowArgs>
+    ): Prisma__TrainerClient<TrainerGetPayload<T>>
+
+    /**
+     * Find zero or more Trainers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Trainers
+     * const trainers = await prisma.trainer.findMany()
+     * 
+     * // Get first 10 Trainers
+     * const trainers = await prisma.trainer.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const trainerWithIdOnly = await prisma.trainer.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends TrainerFindManyArgs>(
+      args?: SelectSubset<T, TrainerFindManyArgs>
+    ): Prisma.PrismaPromise<Array<TrainerGetPayload<T>>>
+
+    /**
+     * Create a Trainer.
+     * @param {TrainerCreateArgs} args - Arguments to create a Trainer.
+     * @example
+     * // Create one Trainer
+     * const Trainer = await prisma.trainer.create({
+     *   data: {
+     *     // ... data to create a Trainer
+     *   }
+     * })
+     * 
+    **/
+    create<T extends TrainerCreateArgs>(
+      args: SelectSubset<T, TrainerCreateArgs>
+    ): Prisma__TrainerClient<TrainerGetPayload<T>>
+
+    /**
+     * Create many Trainers.
+     *     @param {TrainerCreateManyArgs} args - Arguments to create many Trainers.
+     *     @example
+     *     // Create many Trainers
+     *     const trainer = await prisma.trainer.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends TrainerCreateManyArgs>(
+      args?: SelectSubset<T, TrainerCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Trainer.
+     * @param {TrainerDeleteArgs} args - Arguments to delete one Trainer.
+     * @example
+     * // Delete one Trainer
+     * const Trainer = await prisma.trainer.delete({
+     *   where: {
+     *     // ... filter to delete one Trainer
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends TrainerDeleteArgs>(
+      args: SelectSubset<T, TrainerDeleteArgs>
+    ): Prisma__TrainerClient<TrainerGetPayload<T>>
+
+    /**
+     * Update one Trainer.
+     * @param {TrainerUpdateArgs} args - Arguments to update one Trainer.
+     * @example
+     * // Update one Trainer
+     * const trainer = await prisma.trainer.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends TrainerUpdateArgs>(
+      args: SelectSubset<T, TrainerUpdateArgs>
+    ): Prisma__TrainerClient<TrainerGetPayload<T>>
+
+    /**
+     * Delete zero or more Trainers.
+     * @param {TrainerDeleteManyArgs} args - Arguments to filter Trainers to delete.
+     * @example
+     * // Delete a few Trainers
+     * const { count } = await prisma.trainer.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends TrainerDeleteManyArgs>(
+      args?: SelectSubset<T, TrainerDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Trainers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Trainers
+     * const trainer = await prisma.trainer.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends TrainerUpdateManyArgs>(
+      args: SelectSubset<T, TrainerUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Trainer.
+     * @param {TrainerUpsertArgs} args - Arguments to update or create a Trainer.
+     * @example
+     * // Update or create a Trainer
+     * const trainer = await prisma.trainer.upsert({
+     *   create: {
+     *     // ... data to create a Trainer
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Trainer we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends TrainerUpsertArgs>(
+      args: SelectSubset<T, TrainerUpsertArgs>
+    ): Prisma__TrainerClient<TrainerGetPayload<T>>
+
+    /**
+     * Count the number of Trainers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerCountArgs} args - Arguments to filter Trainers to count.
+     * @example
+     * // Count the number of Trainers
+     * const count = await prisma.trainer.count({
+     *   where: {
+     *     // ... the filter for the Trainers we want to count
+     *   }
+     * })
+    **/
+    count<T extends TrainerCountArgs>(
+      args?: Subset<T, TrainerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TrainerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Trainer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TrainerAggregateArgs>(args: Subset<T, TrainerAggregateArgs>): Prisma.PrismaPromise<GetTrainerAggregateType<T>>
+
+    /**
+     * Group by Trainer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TrainerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TrainerGroupByArgs['orderBy'] }
+        : { orderBy?: TrainerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TrainerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTrainerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Trainer.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__TrainerClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    alts<T extends Trainer$altsArgs= {}>(args?: Subset<T, Trainer$altsArgs>): Prisma.PrismaPromise<Array<TrainerAltGetPayload<T>>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Trainer base type for findUnique actions
+   */
+  export type TrainerFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+    /**
+     * Filter, which Trainer to fetch.
+     */
+    where: TrainerWhereUniqueInput
+  }
+
+  /**
+   * Trainer findUnique
+   */
+  export interface TrainerFindUniqueArgs extends TrainerFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Trainer findUniqueOrThrow
+   */
+  export type TrainerFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+    /**
+     * Filter, which Trainer to fetch.
+     */
+    where: TrainerWhereUniqueInput
+  }
+
+
+  /**
+   * Trainer base type for findFirst actions
+   */
+  export type TrainerFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+    /**
+     * Filter, which Trainer to fetch.
+     */
+    where?: TrainerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trainers to fetch.
+     */
+    orderBy?: Enumerable<TrainerOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Trainers.
+     */
+    cursor?: TrainerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trainers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trainers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Trainers.
+     */
+    distinct?: Enumerable<TrainerScalarFieldEnum>
+  }
+
+  /**
+   * Trainer findFirst
+   */
+  export interface TrainerFindFirstArgs extends TrainerFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Trainer findFirstOrThrow
+   */
+  export type TrainerFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+    /**
+     * Filter, which Trainer to fetch.
+     */
+    where?: TrainerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trainers to fetch.
+     */
+    orderBy?: Enumerable<TrainerOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Trainers.
+     */
+    cursor?: TrainerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trainers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trainers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Trainers.
+     */
+    distinct?: Enumerable<TrainerScalarFieldEnum>
+  }
+
+
+  /**
+   * Trainer findMany
+   */
+  export type TrainerFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+    /**
+     * Filter, which Trainers to fetch.
+     */
+    where?: TrainerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Trainers to fetch.
+     */
+    orderBy?: Enumerable<TrainerOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Trainers.
+     */
+    cursor?: TrainerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Trainers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Trainers.
+     */
+    skip?: number
+    distinct?: Enumerable<TrainerScalarFieldEnum>
+  }
+
+
+  /**
+   * Trainer create
+   */
+  export type TrainerCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+    /**
+     * The data needed to create a Trainer.
+     */
+    data: XOR<TrainerCreateInput, TrainerUncheckedCreateInput>
+  }
+
+
+  /**
+   * Trainer createMany
+   */
+  export type TrainerCreateManyArgs = {
+    /**
+     * The data used to create many Trainers.
+     */
+    data: Enumerable<TrainerCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Trainer update
+   */
+  export type TrainerUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+    /**
+     * The data needed to update a Trainer.
+     */
+    data: XOR<TrainerUpdateInput, TrainerUncheckedUpdateInput>
+    /**
+     * Choose, which Trainer to update.
+     */
+    where: TrainerWhereUniqueInput
+  }
+
+
+  /**
+   * Trainer updateMany
+   */
+  export type TrainerUpdateManyArgs = {
+    /**
+     * The data used to update Trainers.
+     */
+    data: XOR<TrainerUpdateManyMutationInput, TrainerUncheckedUpdateManyInput>
+    /**
+     * Filter which Trainers to update
+     */
+    where?: TrainerWhereInput
+  }
+
+
+  /**
+   * Trainer upsert
+   */
+  export type TrainerUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+    /**
+     * The filter to search for the Trainer to update in case it exists.
+     */
+    where: TrainerWhereUniqueInput
+    /**
+     * In case the Trainer found by the `where` argument doesn't exist, create a new Trainer with this data.
+     */
+    create: XOR<TrainerCreateInput, TrainerUncheckedCreateInput>
+    /**
+     * In case the Trainer was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TrainerUpdateInput, TrainerUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Trainer delete
+   */
+  export type TrainerDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+    /**
+     * Filter which Trainer to delete.
+     */
+    where: TrainerWhereUniqueInput
+  }
+
+
+  /**
+   * Trainer deleteMany
+   */
+  export type TrainerDeleteManyArgs = {
+    /**
+     * Filter which Trainers to delete
+     */
+    where?: TrainerWhereInput
+  }
+
+
+  /**
+   * Trainer.alts
+   */
+  export type Trainer$altsArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    where?: TrainerAltWhereInput
+    orderBy?: Enumerable<TrainerAltOrderByWithRelationInput>
+    cursor?: TrainerAltWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<TrainerAltScalarFieldEnum>
+  }
+
+
+  /**
+   * Trainer without action
+   */
+  export type TrainerArgs = {
+    /**
+     * Select specific fields to fetch from the Trainer
+     */
+    select?: TrainerSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerInclude | null
+  }
+
+
+
+  /**
+   * Model TrainerAlt
+   */
+
+
+  export type AggregateTrainerAlt = {
+    _count: TrainerAltCountAggregateOutputType | null
+    _avg: TrainerAltAvgAggregateOutputType | null
+    _sum: TrainerAltSumAggregateOutputType | null
+    _min: TrainerAltMinAggregateOutputType | null
+    _max: TrainerAltMaxAggregateOutputType | null
+  }
+
+  export type TrainerAltAvgAggregateOutputType = {
+    id: number | null
+    trainer_id: number | null
+  }
+
+  export type TrainerAltSumAggregateOutputType = {
+    id: number | null
+    trainer_id: number | null
+  }
+
+  export type TrainerAltMinAggregateOutputType = {
+    id: number | null
+    trainer_id: number | null
+    alt_trainer_name: string | null
+    alt_trainer_code: string | null
+  }
+
+  export type TrainerAltMaxAggregateOutputType = {
+    id: number | null
+    trainer_id: number | null
+    alt_trainer_name: string | null
+    alt_trainer_code: string | null
+  }
+
+  export type TrainerAltCountAggregateOutputType = {
+    id: number
+    trainer_id: number
+    alt_trainer_name: number
+    alt_trainer_code: number
+    _all: number
+  }
+
+
+  export type TrainerAltAvgAggregateInputType = {
+    id?: true
+    trainer_id?: true
+  }
+
+  export type TrainerAltSumAggregateInputType = {
+    id?: true
+    trainer_id?: true
+  }
+
+  export type TrainerAltMinAggregateInputType = {
+    id?: true
+    trainer_id?: true
+    alt_trainer_name?: true
+    alt_trainer_code?: true
+  }
+
+  export type TrainerAltMaxAggregateInputType = {
+    id?: true
+    trainer_id?: true
+    alt_trainer_name?: true
+    alt_trainer_code?: true
+  }
+
+  export type TrainerAltCountAggregateInputType = {
+    id?: true
+    trainer_id?: true
+    alt_trainer_name?: true
+    alt_trainer_code?: true
+    _all?: true
+  }
+
+  export type TrainerAltAggregateArgs = {
+    /**
+     * Filter which TrainerAlt to aggregate.
+     */
+    where?: TrainerAltWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainerAlts to fetch.
+     */
+    orderBy?: Enumerable<TrainerAltOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TrainerAltWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainerAlts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainerAlts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TrainerAlts
+    **/
+    _count?: true | TrainerAltCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TrainerAltAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TrainerAltSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TrainerAltMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TrainerAltMaxAggregateInputType
+  }
+
+  export type GetTrainerAltAggregateType<T extends TrainerAltAggregateArgs> = {
+        [P in keyof T & keyof AggregateTrainerAlt]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTrainerAlt[P]>
+      : GetScalarType<T[P], AggregateTrainerAlt[P]>
+  }
+
+
+
+
+  export type TrainerAltGroupByArgs = {
+    where?: TrainerAltWhereInput
+    orderBy?: Enumerable<TrainerAltOrderByWithAggregationInput>
+    by: TrainerAltScalarFieldEnum[]
+    having?: TrainerAltScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TrainerAltCountAggregateInputType | true
+    _avg?: TrainerAltAvgAggregateInputType
+    _sum?: TrainerAltSumAggregateInputType
+    _min?: TrainerAltMinAggregateInputType
+    _max?: TrainerAltMaxAggregateInputType
+  }
+
+
+  export type TrainerAltGroupByOutputType = {
+    id: number
+    trainer_id: number
+    alt_trainer_name: string
+    alt_trainer_code: string
+    _count: TrainerAltCountAggregateOutputType | null
+    _avg: TrainerAltAvgAggregateOutputType | null
+    _sum: TrainerAltSumAggregateOutputType | null
+    _min: TrainerAltMinAggregateOutputType | null
+    _max: TrainerAltMaxAggregateOutputType | null
+  }
+
+  type GetTrainerAltGroupByPayload<T extends TrainerAltGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<TrainerAltGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TrainerAltGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TrainerAltGroupByOutputType[P]>
+            : GetScalarType<T[P], TrainerAltGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TrainerAltSelect = {
+    id?: boolean
+    trainer?: boolean | TrainerArgs
+    trainer_id?: boolean
+    alt_trainer_name?: boolean
+    alt_trainer_code?: boolean
+  }
+
+
+  export type TrainerAltInclude = {
+    trainer?: boolean | TrainerArgs
+  }
+
+  export type TrainerAltGetPayload<S extends boolean | null | undefined | TrainerAltArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? TrainerAlt :
+    S extends undefined ? never :
+    S extends { include: any } & (TrainerAltArgs | TrainerAltFindManyArgs)
+    ? TrainerAlt  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'trainer' ? TrainerGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (TrainerAltArgs | TrainerAltFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'trainer' ? TrainerGetPayload<S['select'][P]> :  P extends keyof TrainerAlt ? TrainerAlt[P] : never
+  } 
+      : TrainerAlt
+
+
+  type TrainerAltCountArgs = 
+    Omit<TrainerAltFindManyArgs, 'select' | 'include'> & {
+      select?: TrainerAltCountAggregateInputType | true
+    }
+
+  export interface TrainerAltDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one TrainerAlt that matches the filter.
+     * @param {TrainerAltFindUniqueArgs} args - Arguments to find a TrainerAlt
+     * @example
+     * // Get one TrainerAlt
+     * const trainerAlt = await prisma.trainerAlt.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends TrainerAltFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, TrainerAltFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'TrainerAlt'> extends True ? Prisma__TrainerAltClient<TrainerAltGetPayload<T>> : Prisma__TrainerAltClient<TrainerAltGetPayload<T> | null, null>
+
+    /**
+     * Find one TrainerAlt that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {TrainerAltFindUniqueOrThrowArgs} args - Arguments to find a TrainerAlt
+     * @example
+     * // Get one TrainerAlt
+     * const trainerAlt = await prisma.trainerAlt.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends TrainerAltFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, TrainerAltFindUniqueOrThrowArgs>
+    ): Prisma__TrainerAltClient<TrainerAltGetPayload<T>>
+
+    /**
+     * Find the first TrainerAlt that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerAltFindFirstArgs} args - Arguments to find a TrainerAlt
+     * @example
+     * // Get one TrainerAlt
+     * const trainerAlt = await prisma.trainerAlt.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends TrainerAltFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, TrainerAltFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'TrainerAlt'> extends True ? Prisma__TrainerAltClient<TrainerAltGetPayload<T>> : Prisma__TrainerAltClient<TrainerAltGetPayload<T> | null, null>
+
+    /**
+     * Find the first TrainerAlt that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerAltFindFirstOrThrowArgs} args - Arguments to find a TrainerAlt
+     * @example
+     * // Get one TrainerAlt
+     * const trainerAlt = await prisma.trainerAlt.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends TrainerAltFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, TrainerAltFindFirstOrThrowArgs>
+    ): Prisma__TrainerAltClient<TrainerAltGetPayload<T>>
+
+    /**
+     * Find zero or more TrainerAlts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerAltFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TrainerAlts
+     * const trainerAlts = await prisma.trainerAlt.findMany()
+     * 
+     * // Get first 10 TrainerAlts
+     * const trainerAlts = await prisma.trainerAlt.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const trainerAltWithIdOnly = await prisma.trainerAlt.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends TrainerAltFindManyArgs>(
+      args?: SelectSubset<T, TrainerAltFindManyArgs>
+    ): Prisma.PrismaPromise<Array<TrainerAltGetPayload<T>>>
+
+    /**
+     * Create a TrainerAlt.
+     * @param {TrainerAltCreateArgs} args - Arguments to create a TrainerAlt.
+     * @example
+     * // Create one TrainerAlt
+     * const TrainerAlt = await prisma.trainerAlt.create({
+     *   data: {
+     *     // ... data to create a TrainerAlt
+     *   }
+     * })
+     * 
+    **/
+    create<T extends TrainerAltCreateArgs>(
+      args: SelectSubset<T, TrainerAltCreateArgs>
+    ): Prisma__TrainerAltClient<TrainerAltGetPayload<T>>
+
+    /**
+     * Create many TrainerAlts.
+     *     @param {TrainerAltCreateManyArgs} args - Arguments to create many TrainerAlts.
+     *     @example
+     *     // Create many TrainerAlts
+     *     const trainerAlt = await prisma.trainerAlt.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends TrainerAltCreateManyArgs>(
+      args?: SelectSubset<T, TrainerAltCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a TrainerAlt.
+     * @param {TrainerAltDeleteArgs} args - Arguments to delete one TrainerAlt.
+     * @example
+     * // Delete one TrainerAlt
+     * const TrainerAlt = await prisma.trainerAlt.delete({
+     *   where: {
+     *     // ... filter to delete one TrainerAlt
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends TrainerAltDeleteArgs>(
+      args: SelectSubset<T, TrainerAltDeleteArgs>
+    ): Prisma__TrainerAltClient<TrainerAltGetPayload<T>>
+
+    /**
+     * Update one TrainerAlt.
+     * @param {TrainerAltUpdateArgs} args - Arguments to update one TrainerAlt.
+     * @example
+     * // Update one TrainerAlt
+     * const trainerAlt = await prisma.trainerAlt.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends TrainerAltUpdateArgs>(
+      args: SelectSubset<T, TrainerAltUpdateArgs>
+    ): Prisma__TrainerAltClient<TrainerAltGetPayload<T>>
+
+    /**
+     * Delete zero or more TrainerAlts.
+     * @param {TrainerAltDeleteManyArgs} args - Arguments to filter TrainerAlts to delete.
+     * @example
+     * // Delete a few TrainerAlts
+     * const { count } = await prisma.trainerAlt.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends TrainerAltDeleteManyArgs>(
+      args?: SelectSubset<T, TrainerAltDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TrainerAlts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerAltUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TrainerAlts
+     * const trainerAlt = await prisma.trainerAlt.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends TrainerAltUpdateManyArgs>(
+      args: SelectSubset<T, TrainerAltUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one TrainerAlt.
+     * @param {TrainerAltUpsertArgs} args - Arguments to update or create a TrainerAlt.
+     * @example
+     * // Update or create a TrainerAlt
+     * const trainerAlt = await prisma.trainerAlt.upsert({
+     *   create: {
+     *     // ... data to create a TrainerAlt
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TrainerAlt we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends TrainerAltUpsertArgs>(
+      args: SelectSubset<T, TrainerAltUpsertArgs>
+    ): Prisma__TrainerAltClient<TrainerAltGetPayload<T>>
+
+    /**
+     * Count the number of TrainerAlts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerAltCountArgs} args - Arguments to filter TrainerAlts to count.
+     * @example
+     * // Count the number of TrainerAlts
+     * const count = await prisma.trainerAlt.count({
+     *   where: {
+     *     // ... the filter for the TrainerAlts we want to count
+     *   }
+     * })
+    **/
+    count<T extends TrainerAltCountArgs>(
+      args?: Subset<T, TrainerAltCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TrainerAltCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TrainerAlt.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerAltAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TrainerAltAggregateArgs>(args: Subset<T, TrainerAltAggregateArgs>): Prisma.PrismaPromise<GetTrainerAltAggregateType<T>>
+
+    /**
+     * Group by TrainerAlt.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TrainerAltGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TrainerAltGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TrainerAltGroupByArgs['orderBy'] }
+        : { orderBy?: TrainerAltGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TrainerAltGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTrainerAltGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TrainerAlt.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__TrainerAltClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    trainer<T extends TrainerArgs= {}>(args?: Subset<T, TrainerArgs>): Prisma__TrainerClient<TrainerGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * TrainerAlt base type for findUnique actions
+   */
+  export type TrainerAltFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    /**
+     * Filter, which TrainerAlt to fetch.
+     */
+    where: TrainerAltWhereUniqueInput
+  }
+
+  /**
+   * TrainerAlt findUnique
+   */
+  export interface TrainerAltFindUniqueArgs extends TrainerAltFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * TrainerAlt findUniqueOrThrow
+   */
+  export type TrainerAltFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    /**
+     * Filter, which TrainerAlt to fetch.
+     */
+    where: TrainerAltWhereUniqueInput
+  }
+
+
+  /**
+   * TrainerAlt base type for findFirst actions
+   */
+  export type TrainerAltFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    /**
+     * Filter, which TrainerAlt to fetch.
+     */
+    where?: TrainerAltWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainerAlts to fetch.
+     */
+    orderBy?: Enumerable<TrainerAltOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainerAlts.
+     */
+    cursor?: TrainerAltWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainerAlts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainerAlts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainerAlts.
+     */
+    distinct?: Enumerable<TrainerAltScalarFieldEnum>
+  }
+
+  /**
+   * TrainerAlt findFirst
+   */
+  export interface TrainerAltFindFirstArgs extends TrainerAltFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * TrainerAlt findFirstOrThrow
+   */
+  export type TrainerAltFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    /**
+     * Filter, which TrainerAlt to fetch.
+     */
+    where?: TrainerAltWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainerAlts to fetch.
+     */
+    orderBy?: Enumerable<TrainerAltOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TrainerAlts.
+     */
+    cursor?: TrainerAltWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainerAlts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainerAlts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TrainerAlts.
+     */
+    distinct?: Enumerable<TrainerAltScalarFieldEnum>
+  }
+
+
+  /**
+   * TrainerAlt findMany
+   */
+  export type TrainerAltFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    /**
+     * Filter, which TrainerAlts to fetch.
+     */
+    where?: TrainerAltWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TrainerAlts to fetch.
+     */
+    orderBy?: Enumerable<TrainerAltOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TrainerAlts.
+     */
+    cursor?: TrainerAltWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TrainerAlts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TrainerAlts.
+     */
+    skip?: number
+    distinct?: Enumerable<TrainerAltScalarFieldEnum>
+  }
+
+
+  /**
+   * TrainerAlt create
+   */
+  export type TrainerAltCreateArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    /**
+     * The data needed to create a TrainerAlt.
+     */
+    data: XOR<TrainerAltCreateInput, TrainerAltUncheckedCreateInput>
+  }
+
+
+  /**
+   * TrainerAlt createMany
+   */
+  export type TrainerAltCreateManyArgs = {
+    /**
+     * The data used to create many TrainerAlts.
+     */
+    data: Enumerable<TrainerAltCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * TrainerAlt update
+   */
+  export type TrainerAltUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    /**
+     * The data needed to update a TrainerAlt.
+     */
+    data: XOR<TrainerAltUpdateInput, TrainerAltUncheckedUpdateInput>
+    /**
+     * Choose, which TrainerAlt to update.
+     */
+    where: TrainerAltWhereUniqueInput
+  }
+
+
+  /**
+   * TrainerAlt updateMany
+   */
+  export type TrainerAltUpdateManyArgs = {
+    /**
+     * The data used to update TrainerAlts.
+     */
+    data: XOR<TrainerAltUpdateManyMutationInput, TrainerAltUncheckedUpdateManyInput>
+    /**
+     * Filter which TrainerAlts to update
+     */
+    where?: TrainerAltWhereInput
+  }
+
+
+  /**
+   * TrainerAlt upsert
+   */
+  export type TrainerAltUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    /**
+     * The filter to search for the TrainerAlt to update in case it exists.
+     */
+    where: TrainerAltWhereUniqueInput
+    /**
+     * In case the TrainerAlt found by the `where` argument doesn't exist, create a new TrainerAlt with this data.
+     */
+    create: XOR<TrainerAltCreateInput, TrainerAltUncheckedCreateInput>
+    /**
+     * In case the TrainerAlt was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TrainerAltUpdateInput, TrainerAltUncheckedUpdateInput>
+  }
+
+
+  /**
+   * TrainerAlt delete
+   */
+  export type TrainerAltDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+    /**
+     * Filter which TrainerAlt to delete.
+     */
+    where: TrainerAltWhereUniqueInput
+  }
+
+
+  /**
+   * TrainerAlt deleteMany
+   */
+  export type TrainerAltDeleteManyArgs = {
+    /**
+     * Filter which TrainerAlts to delete
+     */
+    where?: TrainerAltWhereInput
+  }
+
+
+  /**
+   * TrainerAlt without action
+   */
+  export type TrainerAltArgs = {
+    /**
+     * Select specific fields to fetch from the TrainerAlt
+     */
+    select?: TrainerAltSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TrainerAltInclude | null
+  }
+
+
+
+  /**
+   * Model SyncHistory
+   */
+
+
+  export type AggregateSyncHistory = {
+    _count: SyncHistoryCountAggregateOutputType | null
+    _avg: SyncHistoryAvgAggregateOutputType | null
+    _sum: SyncHistorySumAggregateOutputType | null
+    _min: SyncHistoryMinAggregateOutputType | null
+    _max: SyncHistoryMaxAggregateOutputType | null
+  }
+
+  export type SyncHistoryAvgAggregateOutputType = {
+    id: number | null
+    total_rows_imported: number | null
+    total_rows_deleted: number | null
+    total_row_created: number | null
+  }
+
+  export type SyncHistorySumAggregateOutputType = {
+    id: number | null
+    total_rows_imported: number | null
+    total_rows_deleted: number | null
+    total_row_created: number | null
+  }
+
+  export type SyncHistoryMinAggregateOutputType = {
+    id: number | null
+    total_rows_imported: number | null
+    total_rows_deleted: number | null
+    total_row_created: number | null
+    created_at: Date | null
+  }
+
+  export type SyncHistoryMaxAggregateOutputType = {
+    id: number | null
+    total_rows_imported: number | null
+    total_rows_deleted: number | null
+    total_row_created: number | null
+    created_at: Date | null
+  }
+
+  export type SyncHistoryCountAggregateOutputType = {
+    id: number
+    total_rows_imported: number
+    total_rows_deleted: number
+    total_row_created: number
+    created_at: number
+    _all: number
+  }
+
+
+  export type SyncHistoryAvgAggregateInputType = {
+    id?: true
+    total_rows_imported?: true
+    total_rows_deleted?: true
+    total_row_created?: true
+  }
+
+  export type SyncHistorySumAggregateInputType = {
+    id?: true
+    total_rows_imported?: true
+    total_rows_deleted?: true
+    total_row_created?: true
+  }
+
+  export type SyncHistoryMinAggregateInputType = {
+    id?: true
+    total_rows_imported?: true
+    total_rows_deleted?: true
+    total_row_created?: true
+    created_at?: true
+  }
+
+  export type SyncHistoryMaxAggregateInputType = {
+    id?: true
+    total_rows_imported?: true
+    total_rows_deleted?: true
+    total_row_created?: true
+    created_at?: true
+  }
+
+  export type SyncHistoryCountAggregateInputType = {
+    id?: true
+    total_rows_imported?: true
+    total_rows_deleted?: true
+    total_row_created?: true
+    created_at?: true
+    _all?: true
+  }
+
+  export type SyncHistoryAggregateArgs = {
+    /**
+     * Filter which SyncHistory to aggregate.
+     */
+    where?: SyncHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyncHistories to fetch.
+     */
+    orderBy?: Enumerable<SyncHistoryOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SyncHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyncHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyncHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SyncHistories
+    **/
+    _count?: true | SyncHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SyncHistoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SyncHistorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SyncHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SyncHistoryMaxAggregateInputType
+  }
+
+  export type GetSyncHistoryAggregateType<T extends SyncHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateSyncHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSyncHistory[P]>
+      : GetScalarType<T[P], AggregateSyncHistory[P]>
+  }
+
+
+
+
+  export type SyncHistoryGroupByArgs = {
+    where?: SyncHistoryWhereInput
+    orderBy?: Enumerable<SyncHistoryOrderByWithAggregationInput>
+    by: SyncHistoryScalarFieldEnum[]
+    having?: SyncHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SyncHistoryCountAggregateInputType | true
+    _avg?: SyncHistoryAvgAggregateInputType
+    _sum?: SyncHistorySumAggregateInputType
+    _min?: SyncHistoryMinAggregateInputType
+    _max?: SyncHistoryMaxAggregateInputType
+  }
+
+
+  export type SyncHistoryGroupByOutputType = {
+    id: number
+    total_rows_imported: number
+    total_rows_deleted: number
+    total_row_created: number
+    created_at: Date
+    _count: SyncHistoryCountAggregateOutputType | null
+    _avg: SyncHistoryAvgAggregateOutputType | null
+    _sum: SyncHistorySumAggregateOutputType | null
+    _min: SyncHistoryMinAggregateOutputType | null
+    _max: SyncHistoryMaxAggregateOutputType | null
+  }
+
+  type GetSyncHistoryGroupByPayload<T extends SyncHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<SyncHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SyncHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SyncHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], SyncHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SyncHistorySelect = {
+    id?: boolean
+    total_rows_imported?: boolean
+    total_rows_deleted?: boolean
+    total_row_created?: boolean
+    created_at?: boolean
+  }
+
+
+  export type SyncHistoryGetPayload<S extends boolean | null | undefined | SyncHistoryArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? SyncHistory :
+    S extends undefined ? never :
+    S extends { include: any } & (SyncHistoryArgs | SyncHistoryFindManyArgs)
+    ? SyncHistory 
+    : S extends { select: any } & (SyncHistoryArgs | SyncHistoryFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+    P extends keyof SyncHistory ? SyncHistory[P] : never
+  } 
+      : SyncHistory
+
+
+  type SyncHistoryCountArgs = 
+    Omit<SyncHistoryFindManyArgs, 'select' | 'include'> & {
+      select?: SyncHistoryCountAggregateInputType | true
+    }
+
+  export interface SyncHistoryDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one SyncHistory that matches the filter.
+     * @param {SyncHistoryFindUniqueArgs} args - Arguments to find a SyncHistory
+     * @example
+     * // Get one SyncHistory
+     * const syncHistory = await prisma.syncHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends SyncHistoryFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, SyncHistoryFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'SyncHistory'> extends True ? Prisma__SyncHistoryClient<SyncHistoryGetPayload<T>> : Prisma__SyncHistoryClient<SyncHistoryGetPayload<T> | null, null>
+
+    /**
+     * Find one SyncHistory that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SyncHistoryFindUniqueOrThrowArgs} args - Arguments to find a SyncHistory
+     * @example
+     * // Get one SyncHistory
+     * const syncHistory = await prisma.syncHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SyncHistoryFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, SyncHistoryFindUniqueOrThrowArgs>
+    ): Prisma__SyncHistoryClient<SyncHistoryGetPayload<T>>
+
+    /**
+     * Find the first SyncHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncHistoryFindFirstArgs} args - Arguments to find a SyncHistory
+     * @example
+     * // Get one SyncHistory
+     * const syncHistory = await prisma.syncHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends SyncHistoryFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, SyncHistoryFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'SyncHistory'> extends True ? Prisma__SyncHistoryClient<SyncHistoryGetPayload<T>> : Prisma__SyncHistoryClient<SyncHistoryGetPayload<T> | null, null>
+
+    /**
+     * Find the first SyncHistory that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncHistoryFindFirstOrThrowArgs} args - Arguments to find a SyncHistory
+     * @example
+     * // Get one SyncHistory
+     * const syncHistory = await prisma.syncHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SyncHistoryFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, SyncHistoryFindFirstOrThrowArgs>
+    ): Prisma__SyncHistoryClient<SyncHistoryGetPayload<T>>
+
+    /**
+     * Find zero or more SyncHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncHistoryFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SyncHistories
+     * const syncHistories = await prisma.syncHistory.findMany()
+     * 
+     * // Get first 10 SyncHistories
+     * const syncHistories = await prisma.syncHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const syncHistoryWithIdOnly = await prisma.syncHistory.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends SyncHistoryFindManyArgs>(
+      args?: SelectSubset<T, SyncHistoryFindManyArgs>
+    ): Prisma.PrismaPromise<Array<SyncHistoryGetPayload<T>>>
+
+    /**
+     * Create a SyncHistory.
+     * @param {SyncHistoryCreateArgs} args - Arguments to create a SyncHistory.
+     * @example
+     * // Create one SyncHistory
+     * const SyncHistory = await prisma.syncHistory.create({
+     *   data: {
+     *     // ... data to create a SyncHistory
+     *   }
+     * })
+     * 
+    **/
+    create<T extends SyncHistoryCreateArgs>(
+      args: SelectSubset<T, SyncHistoryCreateArgs>
+    ): Prisma__SyncHistoryClient<SyncHistoryGetPayload<T>>
+
+    /**
+     * Create many SyncHistories.
+     *     @param {SyncHistoryCreateManyArgs} args - Arguments to create many SyncHistories.
+     *     @example
+     *     // Create many SyncHistories
+     *     const syncHistory = await prisma.syncHistory.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends SyncHistoryCreateManyArgs>(
+      args?: SelectSubset<T, SyncHistoryCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a SyncHistory.
+     * @param {SyncHistoryDeleteArgs} args - Arguments to delete one SyncHistory.
+     * @example
+     * // Delete one SyncHistory
+     * const SyncHistory = await prisma.syncHistory.delete({
+     *   where: {
+     *     // ... filter to delete one SyncHistory
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends SyncHistoryDeleteArgs>(
+      args: SelectSubset<T, SyncHistoryDeleteArgs>
+    ): Prisma__SyncHistoryClient<SyncHistoryGetPayload<T>>
+
+    /**
+     * Update one SyncHistory.
+     * @param {SyncHistoryUpdateArgs} args - Arguments to update one SyncHistory.
+     * @example
+     * // Update one SyncHistory
+     * const syncHistory = await prisma.syncHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends SyncHistoryUpdateArgs>(
+      args: SelectSubset<T, SyncHistoryUpdateArgs>
+    ): Prisma__SyncHistoryClient<SyncHistoryGetPayload<T>>
+
+    /**
+     * Delete zero or more SyncHistories.
+     * @param {SyncHistoryDeleteManyArgs} args - Arguments to filter SyncHistories to delete.
+     * @example
+     * // Delete a few SyncHistories
+     * const { count } = await prisma.syncHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends SyncHistoryDeleteManyArgs>(
+      args?: SelectSubset<T, SyncHistoryDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SyncHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SyncHistories
+     * const syncHistory = await prisma.syncHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends SyncHistoryUpdateManyArgs>(
+      args: SelectSubset<T, SyncHistoryUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SyncHistory.
+     * @param {SyncHistoryUpsertArgs} args - Arguments to update or create a SyncHistory.
+     * @example
+     * // Update or create a SyncHistory
+     * const syncHistory = await prisma.syncHistory.upsert({
+     *   create: {
+     *     // ... data to create a SyncHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SyncHistory we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends SyncHistoryUpsertArgs>(
+      args: SelectSubset<T, SyncHistoryUpsertArgs>
+    ): Prisma__SyncHistoryClient<SyncHistoryGetPayload<T>>
+
+    /**
+     * Count the number of SyncHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncHistoryCountArgs} args - Arguments to filter SyncHistories to count.
+     * @example
+     * // Count the number of SyncHistories
+     * const count = await prisma.syncHistory.count({
+     *   where: {
+     *     // ... the filter for the SyncHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends SyncHistoryCountArgs>(
+      args?: Subset<T, SyncHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SyncHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SyncHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SyncHistoryAggregateArgs>(args: Subset<T, SyncHistoryAggregateArgs>): Prisma.PrismaPromise<GetSyncHistoryAggregateType<T>>
+
+    /**
+     * Group by SyncHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SyncHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SyncHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: SyncHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SyncHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSyncHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SyncHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__SyncHistoryClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * SyncHistory base type for findUnique actions
+   */
+  export type SyncHistoryFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+    /**
+     * Filter, which SyncHistory to fetch.
+     */
+    where: SyncHistoryWhereUniqueInput
+  }
+
+  /**
+   * SyncHistory findUnique
+   */
+  export interface SyncHistoryFindUniqueArgs extends SyncHistoryFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * SyncHistory findUniqueOrThrow
+   */
+  export type SyncHistoryFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+    /**
+     * Filter, which SyncHistory to fetch.
+     */
+    where: SyncHistoryWhereUniqueInput
+  }
+
+
+  /**
+   * SyncHistory base type for findFirst actions
+   */
+  export type SyncHistoryFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+    /**
+     * Filter, which SyncHistory to fetch.
+     */
+    where?: SyncHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyncHistories to fetch.
+     */
+    orderBy?: Enumerable<SyncHistoryOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SyncHistories.
+     */
+    cursor?: SyncHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyncHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyncHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SyncHistories.
+     */
+    distinct?: Enumerable<SyncHistoryScalarFieldEnum>
+  }
+
+  /**
+   * SyncHistory findFirst
+   */
+  export interface SyncHistoryFindFirstArgs extends SyncHistoryFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * SyncHistory findFirstOrThrow
+   */
+  export type SyncHistoryFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+    /**
+     * Filter, which SyncHistory to fetch.
+     */
+    where?: SyncHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyncHistories to fetch.
+     */
+    orderBy?: Enumerable<SyncHistoryOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SyncHistories.
+     */
+    cursor?: SyncHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyncHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyncHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SyncHistories.
+     */
+    distinct?: Enumerable<SyncHistoryScalarFieldEnum>
+  }
+
+
+  /**
+   * SyncHistory findMany
+   */
+  export type SyncHistoryFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+    /**
+     * Filter, which SyncHistories to fetch.
+     */
+    where?: SyncHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyncHistories to fetch.
+     */
+    orderBy?: Enumerable<SyncHistoryOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SyncHistories.
+     */
+    cursor?: SyncHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyncHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyncHistories.
+     */
+    skip?: number
+    distinct?: Enumerable<SyncHistoryScalarFieldEnum>
+  }
+
+
+  /**
+   * SyncHistory create
+   */
+  export type SyncHistoryCreateArgs = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+    /**
+     * The data needed to create a SyncHistory.
+     */
+    data: XOR<SyncHistoryCreateInput, SyncHistoryUncheckedCreateInput>
+  }
+
+
+  /**
+   * SyncHistory createMany
+   */
+  export type SyncHistoryCreateManyArgs = {
+    /**
+     * The data used to create many SyncHistories.
+     */
+    data: Enumerable<SyncHistoryCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * SyncHistory update
+   */
+  export type SyncHistoryUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+    /**
+     * The data needed to update a SyncHistory.
+     */
+    data: XOR<SyncHistoryUpdateInput, SyncHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which SyncHistory to update.
+     */
+    where: SyncHistoryWhereUniqueInput
+  }
+
+
+  /**
+   * SyncHistory updateMany
+   */
+  export type SyncHistoryUpdateManyArgs = {
+    /**
+     * The data used to update SyncHistories.
+     */
+    data: XOR<SyncHistoryUpdateManyMutationInput, SyncHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which SyncHistories to update
+     */
+    where?: SyncHistoryWhereInput
+  }
+
+
+  /**
+   * SyncHistory upsert
+   */
+  export type SyncHistoryUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+    /**
+     * The filter to search for the SyncHistory to update in case it exists.
+     */
+    where: SyncHistoryWhereUniqueInput
+    /**
+     * In case the SyncHistory found by the `where` argument doesn't exist, create a new SyncHistory with this data.
+     */
+    create: XOR<SyncHistoryCreateInput, SyncHistoryUncheckedCreateInput>
+    /**
+     * In case the SyncHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SyncHistoryUpdateInput, SyncHistoryUncheckedUpdateInput>
+  }
+
+
+  /**
+   * SyncHistory delete
+   */
+  export type SyncHistoryDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+    /**
+     * Filter which SyncHistory to delete.
+     */
+    where: SyncHistoryWhereUniqueInput
+  }
+
+
+  /**
+   * SyncHistory deleteMany
+   */
+  export type SyncHistoryDeleteManyArgs = {
+    /**
+     * Filter which SyncHistories to delete
+     */
+    where?: SyncHistoryWhereInput
+  }
+
+
+  /**
+   * SyncHistory without action
+   */
+  export type SyncHistoryArgs = {
+    /**
+     * Select specific fields to fetch from the SyncHistory
+     */
+    select?: SyncHistorySelect | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -1730,7 +4736,8 @@ export namespace Prisma {
     id: 'id',
     level: 'level',
     message: 'message',
-    meta: 'meta'
+    meta: 'meta',
+    log_type: 'log_type'
   };
 
   export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
@@ -1750,6 +4757,38 @@ export namespace Prisma {
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const SyncHistoryScalarFieldEnum: {
+    id: 'id',
+    total_rows_imported: 'total_rows_imported',
+    total_rows_deleted: 'total_rows_deleted',
+    total_row_created: 'total_row_created',
+    created_at: 'created_at'
+  };
+
+  export type SyncHistoryScalarFieldEnum = (typeof SyncHistoryScalarFieldEnum)[keyof typeof SyncHistoryScalarFieldEnum]
+
+
+  export const TrainerAltScalarFieldEnum: {
+    id: 'id',
+    trainer_id: 'trainer_id',
+    alt_trainer_name: 'alt_trainer_name',
+    alt_trainer_code: 'alt_trainer_code'
+  };
+
+  export type TrainerAltScalarFieldEnum = (typeof TrainerAltScalarFieldEnum)[keyof typeof TrainerAltScalarFieldEnum]
+
+
+  export const TrainerScalarFieldEnum: {
+    id: 'id',
+    username: 'username',
+    trainer_name: 'trainer_name',
+    trainer_code: 'trainer_code',
+    created_at: 'created_at'
+  };
+
+  export type TrainerScalarFieldEnum = (typeof TrainerScalarFieldEnum)[keyof typeof TrainerScalarFieldEnum]
 
 
   export const TransactionIsolationLevel: {
@@ -1775,6 +4814,7 @@ export namespace Prisma {
     level?: EnumLevelFilter | Level
     message?: StringFilter | string
     meta?: JsonFilter
+    log_type?: EnumLogTypeFilter | LogType
   }
 
   export type LogOrderByWithRelationInput = {
@@ -1782,6 +4822,7 @@ export namespace Prisma {
     level?: SortOrder
     message?: SortOrder
     meta?: SortOrder
+    log_type?: SortOrder
   }
 
   export type LogWhereUniqueInput = {
@@ -1793,6 +4834,7 @@ export namespace Prisma {
     level?: SortOrder
     message?: SortOrder
     meta?: SortOrder
+    log_type?: SortOrder
     _count?: LogCountOrderByAggregateInput
     _avg?: LogAvgOrderByAggregateInput
     _max?: LogMaxOrderByAggregateInput
@@ -1808,12 +4850,157 @@ export namespace Prisma {
     level?: EnumLevelWithAggregatesFilter | Level
     message?: StringWithAggregatesFilter | string
     meta?: JsonWithAggregatesFilter
+    log_type?: EnumLogTypeWithAggregatesFilter | LogType
+  }
+
+  export type TrainerWhereInput = {
+    AND?: Enumerable<TrainerWhereInput>
+    OR?: Enumerable<TrainerWhereInput>
+    NOT?: Enumerable<TrainerWhereInput>
+    id?: IntFilter | number
+    username?: StringFilter | string
+    trainer_name?: StringFilter | string
+    trainer_code?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
+    alts?: TrainerAltListRelationFilter
+  }
+
+  export type TrainerOrderByWithRelationInput = {
+    id?: SortOrder
+    username?: SortOrder
+    trainer_name?: SortOrder
+    trainer_code?: SortOrder
+    created_at?: SortOrder
+    alts?: TrainerAltOrderByRelationAggregateInput
+  }
+
+  export type TrainerWhereUniqueInput = {
+    id?: number
+  }
+
+  export type TrainerOrderByWithAggregationInput = {
+    id?: SortOrder
+    username?: SortOrder
+    trainer_name?: SortOrder
+    trainer_code?: SortOrder
+    created_at?: SortOrder
+    _count?: TrainerCountOrderByAggregateInput
+    _avg?: TrainerAvgOrderByAggregateInput
+    _max?: TrainerMaxOrderByAggregateInput
+    _min?: TrainerMinOrderByAggregateInput
+    _sum?: TrainerSumOrderByAggregateInput
+  }
+
+  export type TrainerScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<TrainerScalarWhereWithAggregatesInput>
+    OR?: Enumerable<TrainerScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<TrainerScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    username?: StringWithAggregatesFilter | string
+    trainer_name?: StringWithAggregatesFilter | string
+    trainer_code?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+  }
+
+  export type TrainerAltWhereInput = {
+    AND?: Enumerable<TrainerAltWhereInput>
+    OR?: Enumerable<TrainerAltWhereInput>
+    NOT?: Enumerable<TrainerAltWhereInput>
+    id?: IntFilter | number
+    trainer?: XOR<TrainerRelationFilter, TrainerWhereInput>
+    trainer_id?: IntFilter | number
+    alt_trainer_name?: StringFilter | string
+    alt_trainer_code?: StringFilter | string
+  }
+
+  export type TrainerAltOrderByWithRelationInput = {
+    id?: SortOrder
+    trainer?: TrainerOrderByWithRelationInput
+    trainer_id?: SortOrder
+    alt_trainer_name?: SortOrder
+    alt_trainer_code?: SortOrder
+  }
+
+  export type TrainerAltWhereUniqueInput = {
+    id?: number
+    alt_trainer_name?: string
+    alt_trainer_code?: string
+  }
+
+  export type TrainerAltOrderByWithAggregationInput = {
+    id?: SortOrder
+    trainer_id?: SortOrder
+    alt_trainer_name?: SortOrder
+    alt_trainer_code?: SortOrder
+    _count?: TrainerAltCountOrderByAggregateInput
+    _avg?: TrainerAltAvgOrderByAggregateInput
+    _max?: TrainerAltMaxOrderByAggregateInput
+    _min?: TrainerAltMinOrderByAggregateInput
+    _sum?: TrainerAltSumOrderByAggregateInput
+  }
+
+  export type TrainerAltScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<TrainerAltScalarWhereWithAggregatesInput>
+    OR?: Enumerable<TrainerAltScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<TrainerAltScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    trainer_id?: IntWithAggregatesFilter | number
+    alt_trainer_name?: StringWithAggregatesFilter | string
+    alt_trainer_code?: StringWithAggregatesFilter | string
+  }
+
+  export type SyncHistoryWhereInput = {
+    AND?: Enumerable<SyncHistoryWhereInput>
+    OR?: Enumerable<SyncHistoryWhereInput>
+    NOT?: Enumerable<SyncHistoryWhereInput>
+    id?: IntFilter | number
+    total_rows_imported?: IntFilter | number
+    total_rows_deleted?: IntFilter | number
+    total_row_created?: IntFilter | number
+    created_at?: DateTimeFilter | Date | string
+  }
+
+  export type SyncHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    total_rows_imported?: SortOrder
+    total_rows_deleted?: SortOrder
+    total_row_created?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type SyncHistoryWhereUniqueInput = {
+    id?: number
+  }
+
+  export type SyncHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    total_rows_imported?: SortOrder
+    total_rows_deleted?: SortOrder
+    total_row_created?: SortOrder
+    created_at?: SortOrder
+    _count?: SyncHistoryCountOrderByAggregateInput
+    _avg?: SyncHistoryAvgOrderByAggregateInput
+    _max?: SyncHistoryMaxOrderByAggregateInput
+    _min?: SyncHistoryMinOrderByAggregateInput
+    _sum?: SyncHistorySumOrderByAggregateInput
+  }
+
+  export type SyncHistoryScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<SyncHistoryScalarWhereWithAggregatesInput>
+    OR?: Enumerable<SyncHistoryScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<SyncHistoryScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    total_rows_imported?: IntWithAggregatesFilter | number
+    total_rows_deleted?: IntWithAggregatesFilter | number
+    total_row_created?: IntWithAggregatesFilter | number
+    created_at?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type LogCreateInput = {
     level: Level
     message: string
     meta: JsonNullValueInput | InputJsonValue
+    log_type: LogType
   }
 
   export type LogUncheckedCreateInput = {
@@ -1821,12 +5008,14 @@ export namespace Prisma {
     level: Level
     message: string
     meta: JsonNullValueInput | InputJsonValue
+    log_type: LogType
   }
 
   export type LogUpdateInput = {
     level?: EnumLevelFieldUpdateOperationsInput | Level
     message?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
+    log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
   }
 
   export type LogUncheckedUpdateInput = {
@@ -1834,6 +5023,7 @@ export namespace Prisma {
     level?: EnumLevelFieldUpdateOperationsInput | Level
     message?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
+    log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
   }
 
   export type LogCreateManyInput = {
@@ -1841,12 +5031,14 @@ export namespace Prisma {
     level: Level
     message: string
     meta: JsonNullValueInput | InputJsonValue
+    log_type: LogType
   }
 
   export type LogUpdateManyMutationInput = {
     level?: EnumLevelFieldUpdateOperationsInput | Level
     message?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
+    log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
   }
 
   export type LogUncheckedUpdateManyInput = {
@@ -1854,6 +5046,162 @@ export namespace Prisma {
     level?: EnumLevelFieldUpdateOperationsInput | Level
     message?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
+    log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
+  }
+
+  export type TrainerCreateInput = {
+    username: string
+    trainer_name: string
+    trainer_code: string
+    created_at?: Date | string
+    alts?: TrainerAltCreateNestedManyWithoutTrainerInput
+  }
+
+  export type TrainerUncheckedCreateInput = {
+    id?: number
+    username: string
+    trainer_name: string
+    trainer_code: string
+    created_at?: Date | string
+    alts?: TrainerAltUncheckedCreateNestedManyWithoutTrainerInput
+  }
+
+  export type TrainerUpdateInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    trainer_name?: StringFieldUpdateOperationsInput | string
+    trainer_code?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    alts?: TrainerAltUpdateManyWithoutTrainerNestedInput
+  }
+
+  export type TrainerUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    trainer_name?: StringFieldUpdateOperationsInput | string
+    trainer_code?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    alts?: TrainerAltUncheckedUpdateManyWithoutTrainerNestedInput
+  }
+
+  export type TrainerCreateManyInput = {
+    id?: number
+    username: string
+    trainer_name: string
+    trainer_code: string
+    created_at?: Date | string
+  }
+
+  export type TrainerUpdateManyMutationInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    trainer_name?: StringFieldUpdateOperationsInput | string
+    trainer_code?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainerUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    trainer_name?: StringFieldUpdateOperationsInput | string
+    trainer_code?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainerAltCreateInput = {
+    trainer: TrainerCreateNestedOneWithoutAltsInput
+    alt_trainer_name: string
+    alt_trainer_code: string
+  }
+
+  export type TrainerAltUncheckedCreateInput = {
+    id?: number
+    trainer_id: number
+    alt_trainer_name: string
+    alt_trainer_code: string
+  }
+
+  export type TrainerAltUpdateInput = {
+    trainer?: TrainerUpdateOneRequiredWithoutAltsNestedInput
+    alt_trainer_name?: StringFieldUpdateOperationsInput | string
+    alt_trainer_code?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TrainerAltUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    trainer_id?: IntFieldUpdateOperationsInput | number
+    alt_trainer_name?: StringFieldUpdateOperationsInput | string
+    alt_trainer_code?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TrainerAltCreateManyInput = {
+    id?: number
+    trainer_id: number
+    alt_trainer_name: string
+    alt_trainer_code: string
+  }
+
+  export type TrainerAltUpdateManyMutationInput = {
+    alt_trainer_name?: StringFieldUpdateOperationsInput | string
+    alt_trainer_code?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TrainerAltUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    trainer_id?: IntFieldUpdateOperationsInput | number
+    alt_trainer_name?: StringFieldUpdateOperationsInput | string
+    alt_trainer_code?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SyncHistoryCreateInput = {
+    total_rows_imported: number
+    total_rows_deleted: number
+    total_row_created: number
+    created_at?: Date | string
+  }
+
+  export type SyncHistoryUncheckedCreateInput = {
+    id?: number
+    total_rows_imported: number
+    total_rows_deleted: number
+    total_row_created: number
+    created_at?: Date | string
+  }
+
+  export type SyncHistoryUpdateInput = {
+    total_rows_imported?: IntFieldUpdateOperationsInput | number
+    total_rows_deleted?: IntFieldUpdateOperationsInput | number
+    total_row_created?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SyncHistoryUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    total_rows_imported?: IntFieldUpdateOperationsInput | number
+    total_rows_deleted?: IntFieldUpdateOperationsInput | number
+    total_row_created?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SyncHistoryCreateManyInput = {
+    id?: number
+    total_rows_imported: number
+    total_rows_deleted: number
+    total_row_created: number
+    created_at?: Date | string
+  }
+
+  export type SyncHistoryUpdateManyMutationInput = {
+    total_rows_imported?: IntFieldUpdateOperationsInput | number
+    total_rows_deleted?: IntFieldUpdateOperationsInput | number
+    total_row_created?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SyncHistoryUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    total_rows_imported?: IntFieldUpdateOperationsInput | number
+    total_rows_deleted?: IntFieldUpdateOperationsInput | number
+    total_row_created?: IntFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter = {
@@ -1911,11 +5259,19 @@ export namespace Prisma {
     not?: InputJsonValue | JsonNullValueFilter
   }
 
+  export type EnumLogTypeFilter = {
+    equals?: LogType
+    in?: Enumerable<LogType>
+    notIn?: Enumerable<LogType>
+    not?: NestedEnumLogTypeFilter | LogType
+  }
+
   export type LogCountOrderByAggregateInput = {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
     meta?: SortOrder
+    log_type?: SortOrder
   }
 
   export type LogAvgOrderByAggregateInput = {
@@ -1926,12 +5282,14 @@ export namespace Prisma {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
+    log_type?: SortOrder
   }
 
   export type LogMinOrderByAggregateInput = {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
+    log_type?: SortOrder
   }
 
   export type LogSumOrderByAggregateInput = {
@@ -2007,6 +5365,157 @@ export namespace Prisma {
     _max?: NestedJsonFilter
   }
 
+  export type EnumLogTypeWithAggregatesFilter = {
+    equals?: LogType
+    in?: Enumerable<LogType>
+    notIn?: Enumerable<LogType>
+    not?: NestedEnumLogTypeWithAggregatesFilter | LogType
+    _count?: NestedIntFilter
+    _min?: NestedEnumLogTypeFilter
+    _max?: NestedEnumLogTypeFilter
+  }
+
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type TrainerAltListRelationFilter = {
+    every?: TrainerAltWhereInput
+    some?: TrainerAltWhereInput
+    none?: TrainerAltWhereInput
+  }
+
+  export type TrainerAltOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TrainerCountOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    trainer_name?: SortOrder
+    trainer_code?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type TrainerAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type TrainerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    trainer_name?: SortOrder
+    trainer_code?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type TrainerMinOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    trainer_name?: SortOrder
+    trainer_code?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type TrainerSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type TrainerRelationFilter = {
+    is?: TrainerWhereInput
+    isNot?: TrainerWhereInput
+  }
+
+  export type TrainerAltCountOrderByAggregateInput = {
+    id?: SortOrder
+    trainer_id?: SortOrder
+    alt_trainer_name?: SortOrder
+    alt_trainer_code?: SortOrder
+  }
+
+  export type TrainerAltAvgOrderByAggregateInput = {
+    id?: SortOrder
+    trainer_id?: SortOrder
+  }
+
+  export type TrainerAltMaxOrderByAggregateInput = {
+    id?: SortOrder
+    trainer_id?: SortOrder
+    alt_trainer_name?: SortOrder
+    alt_trainer_code?: SortOrder
+  }
+
+  export type TrainerAltMinOrderByAggregateInput = {
+    id?: SortOrder
+    trainer_id?: SortOrder
+    alt_trainer_name?: SortOrder
+    alt_trainer_code?: SortOrder
+  }
+
+  export type TrainerAltSumOrderByAggregateInput = {
+    id?: SortOrder
+    trainer_id?: SortOrder
+  }
+
+  export type SyncHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    total_rows_imported?: SortOrder
+    total_rows_deleted?: SortOrder
+    total_row_created?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type SyncHistoryAvgOrderByAggregateInput = {
+    id?: SortOrder
+    total_rows_imported?: SortOrder
+    total_rows_deleted?: SortOrder
+    total_row_created?: SortOrder
+  }
+
+  export type SyncHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    total_rows_imported?: SortOrder
+    total_rows_deleted?: SortOrder
+    total_row_created?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type SyncHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    total_rows_imported?: SortOrder
+    total_rows_deleted?: SortOrder
+    total_row_created?: SortOrder
+    created_at?: SortOrder
+  }
+
+  export type SyncHistorySumOrderByAggregateInput = {
+    id?: SortOrder
+    total_rows_imported?: SortOrder
+    total_rows_deleted?: SortOrder
+    total_row_created?: SortOrder
+  }
+
   export type EnumLevelFieldUpdateOperationsInput = {
     set?: Level
   }
@@ -2015,12 +5524,76 @@ export namespace Prisma {
     set?: string
   }
 
+  export type EnumLogTypeFieldUpdateOperationsInput = {
+    set?: LogType
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type TrainerAltCreateNestedManyWithoutTrainerInput = {
+    create?: XOR<Enumerable<TrainerAltCreateWithoutTrainerInput>, Enumerable<TrainerAltUncheckedCreateWithoutTrainerInput>>
+    connectOrCreate?: Enumerable<TrainerAltCreateOrConnectWithoutTrainerInput>
+    createMany?: TrainerAltCreateManyTrainerInputEnvelope
+    connect?: Enumerable<TrainerAltWhereUniqueInput>
+  }
+
+  export type TrainerAltUncheckedCreateNestedManyWithoutTrainerInput = {
+    create?: XOR<Enumerable<TrainerAltCreateWithoutTrainerInput>, Enumerable<TrainerAltUncheckedCreateWithoutTrainerInput>>
+    connectOrCreate?: Enumerable<TrainerAltCreateOrConnectWithoutTrainerInput>
+    createMany?: TrainerAltCreateManyTrainerInputEnvelope
+    connect?: Enumerable<TrainerAltWhereUniqueInput>
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type TrainerAltUpdateManyWithoutTrainerNestedInput = {
+    create?: XOR<Enumerable<TrainerAltCreateWithoutTrainerInput>, Enumerable<TrainerAltUncheckedCreateWithoutTrainerInput>>
+    connectOrCreate?: Enumerable<TrainerAltCreateOrConnectWithoutTrainerInput>
+    upsert?: Enumerable<TrainerAltUpsertWithWhereUniqueWithoutTrainerInput>
+    createMany?: TrainerAltCreateManyTrainerInputEnvelope
+    set?: Enumerable<TrainerAltWhereUniqueInput>
+    disconnect?: Enumerable<TrainerAltWhereUniqueInput>
+    delete?: Enumerable<TrainerAltWhereUniqueInput>
+    connect?: Enumerable<TrainerAltWhereUniqueInput>
+    update?: Enumerable<TrainerAltUpdateWithWhereUniqueWithoutTrainerInput>
+    updateMany?: Enumerable<TrainerAltUpdateManyWithWhereWithoutTrainerInput>
+    deleteMany?: Enumerable<TrainerAltScalarWhereInput>
+  }
+
+  export type TrainerAltUncheckedUpdateManyWithoutTrainerNestedInput = {
+    create?: XOR<Enumerable<TrainerAltCreateWithoutTrainerInput>, Enumerable<TrainerAltUncheckedCreateWithoutTrainerInput>>
+    connectOrCreate?: Enumerable<TrainerAltCreateOrConnectWithoutTrainerInput>
+    upsert?: Enumerable<TrainerAltUpsertWithWhereUniqueWithoutTrainerInput>
+    createMany?: TrainerAltCreateManyTrainerInputEnvelope
+    set?: Enumerable<TrainerAltWhereUniqueInput>
+    disconnect?: Enumerable<TrainerAltWhereUniqueInput>
+    delete?: Enumerable<TrainerAltWhereUniqueInput>
+    connect?: Enumerable<TrainerAltWhereUniqueInput>
+    update?: Enumerable<TrainerAltUpdateWithWhereUniqueWithoutTrainerInput>
+    updateMany?: Enumerable<TrainerAltUpdateManyWithWhereWithoutTrainerInput>
+    deleteMany?: Enumerable<TrainerAltScalarWhereInput>
+  }
+
+  export type TrainerCreateNestedOneWithoutAltsInput = {
+    create?: XOR<TrainerCreateWithoutAltsInput, TrainerUncheckedCreateWithoutAltsInput>
+    connectOrCreate?: TrainerCreateOrConnectWithoutAltsInput
+    connect?: TrainerWhereUniqueInput
+  }
+
+  export type TrainerUpdateOneRequiredWithoutAltsNestedInput = {
+    create?: XOR<TrainerCreateWithoutAltsInput, TrainerUncheckedCreateWithoutAltsInput>
+    connectOrCreate?: TrainerCreateOrConnectWithoutAltsInput
+    upsert?: TrainerUpsertWithoutAltsInput
+    connect?: TrainerWhereUniqueInput
+    update?: XOR<TrainerUpdateWithoutAltsInput, TrainerUncheckedUpdateWithoutAltsInput>
   }
 
   export type NestedIntFilter = {
@@ -2053,6 +5626,13 @@ export namespace Prisma {
     startsWith?: string
     endsWith?: string
     not?: NestedStringFilter | string
+  }
+
+  export type NestedEnumLogTypeFilter = {
+    equals?: LogType
+    in?: Enumerable<LogType>
+    notIn?: Enumerable<LogType>
+    not?: NestedEnumLogTypeFilter | LogType
   }
 
   export type NestedIntWithAggregatesFilter = {
@@ -2129,6 +5709,151 @@ export namespace Prisma {
     gt?: InputJsonValue
     gte?: InputJsonValue
     not?: InputJsonValue | JsonNullValueFilter
+  }
+
+  export type NestedEnumLogTypeWithAggregatesFilter = {
+    equals?: LogType
+    in?: Enumerable<LogType>
+    notIn?: Enumerable<LogType>
+    not?: NestedEnumLogTypeWithAggregatesFilter | LogType
+    _count?: NestedIntFilter
+    _min?: NestedEnumLogTypeFilter
+    _max?: NestedEnumLogTypeFilter
+  }
+
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
+  export type TrainerAltCreateWithoutTrainerInput = {
+    alt_trainer_name: string
+    alt_trainer_code: string
+  }
+
+  export type TrainerAltUncheckedCreateWithoutTrainerInput = {
+    id?: number
+    alt_trainer_name: string
+    alt_trainer_code: string
+  }
+
+  export type TrainerAltCreateOrConnectWithoutTrainerInput = {
+    where: TrainerAltWhereUniqueInput
+    create: XOR<TrainerAltCreateWithoutTrainerInput, TrainerAltUncheckedCreateWithoutTrainerInput>
+  }
+
+  export type TrainerAltCreateManyTrainerInputEnvelope = {
+    data: Enumerable<TrainerAltCreateManyTrainerInput>
+    skipDuplicates?: boolean
+  }
+
+  export type TrainerAltUpsertWithWhereUniqueWithoutTrainerInput = {
+    where: TrainerAltWhereUniqueInput
+    update: XOR<TrainerAltUpdateWithoutTrainerInput, TrainerAltUncheckedUpdateWithoutTrainerInput>
+    create: XOR<TrainerAltCreateWithoutTrainerInput, TrainerAltUncheckedCreateWithoutTrainerInput>
+  }
+
+  export type TrainerAltUpdateWithWhereUniqueWithoutTrainerInput = {
+    where: TrainerAltWhereUniqueInput
+    data: XOR<TrainerAltUpdateWithoutTrainerInput, TrainerAltUncheckedUpdateWithoutTrainerInput>
+  }
+
+  export type TrainerAltUpdateManyWithWhereWithoutTrainerInput = {
+    where: TrainerAltScalarWhereInput
+    data: XOR<TrainerAltUpdateManyMutationInput, TrainerAltUncheckedUpdateManyWithoutAltsInput>
+  }
+
+  export type TrainerAltScalarWhereInput = {
+    AND?: Enumerable<TrainerAltScalarWhereInput>
+    OR?: Enumerable<TrainerAltScalarWhereInput>
+    NOT?: Enumerable<TrainerAltScalarWhereInput>
+    id?: IntFilter | number
+    trainer_id?: IntFilter | number
+    alt_trainer_name?: StringFilter | string
+    alt_trainer_code?: StringFilter | string
+  }
+
+  export type TrainerCreateWithoutAltsInput = {
+    username: string
+    trainer_name: string
+    trainer_code: string
+    created_at?: Date | string
+  }
+
+  export type TrainerUncheckedCreateWithoutAltsInput = {
+    id?: number
+    username: string
+    trainer_name: string
+    trainer_code: string
+    created_at?: Date | string
+  }
+
+  export type TrainerCreateOrConnectWithoutAltsInput = {
+    where: TrainerWhereUniqueInput
+    create: XOR<TrainerCreateWithoutAltsInput, TrainerUncheckedCreateWithoutAltsInput>
+  }
+
+  export type TrainerUpsertWithoutAltsInput = {
+    update: XOR<TrainerUpdateWithoutAltsInput, TrainerUncheckedUpdateWithoutAltsInput>
+    create: XOR<TrainerCreateWithoutAltsInput, TrainerUncheckedCreateWithoutAltsInput>
+  }
+
+  export type TrainerUpdateWithoutAltsInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    trainer_name?: StringFieldUpdateOperationsInput | string
+    trainer_code?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainerUncheckedUpdateWithoutAltsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    trainer_name?: StringFieldUpdateOperationsInput | string
+    trainer_code?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TrainerAltCreateManyTrainerInput = {
+    id?: number
+    alt_trainer_name: string
+    alt_trainer_code: string
+  }
+
+  export type TrainerAltUpdateWithoutTrainerInput = {
+    alt_trainer_name?: StringFieldUpdateOperationsInput | string
+    alt_trainer_code?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TrainerAltUncheckedUpdateWithoutTrainerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    alt_trainer_name?: StringFieldUpdateOperationsInput | string
+    alt_trainer_code?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TrainerAltUncheckedUpdateManyWithoutAltsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    alt_trainer_name?: StringFieldUpdateOperationsInput | string
+    alt_trainer_code?: StringFieldUpdateOperationsInput | string
   }
 
 
