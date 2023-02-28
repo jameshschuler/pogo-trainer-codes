@@ -1,7 +1,6 @@
 import { prisma } from "@prisma";
 
 export async function log(level: string, logType: string, message: string, meta?: any) {
-  // TODO: fix log issue
   await prisma.log.create({
     data: {
       level,
