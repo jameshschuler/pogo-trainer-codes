@@ -1,4 +1,4 @@
-import { logError } from "../commands/createLog.ts";
+import { logError } from "@/handlers/commands/createLog.ts";
 import { configData } from "./env.ts";
 
 export async function validateApiKey(requestApiKey: string | null): Promise<boolean> {

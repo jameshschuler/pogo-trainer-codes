@@ -10,10 +10,13 @@
   },
   "fmt": {
     "files": {
-      "include": ["index.ts", "src/"]
+      "include": [
+        "index.ts",
+        "src/"
+      ]
     },
     "options": {
-      "lineWidth": 150
+      "lineWidth": 120
     }
   }
 }

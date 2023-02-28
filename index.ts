@@ -1,8 +1,12 @@
+import { log, logError } from "@/handlers/commands/createLog.ts";
+import { syncTrainerCodes } from "@/handlers/commands/syncTrainerCodes.ts";
+import { validateApiKey } from "@/utils/auth.ts";
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
-import { Application, Router, RouterContext } from "https://deno.land/x/oak/mod.ts";
-import { log } from "./src/commands/createLog.ts";
-import { syncTrainerCodes } from "./src/commands/syncTrainerCodes.ts";
-import { validateApiKey } from "./src/utils/auth.ts";
+import { getQuery } from "https://deno.land/x/oak@v11.1.0/helpers.ts";
+import { Application, Router, RouterContext, Status } from "oak";
+import { searchTrainers } from "./src/handlers/queries/searchTrainers.ts";
+import { SearchTrainersRequest } from "./src/types/requests/searchTrainersRequest.ts";
+import { handleResponse } from "./src/utils/common.ts";
 
 const app = new Application();
 app.use(oakCors());
@@ -10,6 +14,7 @@ app.use(oakCors());
 const router = new Router();
 
 // Log request information
+// TODO: move to middleware folder
 app.use(async (ctx, next) => {
   await next();
   await log(
@@ -25,30 +30,43 @@ app.use(async (ctx, next) => {
 router
   .get("/api/health", (ctx: RouterContext<string>) => {
     ctx.response.body = {
-      status: "success",
+      status: "Healthy",
       message: "Welcome to PoGo Trainer Codes",
     };
   })
-  .post("/api/trainer-codes/sync", async (ctx) => {
+  .get("/api/trainer-codes", async (ctx: RouterContext<string>) => {
+    try {
+      const request = getQuery(ctx) as SearchTrainersRequest;
+      const response = await searchTrainers(request);
+
+      handleResponse(ctx, response);
+    } catch (e) {
+      await logError("Error occurred while searching for trainers", e);
+      ctx.response.body = {
+        success: false,
+        message: "Error occurred while searching for trainers",
+      };
+      ctx.response.status = Status.InternalServerError;
+    }
+  })
+  .post("/api/trainer-codes/sync", async (ctx: RouterContext<string>) => {
     try {
       const isValidApiKey = await validateApiKey(ctx.request.headers.get("X-API-KEY"));
       if (!isValidApiKey) {
-        ctx.response.status = 401;
+        ctx.response.status = Status.Unauthorized;
         return;
       }
 
       const response = await syncTrainerCodes();
 
-      ctx.response.body = response;
-      ctx.response.status = response.success ? 200 : 500;
-    } catch (_e) {
-      console.error(_e);
-      // TODO: log error
+      handleResponse(ctx, response);
+    } catch (e) {
+      await logError("Unable to sync trainer codes.", e);
       ctx.response.body = {
         success: false,
         message: "Unable to sync trainer codes.",
       };
-      ctx.response.status = 500;
+      ctx.response.status = Status.InternalServerError;
     }
   });
 

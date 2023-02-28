@@ -1,9 +1,9 @@
+import { ApiResponse } from "@/types/common.ts";
+import { TrainerRowData } from "@/types/models.ts";
+import { configData } from "@/utils/env.ts";
+import { prisma } from "@prisma";
 import { parse as parseCsv } from "https://deno.land/std/encoding/csv.ts";
-import { Trainer } from "../../generated/client/deno/index.d.ts";
-import { ApiResponse } from "../../types/common.ts";
-import { TrainerRowData } from "../../types/models.ts";
-import { prisma } from "../db.ts";
-import { configData } from "../utils/env.ts";
+import { Trainer } from "../../../generated/client/deno/index.d.ts";
 
 export async function syncTrainerCodes(): Promise<ApiResponse<void>> {
   const url: string | undefined = configData["SHEET_URL"];
@@ -33,12 +33,11 @@ export async function syncTrainerCodes(): Promise<ApiResponse<void>> {
       "altTrainerName4",
       "altTrainerCode4",
     ],
-  }) as TrainerRowData[];
+  }) as unknown as TrainerRowData[];
 
   // Filter out duplicates
   const unique = new Array<TrainerRowData>();
 
-  // Loop over each row
   content.forEach((row: TrainerRowData) => {
     // Check if the unique array has a matching row (username, trainerCode, trainerName)
     // If not, add it to the unique array otherwise do nothing
