@@ -1,12 +1,13 @@
-import { log, logError } from "@/handlers/commands/createLog.ts";
+import { logError } from "@/handlers/commands/createLog.ts";
 import { syncTrainerCodes } from "@/handlers/commands/syncTrainerCodes.ts";
+import { searchTrainers } from "@/handlers/queries/searchTrainers.ts";
+import { logRequest } from "@/middleware/logRequest.ts";
+import { SearchTrainersRequest } from "@/types/requests/searchTrainersRequest.ts";
 import { validateApiKey } from "@/utils/auth.ts";
+import { handleResponse } from "@/utils/common.ts";
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import { getQuery } from "https://deno.land/x/oak@v11.1.0/helpers.ts";
 import { Application, Router, RouterContext, Status } from "oak";
-import { searchTrainers } from "./src/handlers/queries/searchTrainers.ts";
-import { SearchTrainersRequest } from "./src/types/requests/searchTrainersRequest.ts";
-import { handleResponse } from "./src/utils/common.ts";
 
 const app = new Application();
 app.use(oakCors());
@@ -14,18 +15,7 @@ app.use(oakCors());
 const router = new Router();
 
 // Log request information
-// TODO: move to middleware folder
-app.use(async (ctx, next) => {
-  await next();
-  await log(
-    "Info",
-    "Request",
-    `${ctx.request.method} ${ctx.request.url}`,
-    {
-      headers: JSON.stringify(ctx.request.headers),
-    },
-  );
-});
+app.use(logRequest);
 
 router
   .get("/api/health", (ctx: RouterContext<string>) => {

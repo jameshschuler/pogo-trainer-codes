@@ -1,12 +1,13 @@
 import { ApiResponse } from "@/types/common.ts";
 import { TrainerRowData } from "@/types/models.ts";
-import { configData } from "@/utils/env.ts";
+import { SyncTrainersResponse } from "@/types/response/syncTrainersResponse.ts";
+import { env } from "@/utils/env.ts";
 import { prisma } from "@prisma";
 import { parse as parseCsv } from "https://deno.land/std/encoding/csv.ts";
 import { Trainer } from "../../../generated/client/deno/index.d.ts";
 
-export async function syncTrainerCodes(): Promise<ApiResponse<void>> {
-  const url: string | undefined = configData["SHEET_URL"];
+export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersResponse>> {
+  const url: string | undefined = env["SHEET_URL"];
 
   if (!url || url === "") {
     return {
@@ -68,7 +69,7 @@ export async function syncTrainerCodes(): Promise<ApiResponse<void>> {
     }),
   ]);
 
-  await prisma.syncHistory.create({
+  const { total_row_created, total_rows_deleted, total_rows_imported } = await prisma.syncHistory.create({
     data: {
       total_rows_imported: content.length,
       total_rows_deleted: deleteQuery.count,
@@ -79,5 +80,10 @@ export async function syncTrainerCodes(): Promise<ApiResponse<void>> {
   return {
     success: true,
     message: "Successfully synced trainer codes.",
+    data: {
+      totalRowsImported: total_rows_imported,
+      totalRowsCreated: total_row_created,
+      totalRowsDeleted: total_rows_deleted,
+    },
   };
 }
