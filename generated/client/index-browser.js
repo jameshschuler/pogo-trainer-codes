@@ -104,7 +104,8 @@ exports.Prisma.LogScalarFieldEnum = makeEnum({
   level: 'level',
   message: 'message',
   meta: 'meta',
-  log_type: 'log_type'
+  log_type: 'log_type',
+  created_at: 'created_at'
 });
 
 exports.Prisma.QueryMode = makeEnum({
@@ -129,7 +130,8 @@ exports.Prisma.TrainerAltScalarFieldEnum = makeEnum({
   id: 'id',
   trainer_id: 'trainer_id',
   alt_trainer_name: 'alt_trainer_name',
-  alt_trainer_code: 'alt_trainer_code'
+  alt_trainer_code: 'alt_trainer_code',
+  order: 'order'
 });
 
 exports.Prisma.TrainerScalarFieldEnum = makeEnum({

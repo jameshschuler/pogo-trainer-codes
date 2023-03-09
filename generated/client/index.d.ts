@@ -20,6 +20,7 @@ export type Log = {
   message: string
   meta: Prisma.JsonValue
   log_type: LogType
+  created_at: Date
 }
 
 /**
@@ -43,6 +44,7 @@ export type TrainerAlt = {
   trainer_id: number
   alt_trainer_name: string
   alt_trainer_code: string
+  order: number | null
 }
 
 /**
@@ -944,6 +946,7 @@ export namespace Prisma {
     level: Level | null
     message: string | null
     log_type: LogType | null
+    created_at: Date | null
   }
 
   export type LogMaxAggregateOutputType = {
@@ -951,6 +954,7 @@ export namespace Prisma {
     level: Level | null
     message: string | null
     log_type: LogType | null
+    created_at: Date | null
   }
 
   export type LogCountAggregateOutputType = {
@@ -959,6 +963,7 @@ export namespace Prisma {
     message: number
     meta: number
     log_type: number
+    created_at: number
     _all: number
   }
 
@@ -976,6 +981,7 @@ export namespace Prisma {
     level?: true
     message?: true
     log_type?: true
+    created_at?: true
   }
 
   export type LogMaxAggregateInputType = {
@@ -983,6 +989,7 @@ export namespace Prisma {
     level?: true
     message?: true
     log_type?: true
+    created_at?: true
   }
 
   export type LogCountAggregateInputType = {
@@ -991,6 +998,7 @@ export namespace Prisma {
     message?: true
     meta?: true
     log_type?: true
+    created_at?: true
     _all?: true
   }
 
@@ -1087,6 +1095,7 @@ export namespace Prisma {
     message: string
     meta: JsonValue
     log_type: LogType
+    created_at: Date
     _count: LogCountAggregateOutputType | null
     _avg: LogAvgAggregateOutputType | null
     _sum: LogSumAggregateOutputType | null
@@ -1114,6 +1123,7 @@ export namespace Prisma {
     message?: boolean
     meta?: boolean
     log_type?: boolean
+    created_at?: boolean
   }
 
 
@@ -2836,11 +2846,13 @@ export namespace Prisma {
   export type TrainerAltAvgAggregateOutputType = {
     id: number | null
     trainer_id: number | null
+    order: number | null
   }
 
   export type TrainerAltSumAggregateOutputType = {
     id: number | null
     trainer_id: number | null
+    order: number | null
   }
 
   export type TrainerAltMinAggregateOutputType = {
@@ -2848,6 +2860,7 @@ export namespace Prisma {
     trainer_id: number | null
     alt_trainer_name: string | null
     alt_trainer_code: string | null
+    order: number | null
   }
 
   export type TrainerAltMaxAggregateOutputType = {
@@ -2855,6 +2868,7 @@ export namespace Prisma {
     trainer_id: number | null
     alt_trainer_name: string | null
     alt_trainer_code: string | null
+    order: number | null
   }
 
   export type TrainerAltCountAggregateOutputType = {
@@ -2862,6 +2876,7 @@ export namespace Prisma {
     trainer_id: number
     alt_trainer_name: number
     alt_trainer_code: number
+    order: number
     _all: number
   }
 
@@ -2869,11 +2884,13 @@ export namespace Prisma {
   export type TrainerAltAvgAggregateInputType = {
     id?: true
     trainer_id?: true
+    order?: true
   }
 
   export type TrainerAltSumAggregateInputType = {
     id?: true
     trainer_id?: true
+    order?: true
   }
 
   export type TrainerAltMinAggregateInputType = {
@@ -2881,6 +2898,7 @@ export namespace Prisma {
     trainer_id?: true
     alt_trainer_name?: true
     alt_trainer_code?: true
+    order?: true
   }
 
   export type TrainerAltMaxAggregateInputType = {
@@ -2888,6 +2906,7 @@ export namespace Prisma {
     trainer_id?: true
     alt_trainer_name?: true
     alt_trainer_code?: true
+    order?: true
   }
 
   export type TrainerAltCountAggregateInputType = {
@@ -2895,6 +2914,7 @@ export namespace Prisma {
     trainer_id?: true
     alt_trainer_name?: true
     alt_trainer_code?: true
+    order?: true
     _all?: true
   }
 
@@ -2990,6 +3010,7 @@ export namespace Prisma {
     trainer_id: number
     alt_trainer_name: string
     alt_trainer_code: string
+    order: number | null
     _count: TrainerAltCountAggregateOutputType | null
     _avg: TrainerAltAvgAggregateOutputType | null
     _sum: TrainerAltSumAggregateOutputType | null
@@ -3017,6 +3038,7 @@ export namespace Prisma {
     trainer_id?: boolean
     alt_trainer_name?: boolean
     alt_trainer_code?: boolean
+    order?: boolean
   }
 
 
@@ -4737,7 +4759,8 @@ export namespace Prisma {
     level: 'level',
     message: 'message',
     meta: 'meta',
-    log_type: 'log_type'
+    log_type: 'log_type',
+    created_at: 'created_at'
   };
 
   export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
@@ -4774,7 +4797,8 @@ export namespace Prisma {
     id: 'id',
     trainer_id: 'trainer_id',
     alt_trainer_name: 'alt_trainer_name',
-    alt_trainer_code: 'alt_trainer_code'
+    alt_trainer_code: 'alt_trainer_code',
+    order: 'order'
   };
 
   export type TrainerAltScalarFieldEnum = (typeof TrainerAltScalarFieldEnum)[keyof typeof TrainerAltScalarFieldEnum]
@@ -4815,6 +4839,7 @@ export namespace Prisma {
     message?: StringFilter | string
     meta?: JsonFilter
     log_type?: EnumLogTypeFilter | LogType
+    created_at?: DateTimeFilter | Date | string
   }
 
   export type LogOrderByWithRelationInput = {
@@ -4823,6 +4848,7 @@ export namespace Prisma {
     message?: SortOrder
     meta?: SortOrder
     log_type?: SortOrder
+    created_at?: SortOrder
   }
 
   export type LogWhereUniqueInput = {
@@ -4835,6 +4861,7 @@ export namespace Prisma {
     message?: SortOrder
     meta?: SortOrder
     log_type?: SortOrder
+    created_at?: SortOrder
     _count?: LogCountOrderByAggregateInput
     _avg?: LogAvgOrderByAggregateInput
     _max?: LogMaxOrderByAggregateInput
@@ -4851,6 +4878,7 @@ export namespace Prisma {
     message?: StringWithAggregatesFilter | string
     meta?: JsonWithAggregatesFilter
     log_type?: EnumLogTypeWithAggregatesFilter | LogType
+    created_at?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type TrainerWhereInput = {
@@ -4911,6 +4939,7 @@ export namespace Prisma {
     trainer_id?: IntFilter | number
     alt_trainer_name?: StringFilter | string
     alt_trainer_code?: StringFilter | string
+    order?: IntNullableFilter | number | null
   }
 
   export type TrainerAltOrderByWithRelationInput = {
@@ -4919,6 +4948,7 @@ export namespace Prisma {
     trainer_id?: SortOrder
     alt_trainer_name?: SortOrder
     alt_trainer_code?: SortOrder
+    order?: SortOrder
   }
 
   export type TrainerAltWhereUniqueInput = {
@@ -4932,6 +4962,7 @@ export namespace Prisma {
     trainer_id?: SortOrder
     alt_trainer_name?: SortOrder
     alt_trainer_code?: SortOrder
+    order?: SortOrder
     _count?: TrainerAltCountOrderByAggregateInput
     _avg?: TrainerAltAvgOrderByAggregateInput
     _max?: TrainerAltMaxOrderByAggregateInput
@@ -4947,6 +4978,7 @@ export namespace Prisma {
     trainer_id?: IntWithAggregatesFilter | number
     alt_trainer_name?: StringWithAggregatesFilter | string
     alt_trainer_code?: StringWithAggregatesFilter | string
+    order?: IntNullableWithAggregatesFilter | number | null
   }
 
   export type SyncHistoryWhereInput = {
@@ -5001,6 +5033,7 @@ export namespace Prisma {
     message: string
     meta: JsonNullValueInput | InputJsonValue
     log_type: LogType
+    created_at?: Date | string
   }
 
   export type LogUncheckedCreateInput = {
@@ -5009,6 +5042,7 @@ export namespace Prisma {
     message: string
     meta: JsonNullValueInput | InputJsonValue
     log_type: LogType
+    created_at?: Date | string
   }
 
   export type LogUpdateInput = {
@@ -5016,6 +5050,7 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogUncheckedUpdateInput = {
@@ -5024,6 +5059,7 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogCreateManyInput = {
@@ -5032,6 +5068,7 @@ export namespace Prisma {
     message: string
     meta: JsonNullValueInput | InputJsonValue
     log_type: LogType
+    created_at?: Date | string
   }
 
   export type LogUpdateManyMutationInput = {
@@ -5039,6 +5076,7 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type LogUncheckedUpdateManyInput = {
@@ -5047,6 +5085,7 @@ export namespace Prisma {
     message?: StringFieldUpdateOperationsInput | string
     meta?: JsonNullValueInput | InputJsonValue
     log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TrainerCreateInput = {
@@ -5110,6 +5149,7 @@ export namespace Prisma {
     trainer: TrainerCreateNestedOneWithoutAltsInput
     alt_trainer_name: string
     alt_trainer_code: string
+    order?: number | null
   }
 
   export type TrainerAltUncheckedCreateInput = {
@@ -5117,12 +5157,14 @@ export namespace Prisma {
     trainer_id: number
     alt_trainer_name: string
     alt_trainer_code: string
+    order?: number | null
   }
 
   export type TrainerAltUpdateInput = {
     trainer?: TrainerUpdateOneRequiredWithoutAltsNestedInput
     alt_trainer_name?: StringFieldUpdateOperationsInput | string
     alt_trainer_code?: StringFieldUpdateOperationsInput | string
+    order?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TrainerAltUncheckedUpdateInput = {
@@ -5130,6 +5172,7 @@ export namespace Prisma {
     trainer_id?: IntFieldUpdateOperationsInput | number
     alt_trainer_name?: StringFieldUpdateOperationsInput | string
     alt_trainer_code?: StringFieldUpdateOperationsInput | string
+    order?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TrainerAltCreateManyInput = {
@@ -5137,11 +5180,13 @@ export namespace Prisma {
     trainer_id: number
     alt_trainer_name: string
     alt_trainer_code: string
+    order?: number | null
   }
 
   export type TrainerAltUpdateManyMutationInput = {
     alt_trainer_name?: StringFieldUpdateOperationsInput | string
     alt_trainer_code?: StringFieldUpdateOperationsInput | string
+    order?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TrainerAltUncheckedUpdateManyInput = {
@@ -5149,6 +5194,7 @@ export namespace Prisma {
     trainer_id?: IntFieldUpdateOperationsInput | number
     alt_trainer_name?: StringFieldUpdateOperationsInput | string
     alt_trainer_code?: StringFieldUpdateOperationsInput | string
+    order?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type SyncHistoryCreateInput = {
@@ -5266,12 +5312,24 @@ export namespace Prisma {
     not?: NestedEnumLogTypeFilter | LogType
   }
 
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
   export type LogCountOrderByAggregateInput = {
     id?: SortOrder
     level?: SortOrder
     message?: SortOrder
     meta?: SortOrder
     log_type?: SortOrder
+    created_at?: SortOrder
   }
 
   export type LogAvgOrderByAggregateInput = {
@@ -5283,6 +5341,7 @@ export namespace Prisma {
     level?: SortOrder
     message?: SortOrder
     log_type?: SortOrder
+    created_at?: SortOrder
   }
 
   export type LogMinOrderByAggregateInput = {
@@ -5290,6 +5349,7 @@ export namespace Prisma {
     level?: SortOrder
     message?: SortOrder
     log_type?: SortOrder
+    created_at?: SortOrder
   }
 
   export type LogSumOrderByAggregateInput = {
@@ -5375,7 +5435,7 @@ export namespace Prisma {
     _max?: NestedEnumLogTypeFilter
   }
 
-  export type DateTimeFilter = {
+  export type DateTimeWithAggregatesFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
     notIn?: Enumerable<Date> | Enumerable<string>
@@ -5383,7 +5443,10 @@ export namespace Prisma {
     lte?: Date | string
     gt?: Date | string
     gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
   }
 
   export type TrainerAltListRelationFilter = {
@@ -5428,23 +5491,20 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type DateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
-  }
-
   export type TrainerRelationFilter = {
     is?: TrainerWhereInput
     isNot?: TrainerWhereInput
+  }
+
+  export type IntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
   }
 
   export type TrainerAltCountOrderByAggregateInput = {
@@ -5452,11 +5512,13 @@ export namespace Prisma {
     trainer_id?: SortOrder
     alt_trainer_name?: SortOrder
     alt_trainer_code?: SortOrder
+    order?: SortOrder
   }
 
   export type TrainerAltAvgOrderByAggregateInput = {
     id?: SortOrder
     trainer_id?: SortOrder
+    order?: SortOrder
   }
 
   export type TrainerAltMaxOrderByAggregateInput = {
@@ -5464,6 +5526,7 @@ export namespace Prisma {
     trainer_id?: SortOrder
     alt_trainer_name?: SortOrder
     alt_trainer_code?: SortOrder
+    order?: SortOrder
   }
 
   export type TrainerAltMinOrderByAggregateInput = {
@@ -5471,11 +5534,29 @@ export namespace Prisma {
     trainer_id?: SortOrder
     alt_trainer_name?: SortOrder
     alt_trainer_code?: SortOrder
+    order?: SortOrder
   }
 
   export type TrainerAltSumOrderByAggregateInput = {
     id?: SortOrder
     trainer_id?: SortOrder
+    order?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
   }
 
   export type SyncHistoryCountOrderByAggregateInput = {
@@ -5528,6 +5609,10 @@ export namespace Prisma {
     set?: LogType
   }
 
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -5548,10 +5633,6 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<TrainerAltCreateOrConnectWithoutTrainerInput>
     createMany?: TrainerAltCreateManyTrainerInputEnvelope
     connect?: Enumerable<TrainerAltWhereUniqueInput>
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
   }
 
   export type TrainerAltUpdateManyWithoutTrainerNestedInput = {
@@ -5596,6 +5677,14 @@ export namespace Prisma {
     update?: XOR<TrainerUpdateWithoutAltsInput, TrainerUncheckedUpdateWithoutAltsInput>
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type NestedIntFilter = {
     equals?: number
     in?: Enumerable<number>
@@ -5633,6 +5722,17 @@ export namespace Prisma {
     in?: Enumerable<LogType>
     notIn?: Enumerable<LogType>
     not?: NestedEnumLogTypeFilter | LogType
+  }
+
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
   }
 
   export type NestedIntWithAggregatesFilter = {
@@ -5721,17 +5821,6 @@ export namespace Prisma {
     _max?: NestedEnumLogTypeFilter
   }
 
-  export type NestedDateTimeFilter = {
-    equals?: Date | string
-    in?: Enumerable<Date> | Enumerable<string>
-    notIn?: Enumerable<Date> | Enumerable<string>
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
-  }
-
   export type NestedDateTimeWithAggregatesFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -5746,15 +5835,55 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
+  export type NestedIntNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
+  }
+
+  export type NestedFloatNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatNullableFilter | number | null
+  }
+
   export type TrainerAltCreateWithoutTrainerInput = {
     alt_trainer_name: string
     alt_trainer_code: string
+    order?: number | null
   }
 
   export type TrainerAltUncheckedCreateWithoutTrainerInput = {
     id?: number
     alt_trainer_name: string
     alt_trainer_code: string
+    order?: number | null
   }
 
   export type TrainerAltCreateOrConnectWithoutTrainerInput = {
@@ -5791,6 +5920,7 @@ export namespace Prisma {
     trainer_id?: IntFilter | number
     alt_trainer_name?: StringFilter | string
     alt_trainer_code?: StringFilter | string
+    order?: IntNullableFilter | number | null
   }
 
   export type TrainerCreateWithoutAltsInput = {
@@ -5837,23 +5967,27 @@ export namespace Prisma {
     id?: number
     alt_trainer_name: string
     alt_trainer_code: string
+    order?: number | null
   }
 
   export type TrainerAltUpdateWithoutTrainerInput = {
     alt_trainer_name?: StringFieldUpdateOperationsInput | string
     alt_trainer_code?: StringFieldUpdateOperationsInput | string
+    order?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TrainerAltUncheckedUpdateWithoutTrainerInput = {
     id?: IntFieldUpdateOperationsInput | number
     alt_trainer_name?: StringFieldUpdateOperationsInput | string
     alt_trainer_code?: StringFieldUpdateOperationsInput | string
+    order?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TrainerAltUncheckedUpdateManyWithoutAltsInput = {
     id?: IntFieldUpdateOperationsInput | number
     alt_trainer_name?: StringFieldUpdateOperationsInput | string
     alt_trainer_code?: StringFieldUpdateOperationsInput | string
+    order?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
 

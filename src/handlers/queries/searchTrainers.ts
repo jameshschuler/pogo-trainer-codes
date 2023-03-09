@@ -1,7 +1,7 @@
 import { ApiResponse } from "@/types/common.ts";
 import { SearchTrainersRequest } from "@/types/requests/searchTrainersRequest.ts";
 import { SearchTrainersResponse, TrainerResponse } from "@/types/response/searchTrainersResponse.ts";
-import { prisma } from "@prisma";
+import prisma from "@prisma";
 
 const defaultPageSize = 15;
 const maxPageSize = 50;

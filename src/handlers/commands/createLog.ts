@@ -1,4 +1,4 @@
-import { prisma } from "@prisma";
+import prisma from "@prisma";
 
 export async function log(level: string, logType: string, message: string, meta?: any) {
   await prisma.log.create({
