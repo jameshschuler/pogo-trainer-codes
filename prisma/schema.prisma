@@ -13,11 +13,12 @@ datasource db {
 }
 
 model Log {
-  id       Int     @id @default(autoincrement())
-  level    Level
-  message  String
-  meta     Json
-  log_type LogType
+  id         Int      @id @default(autoincrement())
+  level      Level
+  message    String
+  meta       Json
+  log_type   LogType
+  created_at DateTime @default(now())
 }
 
 model Trainer {
@@ -35,6 +36,7 @@ model TrainerAlt {
   trainer_id       Int
   alt_trainer_name String  @unique
   alt_trainer_code String  @unique
+  order            Int?
 }
 
 model SyncHistory {
