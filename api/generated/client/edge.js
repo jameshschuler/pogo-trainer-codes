@@ -172,7 +172,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/jamesschuler/Dev/pogo-trainer-codes/generated/client",
+      "value": "/Users/jamesschuler/Dev/pogo-trainer-codes/api/generated/client",
       "fromEnvVar": null
     },
     "config": {
