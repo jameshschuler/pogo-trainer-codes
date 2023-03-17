@@ -1,7 +1,7 @@
 <template>
   <div
     id="search--container"
-    class="absolute p-6 bg-white bottom-0 shadow-md rounded-lg"
+    class="absolute p-6 bg-white bottom-0 shadow-lg rounded-lg"
   >
     <div class="flex h-full justify-center">
       <input
