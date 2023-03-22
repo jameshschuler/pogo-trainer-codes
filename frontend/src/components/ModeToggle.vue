@@ -43,6 +43,7 @@ const darkMode = ref<Boolean>(false);
 
 const htmlElement = document.querySelector("html");
 
+// TODO: read preference from system / browser?
 function toggleMode() {
   darkMode.value = !darkMode.value;
 

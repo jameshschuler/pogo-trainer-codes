@@ -7,11 +7,21 @@
     >
       <TrainerCard v-for="trainer in testTrainers" :name="trainer" />
     </div>
+    <canvas id="canvas"></canvas>
   </div>
 </template>
 <script setup lang="ts">
 import TrainerCard from "./TrainerCard.vue";
 
-const testTrainers = ["James", "Bob", "Sandy", "Ben", "Terry"];
+const testTrainers = [
+  "James",
+  "Bob",
+  "Sandy",
+  "Ben",
+  "Terry",
+  "Lisa",
+  "Dan",
+  "Jane",
+];
 </script>
 <style lang="scss" scoped></style>

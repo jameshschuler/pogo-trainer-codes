@@ -2,7 +2,7 @@
   <div class="container mx-auto px-6 pb-12 relative">
     <Navbar />
     <Hero />
-    <TrainersContainer />
+    <TrainersList />
     <ModeToggle />
   </div>
 </template>
@@ -10,6 +10,6 @@
 import Hero from "./components/Hero.vue";
 import ModeToggle from "./components/ModeToggle.vue";
 import Navbar from "./components/Navbar.vue";
-import TrainersContainer from "./components/TrainersContainer.vue";
+import TrainersList from "./components/TrainersList.vue";
 </script>
 <style scoped></style>

@@ -1,15 +1,32 @@
 <template>
   <div
-    class="trainer--card shadow-lg rounded-md p-4 px-8 flex flex-col justify-center items-center"
+    @click="toggleCard"
+    :class="{ flipped: flipped }"
+    class="trainer--card shadow-lg cursor-pointer"
   >
-    <img :src="avatarUrl" alt="avatar" />
-    <div class="mt-8 text-center">
-      <h1 class="text-xl font-semibold">Trainer Name</h1>
-      <h3 class="mt-3 text-gray-500">Trainer Code</h3>
+    <div class="card--inner p-4 px-8 w-full h-full">
+      <div
+        class="card--front flex flex-col justify-center items-center rounded-md dark:border-light-400 dark:border-1"
+      >
+        <img :src="avatarUrl" alt="avatar" />
+        <div class="mt-8 text-center">
+          <h1 class="text-xl font-semibold dark:text-white">Trainer Name</h1>
+          <h3 class="mt-3 text-gray-500 dark:text-blue-500">Trainer Code</h3>
+        </div>
+      </div>
+      <div
+        class="card--back bg-gray-200 flex flex-col justify-center items-center rounded-md dark:border-light-400 dark:border-1 dark:bg-gray-800"
+      >
+        <canvas ref="canvas"></canvas>
+        <h1 class="text-xl font-semibold">Discord Name</h1>
+      </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import QRCode from "qrcode";
+import { onMounted, ref } from "vue";
+
 const props = defineProps({
   name: {
     type: String,
@@ -18,9 +35,60 @@ const props = defineProps({
 });
 
 const avatarUrl = `https://api.dicebear.com/5.x/bottts-neutral/svg?radius=50&size=96&seed=${props.name}`;
+
+const canvas = ref(null);
+const flipped = ref<boolean>(false);
+
+function toggleCard() {
+  flipped.value = !flipped.value;
+}
+
+onMounted(async () => {
+  QRCode.toCanvas(
+    canvas.value,
+    "test",
+    { errorCorrectionLevel: "H" },
+    function (error: any) {
+      if (error) {
+        console.error(error);
+      }
+    }
+  );
+});
 </script>
 <style lang="scss" scoped>
 .trainer--card {
   height: 300px;
+  background-color: transparent;
+
+  &.flipped {
+    .card--inner {
+      transform: rotateY(180deg);
+      transition: transform 0.5s;
+    }
+  }
+
+  .card--inner {
+    position: relative;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+
+    .card--front,
+    .card--back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      -webkit-backface-visibility: hidden; /* Safari */
+      backface-visibility: hidden;
+    }
+
+    .card--back {
+      transform: rotateY(180deg);
+    }
+  }
 }
 </style>
