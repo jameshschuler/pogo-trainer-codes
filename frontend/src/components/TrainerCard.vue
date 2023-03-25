@@ -2,23 +2,33 @@
   <div
     @click="toggleCard"
     :class="{ flipped: flipped }"
-    class="trainer--card shadow-lg cursor-pointer"
+    class="trainer--card shadow-xl cursor-pointer"
   >
     <div class="card--inner p-4 px-8 w-full h-full">
-      <div
-        class="card--front flex flex-col justify-center items-center rounded-md dark:border-light-400 dark:border-1"
-      >
-        <img :src="avatarUrl" alt="avatar" />
-        <div class="mt-8 text-center">
-          <h1 class="text-xl font-semibold dark:text-white">Trainer Name</h1>
-          <h3 class="mt-3 text-gray-500 dark:text-blue-500">Trainer Code</h3>
+      <div class="card--front rounded-md dark:border-light-400 dark:border-1">
+        <div class="flex justify-end pt-4 pr-4">
+          <span>
+            <i class="fa-solid fa-fw fa-lg fa-qrcode"></i>
+          </span>
+        </div>
+        <div class="flex flex-col justify-center items-center">
+          <img :src="avatarUrl" alt="avatar" />
+          <div class="mt-8 text-center">
+            <h1 class="text-xl font-semibold dark:text-white">Trainer Name</h1>
+            <h3 class="mt-3 text-gray-500 dark:text-blue-500">Trainer Code</h3>
+          </div>
         </div>
       </div>
       <div
         class="card--back bg-gray-200 flex flex-col justify-center items-center rounded-md dark:border-light-400 dark:border-1 dark:bg-gray-800"
       >
         <canvas ref="canvas"></canvas>
-        <h1 class="text-xl font-semibold">Discord Name</h1>
+        <h1 class="text-xl font-semibold mt-3">
+          <span class="mr-2">
+            <i class="fa-brands fa-discord"></i>
+          </span>
+          Discord Name
+        </h1>
       </div>
     </div>
   </div>

@@ -11,7 +11,7 @@
           <i class="fa-brands fa-fw fa-xl fa-github-alt"></i>
         </span>
       </a>
-      <a href="">
+      <a href="https://discord.gg/pokemongosandiego" target="_blank">
         <span>
           <i class="fa-brands fa-fw fa-xl fa-discord"></i>
         </span>

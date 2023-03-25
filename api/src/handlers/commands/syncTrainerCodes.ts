@@ -6,7 +6,9 @@ import prisma from "@prisma";
 import { parse as parseCsv } from "https://deno.land/std/encoding/csv.ts";
 import { Trainer, TrainerAlt } from "../../../generated/client/deno/index.d.ts";
 
-export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersResponse>> {
+export async function syncTrainerCodes(): Promise<
+  ApiResponse<SyncTrainersResponse>
+> {
   const url: string | undefined = env["SHEET_URL"];
 
   if (!url || url === "") {
@@ -19,7 +21,7 @@ export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersRespon
   const response = await fetch(url);
   const data = await response.text();
 
-  const content = await parseCsv(data, {
+  const content = (await parseCsv(data, {
     skipFirstRow: true,
     columns: [
       "trainerName",
@@ -34,7 +36,7 @@ export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersRespon
       "altTrainerName4",
       "altTrainerCode4",
     ],
-  }) as unknown as TrainerRowData[];
+  })) as unknown as TrainerRowData[];
 
   // Filter out duplicates
   const unique = new Array<TrainerRowData>();
@@ -43,8 +45,7 @@ export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersRespon
     // Check if the unique array has a matching row (username, trainerCode, trainerName)
     // If not, add it to the unique array otherwise do nothing
     unique.filter((u: TrainerRowData) =>
-        u.username === row.username &&
-        u.trainerCode === row.trainerCode &&
+        u.username === row.username && u.trainerCode === row.trainerCode &&
         u.trainerName === row.trainerName
       )
         .length > 0
@@ -61,23 +62,25 @@ export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersRespon
   });
 
   // Note: If rows are removed from the import data, we'll lost that data after syncing
-  const [_deleteTrainerAltsQuery, deleteTrainersQuery, createQuery] = await prisma.$transaction([
-    prisma.trainerAlt.deleteMany({}),
-    prisma.trainer.deleteMany({}),
-    prisma.trainer.createMany({
-      data: mappedTrainerData,
-    }),
-  ]);
+  const [_deleteTrainerAltsQuery, deleteTrainersQuery, createQuery] =
+    await prisma.$transaction([
+      prisma.trainerAlt.deleteMany({}),
+      prisma.trainer.deleteMany({}),
+      prisma.trainer.createMany({
+        data: mappedTrainerData,
+      }),
+    ]);
 
-  await createTrainerAlts(unique);
+  createTrainerAlts(unique);
 
-  const { total_row_created, total_rows_deleted, total_rows_imported } = await prisma.syncHistory.create({
-    data: {
-      total_rows_imported: content.length,
-      total_rows_deleted: deleteTrainersQuery.count,
-      total_row_created: createQuery.count,
-    },
-  });
+  const { total_row_created, total_rows_deleted, total_rows_imported } =
+    await prisma.syncHistory.create({
+      data: {
+        total_rows_imported: content.length,
+        total_rows_deleted: deleteTrainersQuery.count,
+        total_row_created: createQuery.count,
+      },
+    });
 
   return {
     success: true,
@@ -90,13 +93,18 @@ export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersRespon
   };
 }
 
-async function createTrainerAlts(trainerRowData: TrainerRowData[]) {
+function createTrainerAlts(trainerRowData: TrainerRowData[]) {
   // Get any rows that have alt trainer code / name data
-  const hasAlts = trainerRowData.filter((row) =>
-    row.altTrainerName !== "" || row.altTrainerCode !== "" ||
-    row.altTrainerName2 !== "" || row.altTrainerCode2 !== "" ||
-    row.altTrainerName3 !== "" || row.altTrainerCode3 !== "" ||
-    row.altTrainerName4 !== "" || row.altTrainerCode4 !== ""
+  const hasAlts = trainerRowData.filter(
+    (row) =>
+      row.altTrainerName !== "" ||
+      row.altTrainerCode !== "" ||
+      row.altTrainerName2 !== "" ||
+      row.altTrainerCode2 !== "" ||
+      row.altTrainerName3 !== "" ||
+      row.altTrainerCode3 !== "" ||
+      row.altTrainerName4 !== "" ||
+      row.altTrainerCode4 !== "",
   );
 
   // Loop through each row and use username, code, and trainerName to lookup trainer id
