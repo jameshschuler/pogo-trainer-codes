@@ -21,6 +21,7 @@ export type Log = {
   meta: Prisma.JsonValue
   log_type: LogType
   created_at: Date
+  request_id: string | null
 }
 
 /**
@@ -947,6 +948,7 @@ export namespace Prisma {
     message: string | null
     log_type: LogType | null
     created_at: Date | null
+    request_id: string | null
   }
 
   export type LogMaxAggregateOutputType = {
@@ -955,6 +957,7 @@ export namespace Prisma {
     message: string | null
     log_type: LogType | null
     created_at: Date | null
+    request_id: string | null
   }
 
   export type LogCountAggregateOutputType = {
@@ -964,6 +967,7 @@ export namespace Prisma {
     meta: number
     log_type: number
     created_at: number
+    request_id: number
     _all: number
   }
 
@@ -982,6 +986,7 @@ export namespace Prisma {
     message?: true
     log_type?: true
     created_at?: true
+    request_id?: true
   }
 
   export type LogMaxAggregateInputType = {
@@ -990,6 +995,7 @@ export namespace Prisma {
     message?: true
     log_type?: true
     created_at?: true
+    request_id?: true
   }
 
   export type LogCountAggregateInputType = {
@@ -999,6 +1005,7 @@ export namespace Prisma {
     meta?: true
     log_type?: true
     created_at?: true
+    request_id?: true
     _all?: true
   }
 
@@ -1096,6 +1103,7 @@ export namespace Prisma {
     meta: JsonValue
     log_type: LogType
     created_at: Date
+    request_id: string | null
     _count: LogCountAggregateOutputType | null
     _avg: LogAvgAggregateOutputType | null
     _sum: LogSumAggregateOutputType | null
@@ -1124,6 +1132,7 @@ export namespace Prisma {
     meta?: boolean
     log_type?: boolean
     created_at?: boolean
+    request_id?: boolean
   }
 
 
@@ -4760,7 +4769,8 @@ export namespace Prisma {
     message: 'message',
     meta: 'meta',
     log_type: 'log_type',
-    created_at: 'created_at'
+    created_at: 'created_at',
+    request_id: 'request_id'
   };
 
   export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
@@ -4840,6 +4850,7 @@ export namespace Prisma {
     meta?: JsonFilter
     log_type?: EnumLogTypeFilter | LogType
     created_at?: DateTimeFilter | Date | string
+    request_id?: StringNullableFilter | string | null
   }
 
   export type LogOrderByWithRelationInput = {
@@ -4849,6 +4860,7 @@ export namespace Prisma {
     meta?: SortOrder
     log_type?: SortOrder
     created_at?: SortOrder
+    request_id?: SortOrder
   }
 
   export type LogWhereUniqueInput = {
@@ -4862,6 +4874,7 @@ export namespace Prisma {
     meta?: SortOrder
     log_type?: SortOrder
     created_at?: SortOrder
+    request_id?: SortOrder
     _count?: LogCountOrderByAggregateInput
     _avg?: LogAvgOrderByAggregateInput
     _max?: LogMaxOrderByAggregateInput
@@ -4879,6 +4892,7 @@ export namespace Prisma {
     meta?: JsonWithAggregatesFilter
     log_type?: EnumLogTypeWithAggregatesFilter | LogType
     created_at?: DateTimeWithAggregatesFilter | Date | string
+    request_id?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type TrainerWhereInput = {
@@ -5034,6 +5048,7 @@ export namespace Prisma {
     meta: JsonNullValueInput | InputJsonValue
     log_type: LogType
     created_at?: Date | string
+    request_id?: string | null
   }
 
   export type LogUncheckedCreateInput = {
@@ -5043,6 +5058,7 @@ export namespace Prisma {
     meta: JsonNullValueInput | InputJsonValue
     log_type: LogType
     created_at?: Date | string
+    request_id?: string | null
   }
 
   export type LogUpdateInput = {
@@ -5051,6 +5067,7 @@ export namespace Prisma {
     meta?: JsonNullValueInput | InputJsonValue
     log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    request_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LogUncheckedUpdateInput = {
@@ -5060,6 +5077,7 @@ export namespace Prisma {
     meta?: JsonNullValueInput | InputJsonValue
     log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    request_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LogCreateManyInput = {
@@ -5069,6 +5087,7 @@ export namespace Prisma {
     meta: JsonNullValueInput | InputJsonValue
     log_type: LogType
     created_at?: Date | string
+    request_id?: string | null
   }
 
   export type LogUpdateManyMutationInput = {
@@ -5077,6 +5096,7 @@ export namespace Prisma {
     meta?: JsonNullValueInput | InputJsonValue
     log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    request_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type LogUncheckedUpdateManyInput = {
@@ -5086,6 +5106,7 @@ export namespace Prisma {
     meta?: JsonNullValueInput | InputJsonValue
     log_type?: EnumLogTypeFieldUpdateOperationsInput | LogType
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    request_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrainerCreateInput = {
@@ -5323,6 +5344,21 @@ export namespace Prisma {
     not?: NestedDateTimeFilter | Date | string
   }
 
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableFilter | string | null
+  }
+
   export type LogCountOrderByAggregateInput = {
     id?: SortOrder
     level?: SortOrder
@@ -5330,6 +5366,7 @@ export namespace Prisma {
     meta?: SortOrder
     log_type?: SortOrder
     created_at?: SortOrder
+    request_id?: SortOrder
   }
 
   export type LogAvgOrderByAggregateInput = {
@@ -5342,6 +5379,7 @@ export namespace Prisma {
     message?: SortOrder
     log_type?: SortOrder
     created_at?: SortOrder
+    request_id?: SortOrder
   }
 
   export type LogMinOrderByAggregateInput = {
@@ -5350,6 +5388,7 @@ export namespace Prisma {
     message?: SortOrder
     log_type?: SortOrder
     created_at?: SortOrder
+    request_id?: SortOrder
   }
 
   export type LogSumOrderByAggregateInput = {
@@ -5447,6 +5486,24 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedDateTimeFilter
     _max?: NestedDateTimeFilter
+  }
+
+  export type StringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
 
   export type TrainerAltListRelationFilter = {
@@ -5613,6 +5670,10 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -5735,6 +5796,20 @@ export namespace Prisma {
     not?: NestedDateTimeFilter | Date | string
   }
 
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
+  }
+
   export type NestedIntWithAggregatesFilter = {
     equals?: number
     in?: Enumerable<number>
@@ -5833,6 +5908,23 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedDateTimeFilter
     _max?: NestedDateTimeFilter
+  }
+
+  export type NestedStringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
   }
 
   export type NestedIntNullableFilter = {

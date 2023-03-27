@@ -19,6 +19,7 @@ model Log {
   meta       Json
   log_type   LogType
   created_at DateTime @default(now())
+  request_id String?
 }
 
 model Trainer {

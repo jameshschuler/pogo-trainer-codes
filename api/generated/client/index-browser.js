@@ -105,7 +105,8 @@ exports.Prisma.LogScalarFieldEnum = makeEnum({
   message: 'message',
   meta: 'meta',
   log_type: 'log_type',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  request_id: 'request_id'
 });
 
 exports.Prisma.QueryMode = makeEnum({
