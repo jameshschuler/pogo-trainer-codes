@@ -1,6 +1,10 @@
 import { log } from "@/handlers/commands/createLog.ts";
+import { RouterContext } from "oak";
 
-export async function logRequest(ctx, next) {
+export async function logRequest(ctx: RouterContext<string>, next) {
+  const requestId = crypto.randomUUID();
+  ctx.state.requestId = requestId;
+
   await next();
   await log(
     "Info",
@@ -9,5 +13,6 @@ export async function logRequest(ctx, next) {
     {
       headers: JSON.stringify(ctx.request.headers),
     },
+    requestId
   );
 }

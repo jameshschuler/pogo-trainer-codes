@@ -51,7 +51,7 @@ router
 
       handleResponse(ctx, response);
     } catch (e) {
-      await logError("Unable to sync trainer codes.", e);
+      await logError("Unable to sync trainer codes.", e, ctx.state.requestId);
       ctx.response.body = {
         success: false,
         message: "Unable to sync trainer codes.",
