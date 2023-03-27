@@ -1,15 +1,12 @@
 import { ApiResponse } from "@/types/common.ts";
 import { TrainerRowData } from "@/types/models.ts";
 import { SyncTrainersResponse } from "@/types/response/syncTrainersResponse.ts";
-import { env } from "@/utils/env.ts";
 import prisma from "@prisma";
 import { parse as parseCsv } from "https://deno.land/std/encoding/csv.ts";
 import { Trainer, TrainerAlt } from "../../../generated/client/deno/index.d.ts";
 
-export async function syncTrainerCodes(): Promise<
-  ApiResponse<SyncTrainersResponse>
-> {
-  const url: string | undefined = env["SHEET_URL"];
+export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersResponse>> {
+  const url: string | undefined = Deno.env.get("SHEET_URL");
 
   if (!url || url === "") {
     return {
@@ -44,11 +41,10 @@ export async function syncTrainerCodes(): Promise<
   content.forEach((row: TrainerRowData) => {
     // Check if the unique array has a matching row (username, trainerCode, trainerName)
     // If not, add it to the unique array otherwise do nothing
-    unique.filter((u: TrainerRowData) =>
-        u.username === row.username && u.trainerCode === row.trainerCode &&
-        u.trainerName === row.trainerName
-      )
-        .length > 0
+    unique.filter(
+      (u: TrainerRowData) =>
+        u.username === row.username && u.trainerCode === row.trainerCode && u.trainerName === row.trainerName
+    ).length > 0
       ? null
       : unique.push(row);
   });
@@ -62,25 +58,23 @@ export async function syncTrainerCodes(): Promise<
   });
 
   // Note: If rows are removed from the import data, we'll lost that data after syncing
-  const [_deleteTrainerAltsQuery, deleteTrainersQuery, createQuery] =
-    await prisma.$transaction([
-      prisma.trainerAlt.deleteMany({}),
-      prisma.trainer.deleteMany({}),
-      prisma.trainer.createMany({
-        data: mappedTrainerData,
-      }),
-    ]);
+  const [_deleteTrainerAltsQuery, deleteTrainersQuery, createQuery] = await prisma.$transaction([
+    prisma.trainerAlt.deleteMany({}),
+    prisma.trainer.deleteMany({}),
+    prisma.trainer.createMany({
+      data: mappedTrainerData,
+    }),
+  ]);
 
   createTrainerAlts(unique);
 
-  const { total_row_created, total_rows_deleted, total_rows_imported } =
-    await prisma.syncHistory.create({
-      data: {
-        total_rows_imported: content.length,
-        total_rows_deleted: deleteTrainersQuery.count,
-        total_row_created: createQuery.count,
-      },
-    });
+  const { total_row_created, total_rows_deleted, total_rows_imported } = await prisma.syncHistory.create({
+    data: {
+      total_rows_imported: content.length,
+      total_rows_deleted: deleteTrainersQuery.count,
+      total_row_created: createQuery.count,
+    },
+  });
 
   return {
     success: true,
@@ -104,7 +98,7 @@ function createTrainerAlts(trainerRowData: TrainerRowData[]) {
       row.altTrainerName3 !== "" ||
       row.altTrainerCode3 !== "" ||
       row.altTrainerName4 !== "" ||
-      row.altTrainerCode4 !== "",
+      row.altTrainerCode4 !== ""
   );
 
   // Loop through each row and use username, code, and trainerName to lookup trainer id
