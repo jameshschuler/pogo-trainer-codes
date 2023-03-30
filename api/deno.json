@@ -4,11 +4,7 @@
     "run": "npx dotenv -- deno run -A --unstable ./index.ts",
     "db:push": "deno run -A --unstable npm:prisma db push && deno run -A --unstable npm:prisma generate --data-proxy"
   },
-  "imports": {
-    "@/": "./src/",
-    "@prisma": "./prisma/mod.ts",
-    "oak": "https://deno.land/x/oak@v11.1.0/mod.ts"
-  },
+  "importMap": "./import_map.json",
   "compilerOptions": {
     "noImplicitAny": false
   },
