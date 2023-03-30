@@ -8,6 +8,7 @@ import { handleResponse } from "@/utils/common.ts";
 import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
 import { getQuery } from "https://deno.land/x/oak@v11.1.0/helpers.ts";
 import { Application, Router, RouterContext, Status } from "oak";
+import { SyncTrainersRequest } from "./src/types/requests/syncTrainersRequest.ts";
 
 const app = new Application();
 app.use(oakCors());
@@ -47,7 +48,21 @@ router
         return;
       }
 
-      const response = await syncTrainerCodes();
+      const body = ctx.request.body();
+      const result = (await body.value) as SyncTrainersRequest;
+      const source = result?.source;
+
+      if (!source) {
+        await logError("Missing source", null, ctx.state.requestId);
+        ctx.response.body = {
+          success: false,
+          message: "Missing source",
+        };
+        ctx.response.status = Status.BadRequest;
+        return;
+      }
+
+      const response = await syncTrainerCodes(source!);
 
       handleResponse(ctx, response);
     } catch (e) {

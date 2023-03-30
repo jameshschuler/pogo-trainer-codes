@@ -5,7 +5,7 @@ import prisma from "@prisma";
 import { parse as parseCsv } from "https://deno.land/std/encoding/csv.ts";
 import { Trainer, TrainerAlt } from "../../../generated/client/deno/index.d.ts";
 
-export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersResponse>> {
+export async function syncTrainerCodes(source: string): Promise<ApiResponse<SyncTrainersResponse>> {
   const url: string | undefined = Deno.env.get("SHEET_URL");
 
   if (!url || url === "") {
@@ -42,9 +42,9 @@ export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersRespon
     // Check if the unique array has a matching row (username, trainerCode, trainerName)
     // If not, add it to the unique array otherwise do nothing
     unique.filter(
-      (u: TrainerRowData) =>
-        u.username === row.username && u.trainerCode === row.trainerCode && u.trainerName === row.trainerName
-    ).length > 0
+        (u: TrainerRowData) =>
+          u.username === row.username && u.trainerCode === row.trainerCode && u.trainerName === row.trainerName,
+      ).length > 0
       ? null
       : unique.push(row);
   });
@@ -54,6 +54,7 @@ export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersRespon
       username: row.username,
       trainer_code: row.trainerCode,
       trainer_name: row.trainerName,
+      source: source,
     } as Trainer;
   });
 
@@ -73,6 +74,7 @@ export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersRespon
       total_rows_imported: content.length,
       total_rows_deleted: deleteTrainersQuery.count,
       total_row_created: createQuery.count,
+      source: source,
     },
   });
 
@@ -98,7 +100,7 @@ function createTrainerAlts(trainerRowData: TrainerRowData[]) {
       row.altTrainerName3 !== "" ||
       row.altTrainerCode3 !== "" ||
       row.altTrainerName4 !== "" ||
-      row.altTrainerCode4 !== ""
+      row.altTrainerCode4 !== "",
   );
 
   // Loop through each row and use username, code, and trainerName to lookup trainer id

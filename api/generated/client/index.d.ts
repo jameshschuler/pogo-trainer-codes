@@ -34,6 +34,7 @@ export type Trainer = {
   trainer_name: string
   trainer_code: string
   created_at: Date
+  source: string | null
 }
 
 /**
@@ -58,6 +59,7 @@ export type SyncHistory = {
   total_rows_deleted: number
   total_row_created: number
   created_at: Date
+  source: string | null
 }
 
 
@@ -1876,6 +1878,7 @@ export namespace Prisma {
     trainer_name: string | null
     trainer_code: string | null
     created_at: Date | null
+    source: string | null
   }
 
   export type TrainerMaxAggregateOutputType = {
@@ -1884,6 +1887,7 @@ export namespace Prisma {
     trainer_name: string | null
     trainer_code: string | null
     created_at: Date | null
+    source: string | null
   }
 
   export type TrainerCountAggregateOutputType = {
@@ -1892,6 +1896,7 @@ export namespace Prisma {
     trainer_name: number
     trainer_code: number
     created_at: number
+    source: number
     _all: number
   }
 
@@ -1910,6 +1915,7 @@ export namespace Prisma {
     trainer_name?: true
     trainer_code?: true
     created_at?: true
+    source?: true
   }
 
   export type TrainerMaxAggregateInputType = {
@@ -1918,6 +1924,7 @@ export namespace Prisma {
     trainer_name?: true
     trainer_code?: true
     created_at?: true
+    source?: true
   }
 
   export type TrainerCountAggregateInputType = {
@@ -1926,6 +1933,7 @@ export namespace Prisma {
     trainer_name?: true
     trainer_code?: true
     created_at?: true
+    source?: true
     _all?: true
   }
 
@@ -2022,6 +2030,7 @@ export namespace Prisma {
     trainer_name: string
     trainer_code: string
     created_at: Date
+    source: string | null
     _count: TrainerCountAggregateOutputType | null
     _avg: TrainerAvgAggregateOutputType | null
     _sum: TrainerSumAggregateOutputType | null
@@ -2050,6 +2059,7 @@ export namespace Prisma {
     trainer_code?: boolean
     created_at?: boolean
     alts?: boolean | Trainer$altsArgs
+    source?: boolean
     _count?: boolean | TrainerCountOutputTypeArgs
   }
 
@@ -3845,6 +3855,7 @@ export namespace Prisma {
     total_rows_deleted: number | null
     total_row_created: number | null
     created_at: Date | null
+    source: string | null
   }
 
   export type SyncHistoryMaxAggregateOutputType = {
@@ -3853,6 +3864,7 @@ export namespace Prisma {
     total_rows_deleted: number | null
     total_row_created: number | null
     created_at: Date | null
+    source: string | null
   }
 
   export type SyncHistoryCountAggregateOutputType = {
@@ -3861,6 +3873,7 @@ export namespace Prisma {
     total_rows_deleted: number
     total_row_created: number
     created_at: number
+    source: number
     _all: number
   }
 
@@ -3885,6 +3898,7 @@ export namespace Prisma {
     total_rows_deleted?: true
     total_row_created?: true
     created_at?: true
+    source?: true
   }
 
   export type SyncHistoryMaxAggregateInputType = {
@@ -3893,6 +3907,7 @@ export namespace Prisma {
     total_rows_deleted?: true
     total_row_created?: true
     created_at?: true
+    source?: true
   }
 
   export type SyncHistoryCountAggregateInputType = {
@@ -3901,6 +3916,7 @@ export namespace Prisma {
     total_rows_deleted?: true
     total_row_created?: true
     created_at?: true
+    source?: true
     _all?: true
   }
 
@@ -3997,6 +4013,7 @@ export namespace Prisma {
     total_rows_deleted: number
     total_row_created: number
     created_at: Date
+    source: string | null
     _count: SyncHistoryCountAggregateOutputType | null
     _avg: SyncHistoryAvgAggregateOutputType | null
     _sum: SyncHistorySumAggregateOutputType | null
@@ -4024,6 +4041,7 @@ export namespace Prisma {
     total_rows_deleted?: boolean
     total_row_created?: boolean
     created_at?: boolean
+    source?: boolean
   }
 
 
@@ -4797,7 +4815,8 @@ export namespace Prisma {
     total_rows_imported: 'total_rows_imported',
     total_rows_deleted: 'total_rows_deleted',
     total_row_created: 'total_row_created',
-    created_at: 'created_at'
+    created_at: 'created_at',
+    source: 'source'
   };
 
   export type SyncHistoryScalarFieldEnum = (typeof SyncHistoryScalarFieldEnum)[keyof typeof SyncHistoryScalarFieldEnum]
@@ -4819,7 +4838,8 @@ export namespace Prisma {
     username: 'username',
     trainer_name: 'trainer_name',
     trainer_code: 'trainer_code',
-    created_at: 'created_at'
+    created_at: 'created_at',
+    source: 'source'
   };
 
   export type TrainerScalarFieldEnum = (typeof TrainerScalarFieldEnum)[keyof typeof TrainerScalarFieldEnum]
@@ -4905,6 +4925,7 @@ export namespace Prisma {
     trainer_code?: StringFilter | string
     created_at?: DateTimeFilter | Date | string
     alts?: TrainerAltListRelationFilter
+    source?: StringNullableFilter | string | null
   }
 
   export type TrainerOrderByWithRelationInput = {
@@ -4914,6 +4935,7 @@ export namespace Prisma {
     trainer_code?: SortOrder
     created_at?: SortOrder
     alts?: TrainerAltOrderByRelationAggregateInput
+    source?: SortOrder
   }
 
   export type TrainerWhereUniqueInput = {
@@ -4926,6 +4948,7 @@ export namespace Prisma {
     trainer_name?: SortOrder
     trainer_code?: SortOrder
     created_at?: SortOrder
+    source?: SortOrder
     _count?: TrainerCountOrderByAggregateInput
     _avg?: TrainerAvgOrderByAggregateInput
     _max?: TrainerMaxOrderByAggregateInput
@@ -4942,6 +4965,7 @@ export namespace Prisma {
     trainer_name?: StringWithAggregatesFilter | string
     trainer_code?: StringWithAggregatesFilter | string
     created_at?: DateTimeWithAggregatesFilter | Date | string
+    source?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type TrainerAltWhereInput = {
@@ -5004,6 +5028,7 @@ export namespace Prisma {
     total_rows_deleted?: IntFilter | number
     total_row_created?: IntFilter | number
     created_at?: DateTimeFilter | Date | string
+    source?: StringNullableFilter | string | null
   }
 
   export type SyncHistoryOrderByWithRelationInput = {
@@ -5012,6 +5037,7 @@ export namespace Prisma {
     total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
+    source?: SortOrder
   }
 
   export type SyncHistoryWhereUniqueInput = {
@@ -5024,6 +5050,7 @@ export namespace Prisma {
     total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
+    source?: SortOrder
     _count?: SyncHistoryCountOrderByAggregateInput
     _avg?: SyncHistoryAvgOrderByAggregateInput
     _max?: SyncHistoryMaxOrderByAggregateInput
@@ -5040,6 +5067,7 @@ export namespace Prisma {
     total_rows_deleted?: IntWithAggregatesFilter | number
     total_row_created?: IntWithAggregatesFilter | number
     created_at?: DateTimeWithAggregatesFilter | Date | string
+    source?: StringNullableWithAggregatesFilter | string | null
   }
 
   export type LogCreateInput = {
@@ -5115,6 +5143,7 @@ export namespace Prisma {
     trainer_code: string
     created_at?: Date | string
     alts?: TrainerAltCreateNestedManyWithoutTrainerInput
+    source?: string | null
   }
 
   export type TrainerUncheckedCreateInput = {
@@ -5124,6 +5153,7 @@ export namespace Prisma {
     trainer_code: string
     created_at?: Date | string
     alts?: TrainerAltUncheckedCreateNestedManyWithoutTrainerInput
+    source?: string | null
   }
 
   export type TrainerUpdateInput = {
@@ -5132,6 +5162,7 @@ export namespace Prisma {
     trainer_code?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     alts?: TrainerAltUpdateManyWithoutTrainerNestedInput
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrainerUncheckedUpdateInput = {
@@ -5141,6 +5172,7 @@ export namespace Prisma {
     trainer_code?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     alts?: TrainerAltUncheckedUpdateManyWithoutTrainerNestedInput
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrainerCreateManyInput = {
@@ -5149,6 +5181,7 @@ export namespace Prisma {
     trainer_name: string
     trainer_code: string
     created_at?: Date | string
+    source?: string | null
   }
 
   export type TrainerUpdateManyMutationInput = {
@@ -5156,6 +5189,7 @@ export namespace Prisma {
     trainer_name?: StringFieldUpdateOperationsInput | string
     trainer_code?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrainerUncheckedUpdateManyInput = {
@@ -5164,6 +5198,7 @@ export namespace Prisma {
     trainer_name?: StringFieldUpdateOperationsInput | string
     trainer_code?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrainerAltCreateInput = {
@@ -5223,6 +5258,7 @@ export namespace Prisma {
     total_rows_deleted: number
     total_row_created: number
     created_at?: Date | string
+    source?: string | null
   }
 
   export type SyncHistoryUncheckedCreateInput = {
@@ -5231,6 +5267,7 @@ export namespace Prisma {
     total_rows_deleted: number
     total_row_created: number
     created_at?: Date | string
+    source?: string | null
   }
 
   export type SyncHistoryUpdateInput = {
@@ -5238,6 +5275,7 @@ export namespace Prisma {
     total_rows_deleted?: IntFieldUpdateOperationsInput | number
     total_row_created?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SyncHistoryUncheckedUpdateInput = {
@@ -5246,6 +5284,7 @@ export namespace Prisma {
     total_rows_deleted?: IntFieldUpdateOperationsInput | number
     total_row_created?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SyncHistoryCreateManyInput = {
@@ -5254,6 +5293,7 @@ export namespace Prisma {
     total_rows_deleted: number
     total_row_created: number
     created_at?: Date | string
+    source?: string | null
   }
 
   export type SyncHistoryUpdateManyMutationInput = {
@@ -5261,6 +5301,7 @@ export namespace Prisma {
     total_rows_deleted?: IntFieldUpdateOperationsInput | number
     total_row_created?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SyncHistoryUncheckedUpdateManyInput = {
@@ -5269,6 +5310,7 @@ export namespace Prisma {
     total_rows_deleted?: IntFieldUpdateOperationsInput | number
     total_row_created?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter = {
@@ -5522,6 +5564,7 @@ export namespace Prisma {
     trainer_name?: SortOrder
     trainer_code?: SortOrder
     created_at?: SortOrder
+    source?: SortOrder
   }
 
   export type TrainerAvgOrderByAggregateInput = {
@@ -5534,6 +5577,7 @@ export namespace Prisma {
     trainer_name?: SortOrder
     trainer_code?: SortOrder
     created_at?: SortOrder
+    source?: SortOrder
   }
 
   export type TrainerMinOrderByAggregateInput = {
@@ -5542,6 +5586,7 @@ export namespace Prisma {
     trainer_name?: SortOrder
     trainer_code?: SortOrder
     created_at?: SortOrder
+    source?: SortOrder
   }
 
   export type TrainerSumOrderByAggregateInput = {
@@ -5622,6 +5667,7 @@ export namespace Prisma {
     total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
+    source?: SortOrder
   }
 
   export type SyncHistoryAvgOrderByAggregateInput = {
@@ -5637,6 +5683,7 @@ export namespace Prisma {
     total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
+    source?: SortOrder
   }
 
   export type SyncHistoryMinOrderByAggregateInput = {
@@ -5645,6 +5692,7 @@ export namespace Prisma {
     total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
+    source?: SortOrder
   }
 
   export type SyncHistorySumOrderByAggregateInput = {
@@ -6020,6 +6068,7 @@ export namespace Prisma {
     trainer_name: string
     trainer_code: string
     created_at?: Date | string
+    source?: string | null
   }
 
   export type TrainerUncheckedCreateWithoutAltsInput = {
@@ -6028,6 +6077,7 @@ export namespace Prisma {
     trainer_name: string
     trainer_code: string
     created_at?: Date | string
+    source?: string | null
   }
 
   export type TrainerCreateOrConnectWithoutAltsInput = {
@@ -6045,6 +6095,7 @@ export namespace Prisma {
     trainer_name?: StringFieldUpdateOperationsInput | string
     trainer_code?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrainerUncheckedUpdateWithoutAltsInput = {
@@ -6053,6 +6104,7 @@ export namespace Prisma {
     trainer_name?: StringFieldUpdateOperationsInput | string
     trainer_code?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TrainerAltCreateManyTrainerInput = {

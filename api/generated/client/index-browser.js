@@ -124,7 +124,8 @@ exports.Prisma.SyncHistoryScalarFieldEnum = makeEnum({
   total_rows_imported: 'total_rows_imported',
   total_rows_deleted: 'total_rows_deleted',
   total_row_created: 'total_row_created',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  source: 'source'
 });
 
 exports.Prisma.TrainerAltScalarFieldEnum = makeEnum({
@@ -140,7 +141,8 @@ exports.Prisma.TrainerScalarFieldEnum = makeEnum({
   username: 'username',
   trainer_name: 'trainer_name',
   trainer_code: 'trainer_code',
-  created_at: 'created_at'
+  created_at: 'created_at',
+  source: 'source'
 });
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({

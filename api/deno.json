@@ -1,18 +1,29 @@
 {
   "tasks": {
-    "dev": "npx dotenv -- deno run -A --unstable --watch ./index.ts",
-    "run": "npx dotenv -- deno run -A --unstable ./index.ts",
+    "dev": "npx dotenv -- deno run -A --unstable --watch index.ts",
+    "run": "npx dotenv -- deno run -A --unstable index.ts",
     "db:push": "deno run -A --unstable npm:prisma db push && deno run -A --unstable npm:prisma generate --data-proxy"
   },
-  "importMap": "./import_map.json",
+  "imports": {
+    "@/": "./src/",
+    "@prisma": "./prisma/mod.ts",
+    "oak": "https://deno.land/x/oak@v11.1.0/mod.ts"
+  },
   "compilerOptions": {
     "noImplicitAny": false
+  },
+  "lint": {
+    "files": {
+      "include": [
+        "./src/"
+      ]
+    }
   },
   "fmt": {
     "files": {
       "include": [
         "index.ts",
-        "src/"
+        "./src/"
       ]
     },
     "options": {

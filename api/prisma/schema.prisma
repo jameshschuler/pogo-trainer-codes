@@ -29,6 +29,7 @@ model Trainer {
   trainer_code String
   created_at   DateTime     @default(now())
   alts         TrainerAlt[]
+  source       String?
 }
 
 model TrainerAlt {
@@ -46,6 +47,7 @@ model SyncHistory {
   total_rows_deleted  Int
   total_row_created   Int
   created_at          DateTime @default(now())
+  source              String?
 }
 
 enum Level {
