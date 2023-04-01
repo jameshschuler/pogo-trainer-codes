@@ -1,26 +1,37 @@
 <template>
-  <div
-    id="search--container"
-    class="absolute p-6 bg-white bottom-0 shadow-lg rounded-lg"
-  >
-    <div class="flex h-full justify-center">
+  <div id="search--container" class="absolute p-6 bg-white bottom-0 shadow-lg rounded-lg">
+    <div class="h-full">
       <input
         id="search--input"
-        placeholder="Search Trainers by name or code"
-        class="p-4 rounded-md border border-gray-500"
+        placeholder="Search Trainers by trainer name, trainer code, or username"
+        class="p-4 rounded-md border border-gray-500 w-full"
         type="text"
         name="searchQuery"
+        v-model="query"
+        @input="handleSearch()"
       />
-      <button
-        id="search--btn"
-        class="ml-3 bg-black text-white w-14 h-full rounded-lg"
-      >
-        <i class="fa fa-fw fa-lg fa-search"></i>
-      </button>
     </div>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue";
+import { useTrainersStore } from "../stores/trainersStore";
+const store = useTrainersStore();
+
+const query = ref<string>();
+
+const handleSearch = debounce(() => store.searchTrainers(query.value));
+
+function debounce(func: Function, timeout = 500) {
+  let timer: any;
+  return (...args: any[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(this, args);
+    }, timeout);
+  };
+}
+</script>
 <style lang="scss" scoped>
 $search-container-height: 100px;
 
@@ -32,8 +43,6 @@ $search-container-height: 100px;
 }
 
 #search--input {
-  width: 80%;
-
   &:focus {
     outline-color: black;
     outline-style: solid;

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "pinia": "^2.0.33",
     "qrcode": "^1.5.1",
     "vue": "^3.2.45"
   },
