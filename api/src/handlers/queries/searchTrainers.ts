@@ -2,6 +2,7 @@ import { ApiResponse } from "@/types/common.ts";
 import { SearchTrainersRequest } from "@/types/requests/searchTrainersRequest.ts";
 import { SearchTrainersResponse, TrainerResponse } from "@/types/response/searchTrainersResponse.ts";
 import prisma from "@prisma";
+import { Trainer } from "../../../generated/client/deno/index.d.ts";
 
 const defaultPageSize = 15;
 const maxPageSize = 50;
@@ -15,34 +16,53 @@ export async function searchTrainers(request: SearchTrainersRequest): Promise<Ap
   const page = request.page && !isNaN(request.page) ? Number(request.page) : 1;
   const source = request.source ?? "San Diego";
 
-  const results = await prisma.trainer.findMany({
-    orderBy: [
-      {
-        trainer_name: "asc",
-      },
-    ],
-    where: {
-      source: {
-        equals: source,
-      },
-      OR: [
+  let results = new Array<Trainer>();
+
+  if (!request.query || request.query === "") {
+    results = await prisma.trainer.findMany({
+      orderBy: [
         {
-          username: {
-            startsWith: request.query,
-            mode: "insensitive",
-          },
-        },
-        {
-          trainer_name: {
-            startsWith: request.query,
-            mode: "insensitive",
-          },
+          trainer_name: "asc",
         },
       ],
-    },
-    take: pageSize,
-    skip: (page - 1) * pageSize,
-  });
+      where: {
+        source: {
+          equals: source,
+        },
+      },
+      take: pageSize,
+      skip: (page - 1) * pageSize,
+    });
+  } else {
+    results = await prisma.trainer.findMany({
+      orderBy: [
+        {
+          trainer_name: "asc",
+        },
+      ],
+      where: {
+        source: {
+          equals: source,
+        },
+        OR: [
+          {
+            username: {
+              startsWith: request.query,
+              mode: "insensitive",
+            },
+          },
+          {
+            trainer_name: {
+              startsWith: request.query,
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+      take: pageSize,
+      skip: (page - 1) * pageSize,
+    });
+  }
 
   const trainers: TrainerResponse[] = results.map((t) => {
     return {
