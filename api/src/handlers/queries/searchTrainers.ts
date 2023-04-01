@@ -13,6 +13,7 @@ export async function searchTrainers(request: SearchTrainersRequest): Promise<Ap
       : Number(request.pageSize);
 
   const page = request.page && !isNaN(request.page) ? Number(request.page) : 1;
+  const source = request.source ?? "San Diego";
 
   const results = await prisma.trainer.findMany({
     orderBy: [
@@ -21,6 +22,9 @@ export async function searchTrainers(request: SearchTrainersRequest): Promise<Ap
       },
     ],
     where: {
+      source: {
+        equals: source,
+      },
       OR: [
         {
           username: {
@@ -45,6 +49,7 @@ export async function searchTrainers(request: SearchTrainersRequest): Promise<Ap
       trainerCode: t.trainer_code,
       trainerName: t.trainer_name,
       username: t.username,
+      source: t.source,
     };
   });
 

@@ -10,4 +10,5 @@ export interface TrainerResponse {
   trainerCode: string;
   trainerName: string;
   username: string;
+  source: string | null;
 }

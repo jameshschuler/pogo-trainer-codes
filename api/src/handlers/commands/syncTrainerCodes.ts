@@ -60,8 +60,22 @@ export async function syncTrainerCodes(source: string): Promise<ApiResponse<Sync
 
   // Note: If rows are removed from the import data, we'll lost that data after syncing
   const [_deleteTrainerAltsQuery, deleteTrainersQuery, createQuery] = await prisma.$transaction([
-    prisma.trainerAlt.deleteMany({}),
-    prisma.trainer.deleteMany({}),
+    prisma.trainerAlt.deleteMany({
+      where: {
+        trainer: {
+          source: {
+            equals: source,
+          },
+        },
+      },
+    }),
+    prisma.trainer.deleteMany({
+      where: {
+        source: {
+          equals: source,
+        },
+      },
+    }),
     prisma.trainer.createMany({
       data: mappedTrainerData,
     }),
