@@ -14,9 +14,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useTrainersStore } from "../stores/trainersStore";
 const store = useTrainersStore();
+const route = useRoute();
+const router = useRouter();
 
 const query = ref<string>();
 
@@ -31,6 +34,12 @@ function debounce(func: Function, timeout = 500) {
     }, timeout);
   };
 }
+
+onMounted(async () => {
+  await router.isReady();
+  store.source = route.params.source as string;
+  store.searchTrainers();
+});
 </script>
 <style lang="scss" scoped>
 $search-container-height: 100px;
@@ -40,6 +49,11 @@ $search-container-height: 100px;
   left: 10%;
   width: 80%;
   bottom: calc($search-container-height / -2);
+
+  @media (max-width: 768px) {
+    width: 100%;
+    left: 0;
+  }
 }
 
 #search--input {

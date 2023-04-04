@@ -1,17 +1,29 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-const apiUrl = import.meta.env.VITE_APP_API_URL;
+const baseApiUrl = import.meta.env.VITE_APP_API_URL;
 
 export const useTrainersStore = defineStore("trainers", () => {
-  const loading = ref<boolean>();
+  const loading = ref<boolean>(false);
+  const query = ref<string | undefined>();
+  const source = ref<string>();
   const trainers = ref([]);
 
-  async function searchTrainers(query?: string) {
+  async function searchTrainers(q?: string) {
     loading.value = true;
 
+    query.value = q;
+
     try {
-      const response = await fetch(apiUrl, { method: "GET" });
+      let searchTrainersUrl = baseApiUrl;
+
+      searchTrainersUrl += `?query=${query.value ?? ""}`;
+
+      if (source.value) {
+        searchTrainersUrl += `&source=${source.value}`;
+      }
+
+      const response = await fetch(searchTrainersUrl, { method: "GET" });
       const data = await response.json();
 
       trainers.value = data.data.trainers;
@@ -24,6 +36,8 @@ export const useTrainersStore = defineStore("trainers", () => {
 
   return {
     loading,
+    query,
+    source,
     trainers,
 
     searchTrainers,

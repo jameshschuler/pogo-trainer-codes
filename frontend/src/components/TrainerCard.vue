@@ -1,9 +1,5 @@
 <template>
-  <div
-    @click="toggleCard"
-    :class="{ flipped: flipped }"
-    class="trainer--card shadow-xl cursor-pointer"
-  >
+  <div @click="toggleCard" :class="{ flipped: flipped }" class="trainer--card shadow-xl cursor-pointer">
     <div class="card--inner p-4 px-8 w-full h-full">
       <div class="card--front rounded-md dark:border-light-400 dark:border-1">
         <div class="flex justify-end pt-4 pr-4">
@@ -12,10 +8,10 @@
           </span>
         </div>
         <div class="flex flex-col justify-center items-center">
-          <img :src="avatarUrl" alt="avatar" />
+          <img class="avatar mt-4" :src="avatarUrl" alt="avatar" />
           <div class="mt-8 text-center">
-            <h1 class="text-xl font-semibold dark:text-white">Trainer Name</h1>
-            <h3 class="mt-3 text-gray-500 dark:text-blue-500">Trainer Code</h3>
+            <h1 class="text-xl font-semibold dark:text-white">{{ trainer.trainerName }}</h1>
+            <h3 class="mt-3 text-gray-500 dark:text-blue-500">{{ trainer.trainerCode }}</h3>
           </div>
         </div>
       </div>
@@ -23,11 +19,11 @@
         class="card--back bg-gray-200 flex flex-col justify-center items-center rounded-md dark:border-light-400 dark:border-1 dark:bg-gray-800"
       >
         <canvas ref="canvas"></canvas>
-        <h1 class="text-xl font-semibold mt-3">
+        <h1 class="text-xl font-semibold mt-5">
           <span class="mr-2">
             <i class="fa-brands fa-discord"></i>
           </span>
-          Discord Name
+          {{ trainer.username }}
         </h1>
       </div>
     </div>
@@ -35,16 +31,23 @@
 </template>
 <script setup lang="ts">
 import QRCode from "qrcode";
-import { onMounted, ref } from "vue";
+import { onMounted, PropType, ref } from "vue";
+
+interface Trainer {
+  trainerCode: string;
+  trainerName: string;
+  username: string;
+  source: string | null;
+}
 
 const props = defineProps({
-  name: {
-    type: String,
+  trainer: {
+    type: Object as PropType<Trainer>,
     required: true,
   },
 });
 
-const avatarUrl = `https://api.dicebear.com/5.x/bottts-neutral/svg?radius=50&size=96&seed=${props.name}`;
+const avatarUrl = `https://api.dicebear.com/5.x/bottts-neutral/svg?radius=50&size=96&seed=${props.trainer.trainerName}`;
 
 const canvas = ref(null);
 const flipped = ref<boolean>(false);
@@ -54,16 +57,11 @@ function toggleCard() {
 }
 
 onMounted(async () => {
-  QRCode.toCanvas(
-    canvas.value,
-    "test",
-    { errorCorrectionLevel: "H" },
-    function (error: any) {
-      if (error) {
-        console.error(error);
-      }
+  QRCode.toCanvas(canvas.value, "test", { errorCorrectionLevel: "H" }, function (error: any) {
+    if (error) {
+      console.error(error);
     }
-  );
+  });
 });
 </script>
 <style lang="scss" scoped>
