@@ -27,6 +27,10 @@ import TrainerCard from "./TrainerCard.vue";
 const store = useTrainersStore();
 
 const noTrainerFoundMessage = computed(() => {
+  if (store.errorMessage) {
+    return store.errorMessage;
+  }
+
   let message = "No Trainers found";
   return store.query ? `${message} for "${store.query}"` : message;
 });
