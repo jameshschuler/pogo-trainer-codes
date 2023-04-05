@@ -20,6 +20,9 @@ export const useTrainersStore = defineStore("trainers", () => {
       searchTrainersUrl += `?query=${query.value ?? ""}`;
 
       if (source.value) {
+        if (source.value.includes("-")) {
+          source.value = source.value.replace("-", " ");
+        }
         searchTrainersUrl += `&source=${source.value}`;
       }
 
