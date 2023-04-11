@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { ApiResponse, Trainer, TrainerSearchResponse } from "../models/api";
+import { PagingInfo } from "./store";
 
 const baseApiUrl = import.meta.env.VITE_APP_API_URL;
 
@@ -8,17 +10,33 @@ export const useTrainersStore = defineStore("trainers", () => {
   const loading = ref<boolean>(false);
   const query = ref<string | undefined>();
   const source = ref<string>();
-  const trainers = ref([]);
+  const trainers = ref<Trainer[]>([]);
+  const pagingInfo = ref<PagingInfo>({
+    totalCount: 0,
+    currentPage: 1,
+    pageCount: 0,
+    pageSize: 0,
+  });
 
-  async function searchTrainers(q?: string) {
+  async function loadNextPage() {
+    const nextPage = pagingInfo.value.currentPage + 1;
+    if (nextPage > pagingInfo.value.pageCount) {
+      return;
+    }
+
+    return await searchTrainers(query.value, nextPage);
+  }
+
+  async function searchTrainers(q?: string, page?: number) {
     loading.value = true;
+    // TODO: use skeleton card for loading?
 
     query.value = q;
 
     try {
       let searchTrainersUrl = baseApiUrl;
 
-      searchTrainersUrl += `?query=${query.value ?? ""}`;
+      searchTrainersUrl += `?page=${page ?? 1}&query=${query.value ?? ""}`;
 
       if (source.value) {
         if (source.value.includes("-")) {
@@ -28,9 +46,17 @@ export const useTrainersStore = defineStore("trainers", () => {
       }
 
       const response = await fetch(searchTrainersUrl, { method: "GET" });
-      const data = await response.json();
+      const responseData = (await response.json()) as ApiResponse<TrainerSearchResponse>;
 
-      trainers.value = data.data.trainers;
+      const { currentPage, totalCount, pageCount, pageSize } = responseData.data;
+
+      trainers.value = [...trainers.value, ...responseData.data.trainers];
+      pagingInfo.value = {
+        currentPage,
+        totalCount,
+        pageSize,
+        pageCount,
+      };
       errorMessage.value = "";
     } catch (err) {
       errorMessage.value = "Unable to search for trainers. Please try again.";
@@ -46,6 +72,7 @@ export const useTrainersStore = defineStore("trainers", () => {
     source,
     trainers,
 
+    loadNextPage,
     searchTrainers,
   };
 });

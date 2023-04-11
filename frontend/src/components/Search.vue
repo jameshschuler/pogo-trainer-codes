@@ -35,10 +35,37 @@ function debounce(func: Function, timeout = 500) {
   };
 }
 
+function handleScroll() {
+  throttle(() => {
+    const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
+
+    if (endOfPage) {
+      console.log("load more cards...");
+      store.loadNextPage();
+    }
+  }, 1000);
+}
+
+let throttleTimer = false;
+function throttle(callback: Function, time: number) {
+  if (throttleTimer) {
+    return;
+  }
+
+  throttleTimer = true;
+  setTimeout(() => {
+    callback();
+
+    throttleTimer = false;
+  }, time);
+}
+
 onMounted(async () => {
   await router.isReady();
   store.source = route.params.source as string;
   store.searchTrainers();
+
+  window.addEventListener("scroll", handleScroll);
 });
 </script>
 <style lang="scss" scoped>

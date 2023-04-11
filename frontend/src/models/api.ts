@@ -1,12 +1,16 @@
-export interface SearchTrainersResponse {
-  currentPage: number;
-  pageCount: number;
-  pageSize: number;
-  totalCount: number;
-  trainers: TrainerResponse[];
+export interface ApiResponse<T> {
+  data: T;
 }
 
-export interface TrainerResponse {
+export interface TrainerSearchResponse {
+  currentPage: number;
+  pageSize: number;
+  totalCount: number;
+  pageCount: number;
+  trainers: Trainer[];
+}
+
+export interface Trainer {
   trainerCode: string;
   trainerName: string;
   username: string;

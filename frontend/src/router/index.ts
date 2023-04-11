@@ -3,6 +3,10 @@ import App from "../App.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: "/",
+    redirect: `/${import.meta.env.VITE_APP_DEFAULT_SOURCE}`,
+  },
+  {
     path: "/:source",
     name: "Trainers",
     component: App,

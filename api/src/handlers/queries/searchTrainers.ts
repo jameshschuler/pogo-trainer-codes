@@ -75,14 +75,15 @@ export async function searchTrainers(request: SearchTrainersRequest): Promise<Ap
   });
 
   const totalCount = await prisma.trainer.count();
+  const pageCount = Math.ceil(totalCount / pageSize);
 
   return {
     data: {
       currentPage: page,
+      pageCount,
       pageSize,
       totalCount,
       trainers,
-      trainerCount: trainers.length,
     },
     success: true,
   };
