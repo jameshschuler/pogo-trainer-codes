@@ -44,6 +44,7 @@ export async function searchTrainers(request: SearchTrainersRequest): Promise<Ap
       where: {
         source: {
           equals: source,
+          mode: "insensitive",
         },
         OR: [
           {
