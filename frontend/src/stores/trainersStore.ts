@@ -31,12 +31,10 @@ export const useTrainersStore = defineStore("trainers", () => {
     loading.value = true;
     // TODO: use skeleton card for loading?
 
-    query.value = q;
-
     try {
       let searchTrainersUrl = baseApiUrl;
 
-      searchTrainersUrl += `?page=${page ?? 1}&query=${query.value ?? ""}`;
+      searchTrainersUrl += `?page=${page ?? 1}&query=${q ?? ""}`;
 
       if (source.value) {
         if (source.value.includes("-")) {
@@ -50,7 +48,14 @@ export const useTrainersStore = defineStore("trainers", () => {
 
       const { currentPage, totalCount, pageCount, pageSize } = responseData.data;
 
-      trainers.value = [...trainers.value, ...responseData.data.trainers];
+      if (q !== query.value) {
+        trainers.value = responseData.data.trainers;
+      } else {
+        trainers.value = [...trainers.value, ...responseData.data.trainers];
+      }
+
+      query.value = q;
+
       pagingInfo.value = {
         currentPage,
         totalCount,
