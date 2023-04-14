@@ -29,7 +29,6 @@ export const useTrainersStore = defineStore("trainers", () => {
 
   async function searchTrainers(q?: string, page?: number) {
     loading.value = true;
-    // TODO: use skeleton card for loading?
 
     try {
       let searchTrainersUrl = baseApiUrl;
