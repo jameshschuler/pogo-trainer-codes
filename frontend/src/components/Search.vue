@@ -4,12 +4,17 @@
       <input
         id="search--input"
         placeholder="Search Trainers by trainer name, trainer code, or username"
-        class="p-4 rounded-md border border-gray-500 w-full"
+        class="p-4 rounded-md border border-gray-500 w-full relative"
         type="text"
         name="searchQuery"
         v-model="query"
         @input="handleSearch()"
       />
+      <div class="absolute spinner--input text-gray-500" v-if="store.searching">
+        <span>
+          <i class="fa-solid fa-circle-notch fa-spin fa-xl"></i>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -79,6 +84,11 @@ $search-container-height: 100px;
   @media (max-width: 768px) {
     width: 100%;
     left: 0;
+  }
+
+  .spinner--input {
+    right: 35px;
+    top: 42%;
   }
 }
 

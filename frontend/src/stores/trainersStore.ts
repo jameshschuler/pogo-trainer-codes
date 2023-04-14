@@ -9,6 +9,7 @@ export const useTrainersStore = defineStore("trainers", () => {
   const errorMessage = ref<string>();
   const loading = ref<boolean>(false);
   const query = ref<string | undefined>();
+  const searching = ref<boolean>(false);
   const source = ref<string>();
   const trainers = ref<Trainer[]>([]);
   const pagingInfo = ref<PagingInfo>({
@@ -29,6 +30,10 @@ export const useTrainersStore = defineStore("trainers", () => {
 
   async function searchTrainers(q?: string, page?: number) {
     loading.value = true;
+
+    if (q && q !== "") {
+      searching.value = true;
+    }
 
     try {
       let searchTrainersUrl = baseApiUrl;
@@ -66,6 +71,7 @@ export const useTrainersStore = defineStore("trainers", () => {
       errorMessage.value = "Unable to search for trainers. Please try again.";
     } finally {
       loading.value = false;
+      searching.value = false;
     }
   }
 
@@ -73,6 +79,7 @@ export const useTrainersStore = defineStore("trainers", () => {
     errorMessage,
     loading,
     query,
+    searching,
     source,
     trainers,
 

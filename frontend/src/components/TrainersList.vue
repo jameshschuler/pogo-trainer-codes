@@ -9,7 +9,7 @@
       <TrainerCard v-for="trainer in store.trainers" :trainer="trainer" />
     </div>
     <div v-if="store.loading" class="grid grid-cols-3 <sm:grid-cols-1 <lg:grid-cols-2 gap-x-8 gap-y-8 mt-8">
-      <SkeletonCard v-for="i in 6" />
+      <SkeletonCard v-for="i in 6" :key="i" />
     </div>
     <div v-if="!store.loading && store.trainers.length === 0">
       <p class="text-lg">{{ noTrainerFoundMessage }}</p>
