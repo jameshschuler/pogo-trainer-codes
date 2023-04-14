@@ -16,55 +16,88 @@ export async function searchTrainers(request: SearchTrainersRequest): Promise<Ap
   const page = request.page && !isNaN(request.page) ? Number(request.page) : 1;
   const source = request.source ?? "San Diego";
 
+  let totalCount = 0;
+  let queryTransaction;
   let results = new Array<Trainer>();
 
   if (!request.query || request.query === "") {
-    results = await prisma.trainer.findMany({
-      orderBy: [
-        {
-          trainer_name: "asc",
-        },
-      ],
-      where: {
-        source: {
-          equals: source,
-          mode: "insensitive",
-        },
-      },
-      take: pageSize,
-      skip: (page - 1) * pageSize,
-    });
-  } else {
-    results = await prisma.trainer.findMany({
-      orderBy: [
-        {
-          trainer_name: "asc",
-        },
-      ],
-      where: {
-        source: {
-          equals: source,
-          mode: "insensitive",
-        },
-        OR: [
+    queryTransaction = prisma.$transaction([
+      prisma.trainer.count(),
+      prisma.trainer.findMany({
+        orderBy: [
           {
-            username: {
-              startsWith: request.query,
-              mode: "insensitive",
-            },
-          },
-          {
-            trainer_name: {
-              startsWith: request.query,
-              mode: "insensitive",
-            },
+            trainer_name: "asc",
           },
         ],
-      },
-      take: pageSize,
-      skip: (page - 1) * pageSize,
-    });
+        where: {
+          source: {
+            equals: source,
+            mode: "insensitive",
+          },
+        },
+        take: pageSize,
+        skip: (page - 1) * pageSize,
+      }),
+    ]);
+  } else {
+    queryTransaction = prisma.$transaction([
+      prisma.trainer.count({
+        where: {
+          source: {
+            equals: source,
+            mode: "insensitive",
+          },
+          OR: [
+            {
+              username: {
+                startsWith: request.query,
+                mode: "insensitive",
+              },
+            },
+            {
+              trainer_name: {
+                startsWith: request.query,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+      }),
+      prisma.trainer.findMany({
+        orderBy: [
+          {
+            trainer_name: "asc",
+          },
+        ],
+        where: {
+          source: {
+            equals: source,
+            mode: "insensitive",
+          },
+          OR: [
+            {
+              username: {
+                startsWith: request.query,
+                mode: "insensitive",
+              },
+            },
+            {
+              trainer_name: {
+                startsWith: request.query,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+        take: pageSize,
+        skip: (page - 1) * pageSize,
+      }),
+    ]);
   }
+
+  const queryResult = await queryTransaction;
+  totalCount = queryResult[0];
+  results = queryResult[1];
 
   const trainers: TrainerResponse[] = results.map((t) => {
     return {
@@ -75,13 +108,10 @@ export async function searchTrainers(request: SearchTrainersRequest): Promise<Ap
     };
   });
 
-  const totalCount = await prisma.trainer.count();
-  const pageCount = Math.ceil(totalCount / pageSize);
-
   return {
     data: {
       currentPage: page,
-      pageCount,
+      pageCount: Math.ceil(totalCount / pageSize),
       pageSize,
       totalCount,
       trainers,

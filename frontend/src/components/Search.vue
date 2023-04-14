@@ -40,7 +40,6 @@ function handleScroll() {
     const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
 
     if (endOfPage) {
-      console.log("load more cards...");
       store.loadNextPage();
     }
   }, 1000);
