@@ -3,7 +3,7 @@
     <div class="h-full">
       <input
         id="search--input"
-        placeholder="Search Trainers by trainer name, trainer code, or username"
+        placeholder="Search Trainers by trainer name or discord username"
         class="p-4 rounded-md border border-gray-500 w-full relative"
         type="text"
         name="searchQuery"

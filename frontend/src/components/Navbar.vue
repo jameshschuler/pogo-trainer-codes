@@ -1,6 +1,6 @@
 <template>
   <nav class="my-8 flex justify-between items-center">
-    <h1 class="text-2xl font-medium">PoGo Trainer Codes</h1>
+    <h1 class="text-2xl font-medium">PoGo Trainer Hub</h1>
     <div>
       <a class="mr-4" href="https://github.com/jameshschuler/pogo-trainer-codes" target="_blank">
         <span>
