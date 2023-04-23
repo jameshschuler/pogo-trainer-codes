@@ -109,6 +109,19 @@ exports.Prisma.LogScalarFieldEnum = makeEnum({
   request_id: 'request_id'
 });
 
+exports.Prisma.ProfileScalarFieldEnum = makeEnum({
+  id: 'id',
+  username: 'username',
+  avatar: 'avatar',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  display_name: 'display_name',
+  global_name: 'global_name',
+  locale: 'locale',
+  avatar_decoration: 'avatar_decoration',
+  trainer_id: 'trainer_id'
+});
+
 exports.Prisma.QueryMode = makeEnum({
   default: 'default',
   insensitive: 'insensitive'
@@ -164,6 +177,7 @@ exports.LogType = makeEnum({
 
 exports.Prisma.ModelName = makeEnum({
   Log: 'Log',
+  Profile: 'Profile',
   Trainer: 'Trainer',
   TrainerAlt: 'TrainerAlt',
   SyncHistory: 'SyncHistory'

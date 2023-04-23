@@ -22,6 +22,20 @@ model Log {
   request_id String?
 }
 
+model Profile {
+  id                Int       @id @default(autoincrement())
+  username          String
+  avatar            String?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime?
+  display_name      String?
+  global_name       String?
+  locale            String?
+  avatar_decoration String?
+  trainer           Trainer   @relation(fields: [trainer_id], references: [id])
+  trainer_id        Int       @unique
+}
+
 model Trainer {
   id           Int          @id @default(autoincrement())
   username     String
@@ -30,6 +44,7 @@ model Trainer {
   created_at   DateTime     @default(now())
   alts         TrainerAlt[]
   source       String?
+  profile      Profile?
 }
 
 model TrainerAlt {

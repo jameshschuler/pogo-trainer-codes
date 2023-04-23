@@ -25,6 +25,23 @@ export type Log = {
 }
 
 /**
+ * Model Profile
+ * 
+ */
+export type Profile = {
+  id: number
+  username: string
+  avatar: string | null
+  created_at: Date
+  updated_at: Date | null
+  display_name: string | null
+  global_name: string | null
+  locale: string | null
+  avatar_decoration: string | null
+  trainer_id: number
+}
+
+/**
  * Model Trainer
  * 
  */
@@ -213,6 +230,16 @@ export class PrismaClient<
     * ```
     */
   get log(): Prisma.LogDelegate<GlobalReject>;
+
+  /**
+   * `prisma.profile`: Exposes CRUD operations for the **Profile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Profiles
+    * const profiles = await prisma.profile.findMany()
+    * ```
+    */
+  get profile(): Prisma.ProfileDelegate<GlobalReject>;
 
   /**
    * `prisma.trainer`: Exposes CRUD operations for the **Trainer** model.
@@ -713,6 +740,7 @@ export namespace Prisma {
 
   export const ModelName: {
     Log: 'Log',
+    Profile: 'Profile',
     Trainer: 'Trainer',
     TrainerAlt: 'TrainerAlt',
     SyncHistory: 'SyncHistory'
@@ -1852,6 +1880,1015 @@ export namespace Prisma {
 
 
   /**
+   * Model Profile
+   */
+
+
+  export type AggregateProfile = {
+    _count: ProfileCountAggregateOutputType | null
+    _avg: ProfileAvgAggregateOutputType | null
+    _sum: ProfileSumAggregateOutputType | null
+    _min: ProfileMinAggregateOutputType | null
+    _max: ProfileMaxAggregateOutputType | null
+  }
+
+  export type ProfileAvgAggregateOutputType = {
+    id: number | null
+    trainer_id: number | null
+  }
+
+  export type ProfileSumAggregateOutputType = {
+    id: number | null
+    trainer_id: number | null
+  }
+
+  export type ProfileMinAggregateOutputType = {
+    id: number | null
+    username: string | null
+    avatar: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    display_name: string | null
+    global_name: string | null
+    locale: string | null
+    avatar_decoration: string | null
+    trainer_id: number | null
+  }
+
+  export type ProfileMaxAggregateOutputType = {
+    id: number | null
+    username: string | null
+    avatar: string | null
+    created_at: Date | null
+    updated_at: Date | null
+    display_name: string | null
+    global_name: string | null
+    locale: string | null
+    avatar_decoration: string | null
+    trainer_id: number | null
+  }
+
+  export type ProfileCountAggregateOutputType = {
+    id: number
+    username: number
+    avatar: number
+    created_at: number
+    updated_at: number
+    display_name: number
+    global_name: number
+    locale: number
+    avatar_decoration: number
+    trainer_id: number
+    _all: number
+  }
+
+
+  export type ProfileAvgAggregateInputType = {
+    id?: true
+    trainer_id?: true
+  }
+
+  export type ProfileSumAggregateInputType = {
+    id?: true
+    trainer_id?: true
+  }
+
+  export type ProfileMinAggregateInputType = {
+    id?: true
+    username?: true
+    avatar?: true
+    created_at?: true
+    updated_at?: true
+    display_name?: true
+    global_name?: true
+    locale?: true
+    avatar_decoration?: true
+    trainer_id?: true
+  }
+
+  export type ProfileMaxAggregateInputType = {
+    id?: true
+    username?: true
+    avatar?: true
+    created_at?: true
+    updated_at?: true
+    display_name?: true
+    global_name?: true
+    locale?: true
+    avatar_decoration?: true
+    trainer_id?: true
+  }
+
+  export type ProfileCountAggregateInputType = {
+    id?: true
+    username?: true
+    avatar?: true
+    created_at?: true
+    updated_at?: true
+    display_name?: true
+    global_name?: true
+    locale?: true
+    avatar_decoration?: true
+    trainer_id?: true
+    _all?: true
+  }
+
+  export type ProfileAggregateArgs = {
+    /**
+     * Filter which Profile to aggregate.
+     */
+    where?: ProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Profiles to fetch.
+     */
+    orderBy?: Enumerable<ProfileOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Profiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Profiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Profiles
+    **/
+    _count?: true | ProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProfileAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProfileSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProfileMaxAggregateInputType
+  }
+
+  export type GetProfileAggregateType<T extends ProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProfile[P]>
+      : GetScalarType<T[P], AggregateProfile[P]>
+  }
+
+
+
+
+  export type ProfileGroupByArgs = {
+    where?: ProfileWhereInput
+    orderBy?: Enumerable<ProfileOrderByWithAggregationInput>
+    by: ProfileScalarFieldEnum[]
+    having?: ProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProfileCountAggregateInputType | true
+    _avg?: ProfileAvgAggregateInputType
+    _sum?: ProfileSumAggregateInputType
+    _min?: ProfileMinAggregateInputType
+    _max?: ProfileMaxAggregateInputType
+  }
+
+
+  export type ProfileGroupByOutputType = {
+    id: number
+    username: string
+    avatar: string | null
+    created_at: Date
+    updated_at: Date | null
+    display_name: string | null
+    global_name: string | null
+    locale: string | null
+    avatar_decoration: string | null
+    trainer_id: number
+    _count: ProfileCountAggregateOutputType | null
+    _avg: ProfileAvgAggregateOutputType | null
+    _sum: ProfileSumAggregateOutputType | null
+    _min: ProfileMinAggregateOutputType | null
+    _max: ProfileMaxAggregateOutputType | null
+  }
+
+  type GetProfileGroupByPayload<T extends ProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickArray<ProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], ProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProfileSelect = {
+    id?: boolean
+    username?: boolean
+    avatar?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    display_name?: boolean
+    global_name?: boolean
+    locale?: boolean
+    avatar_decoration?: boolean
+    trainer?: boolean | TrainerArgs
+    trainer_id?: boolean
+  }
+
+
+  export type ProfileInclude = {
+    trainer?: boolean | TrainerArgs
+  }
+
+  export type ProfileGetPayload<S extends boolean | null | undefined | ProfileArgs> =
+    S extends { select: any, include: any } ? 'Please either choose `select` or `include`' :
+    S extends true ? Profile :
+    S extends undefined ? never :
+    S extends { include: any } & (ProfileArgs | ProfileFindManyArgs)
+    ? Profile  & {
+    [P in TruthyKeys<S['include']>]:
+        P extends 'trainer' ? TrainerGetPayload<S['include'][P]> :  never
+  } 
+    : S extends { select: any } & (ProfileArgs | ProfileFindManyArgs)
+      ? {
+    [P in TruthyKeys<S['select']>]:
+        P extends 'trainer' ? TrainerGetPayload<S['select'][P]> :  P extends keyof Profile ? Profile[P] : never
+  } 
+      : Profile
+
+
+  type ProfileCountArgs = 
+    Omit<ProfileFindManyArgs, 'select' | 'include'> & {
+      select?: ProfileCountAggregateInputType | true
+    }
+
+  export interface ProfileDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+
+    /**
+     * Find zero or one Profile that matches the filter.
+     * @param {ProfileFindUniqueArgs} args - Arguments to find a Profile
+     * @example
+     * // Get one Profile
+     * const profile = await prisma.profile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ProfileFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ProfileFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Profile'> extends True ? Prisma__ProfileClient<ProfileGetPayload<T>> : Prisma__ProfileClient<ProfileGetPayload<T> | null, null>
+
+    /**
+     * Find one Profile that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {ProfileFindUniqueOrThrowArgs} args - Arguments to find a Profile
+     * @example
+     * // Get one Profile
+     * const profile = await prisma.profile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ProfileFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ProfileFindUniqueOrThrowArgs>
+    ): Prisma__ProfileClient<ProfileGetPayload<T>>
+
+    /**
+     * Find the first Profile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfileFindFirstArgs} args - Arguments to find a Profile
+     * @example
+     * // Get one Profile
+     * const profile = await prisma.profile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ProfileFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ProfileFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Profile'> extends True ? Prisma__ProfileClient<ProfileGetPayload<T>> : Prisma__ProfileClient<ProfileGetPayload<T> | null, null>
+
+    /**
+     * Find the first Profile that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfileFindFirstOrThrowArgs} args - Arguments to find a Profile
+     * @example
+     * // Get one Profile
+     * const profile = await prisma.profile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ProfileFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ProfileFindFirstOrThrowArgs>
+    ): Prisma__ProfileClient<ProfileGetPayload<T>>
+
+    /**
+     * Find zero or more Profiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfileFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Profiles
+     * const profiles = await prisma.profile.findMany()
+     * 
+     * // Get first 10 Profiles
+     * const profiles = await prisma.profile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const profileWithIdOnly = await prisma.profile.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends ProfileFindManyArgs>(
+      args?: SelectSubset<T, ProfileFindManyArgs>
+    ): Prisma.PrismaPromise<Array<ProfileGetPayload<T>>>
+
+    /**
+     * Create a Profile.
+     * @param {ProfileCreateArgs} args - Arguments to create a Profile.
+     * @example
+     * // Create one Profile
+     * const Profile = await prisma.profile.create({
+     *   data: {
+     *     // ... data to create a Profile
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ProfileCreateArgs>(
+      args: SelectSubset<T, ProfileCreateArgs>
+    ): Prisma__ProfileClient<ProfileGetPayload<T>>
+
+    /**
+     * Create many Profiles.
+     *     @param {ProfileCreateManyArgs} args - Arguments to create many Profiles.
+     *     @example
+     *     // Create many Profiles
+     *     const profile = await prisma.profile.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends ProfileCreateManyArgs>(
+      args?: SelectSubset<T, ProfileCreateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Profile.
+     * @param {ProfileDeleteArgs} args - Arguments to delete one Profile.
+     * @example
+     * // Delete one Profile
+     * const Profile = await prisma.profile.delete({
+     *   where: {
+     *     // ... filter to delete one Profile
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ProfileDeleteArgs>(
+      args: SelectSubset<T, ProfileDeleteArgs>
+    ): Prisma__ProfileClient<ProfileGetPayload<T>>
+
+    /**
+     * Update one Profile.
+     * @param {ProfileUpdateArgs} args - Arguments to update one Profile.
+     * @example
+     * // Update one Profile
+     * const profile = await prisma.profile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ProfileUpdateArgs>(
+      args: SelectSubset<T, ProfileUpdateArgs>
+    ): Prisma__ProfileClient<ProfileGetPayload<T>>
+
+    /**
+     * Delete zero or more Profiles.
+     * @param {ProfileDeleteManyArgs} args - Arguments to filter Profiles to delete.
+     * @example
+     * // Delete a few Profiles
+     * const { count } = await prisma.profile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ProfileDeleteManyArgs>(
+      args?: SelectSubset<T, ProfileDeleteManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Profiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Profiles
+     * const profile = await prisma.profile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ProfileUpdateManyArgs>(
+      args: SelectSubset<T, ProfileUpdateManyArgs>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Profile.
+     * @param {ProfileUpsertArgs} args - Arguments to update or create a Profile.
+     * @example
+     * // Update or create a Profile
+     * const profile = await prisma.profile.upsert({
+     *   create: {
+     *     // ... data to create a Profile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Profile we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ProfileUpsertArgs>(
+      args: SelectSubset<T, ProfileUpsertArgs>
+    ): Prisma__ProfileClient<ProfileGetPayload<T>>
+
+    /**
+     * Count the number of Profiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfileCountArgs} args - Arguments to filter Profiles to count.
+     * @example
+     * // Count the number of Profiles
+     * const count = await prisma.profile.count({
+     *   where: {
+     *     // ... the filter for the Profiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProfileCountArgs>(
+      args?: Subset<T, ProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Profile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProfileAggregateArgs>(args: Subset<T, ProfileAggregateArgs>): Prisma.PrismaPromise<GetProfileAggregateType<T>>
+
+    /**
+     * Group by Profile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProfileGroupByArgs['orderBy'] }
+        : { orderBy?: ProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Profile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ProfileClient<T, Null = never> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    trainer<T extends TrainerArgs= {}>(args?: Subset<T, TrainerArgs>): Prisma__TrainerClient<TrainerGetPayload<T> | Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Profile base type for findUnique actions
+   */
+  export type ProfileFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+    /**
+     * Filter, which Profile to fetch.
+     */
+    where: ProfileWhereUniqueInput
+  }
+
+  /**
+   * Profile findUnique
+   */
+  export interface ProfileFindUniqueArgs extends ProfileFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Profile findUniqueOrThrow
+   */
+  export type ProfileFindUniqueOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+    /**
+     * Filter, which Profile to fetch.
+     */
+    where: ProfileWhereUniqueInput
+  }
+
+
+  /**
+   * Profile base type for findFirst actions
+   */
+  export type ProfileFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+    /**
+     * Filter, which Profile to fetch.
+     */
+    where?: ProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Profiles to fetch.
+     */
+    orderBy?: Enumerable<ProfileOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Profiles.
+     */
+    cursor?: ProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Profiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Profiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Profiles.
+     */
+    distinct?: Enumerable<ProfileScalarFieldEnum>
+  }
+
+  /**
+   * Profile findFirst
+   */
+  export interface ProfileFindFirstArgs extends ProfileFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Profile findFirstOrThrow
+   */
+  export type ProfileFindFirstOrThrowArgs = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+    /**
+     * Filter, which Profile to fetch.
+     */
+    where?: ProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Profiles to fetch.
+     */
+    orderBy?: Enumerable<ProfileOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Profiles.
+     */
+    cursor?: ProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Profiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Profiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Profiles.
+     */
+    distinct?: Enumerable<ProfileScalarFieldEnum>
+  }
+
+
+  /**
+   * Profile findMany
+   */
+  export type ProfileFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+    /**
+     * Filter, which Profiles to fetch.
+     */
+    where?: ProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Profiles to fetch.
+     */
+    orderBy?: Enumerable<ProfileOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Profiles.
+     */
+    cursor?: ProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Profiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Profiles.
+     */
+    skip?: number
+    distinct?: Enumerable<ProfileScalarFieldEnum>
+  }
+
+
+  /**
+   * Profile create
+   */
+  export type ProfileCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+    /**
+     * The data needed to create a Profile.
+     */
+    data: XOR<ProfileCreateInput, ProfileUncheckedCreateInput>
+  }
+
+
+  /**
+   * Profile createMany
+   */
+  export type ProfileCreateManyArgs = {
+    /**
+     * The data used to create many Profiles.
+     */
+    data: Enumerable<ProfileCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Profile update
+   */
+  export type ProfileUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+    /**
+     * The data needed to update a Profile.
+     */
+    data: XOR<ProfileUpdateInput, ProfileUncheckedUpdateInput>
+    /**
+     * Choose, which Profile to update.
+     */
+    where: ProfileWhereUniqueInput
+  }
+
+
+  /**
+   * Profile updateMany
+   */
+  export type ProfileUpdateManyArgs = {
+    /**
+     * The data used to update Profiles.
+     */
+    data: XOR<ProfileUpdateManyMutationInput, ProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which Profiles to update
+     */
+    where?: ProfileWhereInput
+  }
+
+
+  /**
+   * Profile upsert
+   */
+  export type ProfileUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+    /**
+     * The filter to search for the Profile to update in case it exists.
+     */
+    where: ProfileWhereUniqueInput
+    /**
+     * In case the Profile found by the `where` argument doesn't exist, create a new Profile with this data.
+     */
+    create: XOR<ProfileCreateInput, ProfileUncheckedCreateInput>
+    /**
+     * In case the Profile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProfileUpdateInput, ProfileUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Profile delete
+   */
+  export type ProfileDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+    /**
+     * Filter which Profile to delete.
+     */
+    where: ProfileWhereUniqueInput
+  }
+
+
+  /**
+   * Profile deleteMany
+   */
+  export type ProfileDeleteManyArgs = {
+    /**
+     * Filter which Profiles to delete
+     */
+    where?: ProfileWhereInput
+  }
+
+
+  /**
+   * Profile without action
+   */
+  export type ProfileArgs = {
+    /**
+     * Select specific fields to fetch from the Profile
+     */
+    select?: ProfileSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: ProfileInclude | null
+  }
+
+
+
+  /**
    * Model Trainer
    */
 
@@ -2060,12 +3097,14 @@ export namespace Prisma {
     created_at?: boolean
     alts?: boolean | Trainer$altsArgs
     source?: boolean
+    profile?: boolean | ProfileArgs
     _count?: boolean | TrainerCountOutputTypeArgs
   }
 
 
   export type TrainerInclude = {
     alts?: boolean | Trainer$altsArgs
+    profile?: boolean | ProfileArgs
     _count?: boolean | TrainerCountOutputTypeArgs
   }
 
@@ -2077,12 +3116,14 @@ export namespace Prisma {
     ? Trainer  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'alts' ? Array < TrainerAltGetPayload<S['include'][P]>>  :
+        P extends 'profile' ? ProfileGetPayload<S['include'][P]> | null :
         P extends '_count' ? TrainerCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (TrainerArgs | TrainerFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'alts' ? Array < TrainerAltGetPayload<S['select'][P]>>  :
+        P extends 'profile' ? ProfileGetPayload<S['select'][P]> | null :
         P extends '_count' ? TrainerCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Trainer ? Trainer[P] : never
   } 
       : Trainer
@@ -2456,6 +3497,8 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
     alts<T extends Trainer$altsArgs= {}>(args?: Subset<T, Trainer$altsArgs>): Prisma.PrismaPromise<Array<TrainerAltGetPayload<T>>| Null>;
+
+    profile<T extends ProfileArgs= {}>(args?: Subset<T, ProfileArgs>): Prisma__ProfileClient<ProfileGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -4794,6 +5837,22 @@ export namespace Prisma {
   export type LogScalarFieldEnum = (typeof LogScalarFieldEnum)[keyof typeof LogScalarFieldEnum]
 
 
+  export const ProfileScalarFieldEnum: {
+    id: 'id',
+    username: 'username',
+    avatar: 'avatar',
+    created_at: 'created_at',
+    updated_at: 'updated_at',
+    display_name: 'display_name',
+    global_name: 'global_name',
+    locale: 'locale',
+    avatar_decoration: 'avatar_decoration',
+    trainer_id: 'trainer_id'
+  };
+
+  export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -4915,6 +5974,76 @@ export namespace Prisma {
     request_id?: StringNullableWithAggregatesFilter | string | null
   }
 
+  export type ProfileWhereInput = {
+    AND?: Enumerable<ProfileWhereInput>
+    OR?: Enumerable<ProfileWhereInput>
+    NOT?: Enumerable<ProfileWhereInput>
+    id?: IntFilter | number
+    username?: StringFilter | string
+    avatar?: StringNullableFilter | string | null
+    created_at?: DateTimeFilter | Date | string
+    updated_at?: DateTimeNullableFilter | Date | string | null
+    display_name?: StringNullableFilter | string | null
+    global_name?: StringNullableFilter | string | null
+    locale?: StringNullableFilter | string | null
+    avatar_decoration?: StringNullableFilter | string | null
+    trainer?: XOR<TrainerRelationFilter, TrainerWhereInput>
+    trainer_id?: IntFilter | number
+  }
+
+  export type ProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    display_name?: SortOrder
+    global_name?: SortOrder
+    locale?: SortOrder
+    avatar_decoration?: SortOrder
+    trainer?: TrainerOrderByWithRelationInput
+    trainer_id?: SortOrder
+  }
+
+  export type ProfileWhereUniqueInput = {
+    id?: number
+    trainer_id?: number
+  }
+
+  export type ProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    display_name?: SortOrder
+    global_name?: SortOrder
+    locale?: SortOrder
+    avatar_decoration?: SortOrder
+    trainer_id?: SortOrder
+    _count?: ProfileCountOrderByAggregateInput
+    _avg?: ProfileAvgOrderByAggregateInput
+    _max?: ProfileMaxOrderByAggregateInput
+    _min?: ProfileMinOrderByAggregateInput
+    _sum?: ProfileSumOrderByAggregateInput
+  }
+
+  export type ProfileScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ProfileScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ProfileScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ProfileScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    username?: StringWithAggregatesFilter | string
+    avatar?: StringNullableWithAggregatesFilter | string | null
+    created_at?: DateTimeWithAggregatesFilter | Date | string
+    updated_at?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    display_name?: StringNullableWithAggregatesFilter | string | null
+    global_name?: StringNullableWithAggregatesFilter | string | null
+    locale?: StringNullableWithAggregatesFilter | string | null
+    avatar_decoration?: StringNullableWithAggregatesFilter | string | null
+    trainer_id?: IntWithAggregatesFilter | number
+  }
+
   export type TrainerWhereInput = {
     AND?: Enumerable<TrainerWhereInput>
     OR?: Enumerable<TrainerWhereInput>
@@ -4926,6 +6055,7 @@ export namespace Prisma {
     created_at?: DateTimeFilter | Date | string
     alts?: TrainerAltListRelationFilter
     source?: StringNullableFilter | string | null
+    profile?: XOR<ProfileRelationFilter, ProfileWhereInput> | null
   }
 
   export type TrainerOrderByWithRelationInput = {
@@ -4936,6 +6066,7 @@ export namespace Prisma {
     created_at?: SortOrder
     alts?: TrainerAltOrderByRelationAggregateInput
     source?: SortOrder
+    profile?: ProfileOrderByWithRelationInput
   }
 
   export type TrainerWhereUniqueInput = {
@@ -5137,6 +6268,93 @@ export namespace Prisma {
     request_id?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type ProfileCreateInput = {
+    username: string
+    avatar?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    display_name?: string | null
+    global_name?: string | null
+    locale?: string | null
+    avatar_decoration?: string | null
+    trainer: TrainerCreateNestedOneWithoutProfileInput
+  }
+
+  export type ProfileUncheckedCreateInput = {
+    id?: number
+    username: string
+    avatar?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    display_name?: string | null
+    global_name?: string | null
+    locale?: string | null
+    avatar_decoration?: string | null
+    trainer_id: number
+  }
+
+  export type ProfileUpdateInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    display_name?: NullableStringFieldUpdateOperationsInput | string | null
+    global_name?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
+    trainer?: TrainerUpdateOneRequiredWithoutProfileNestedInput
+  }
+
+  export type ProfileUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    display_name?: NullableStringFieldUpdateOperationsInput | string | null
+    global_name?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
+    trainer_id?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProfileCreateManyInput = {
+    id?: number
+    username: string
+    avatar?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    display_name?: string | null
+    global_name?: string | null
+    locale?: string | null
+    avatar_decoration?: string | null
+    trainer_id: number
+  }
+
+  export type ProfileUpdateManyMutationInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    display_name?: NullableStringFieldUpdateOperationsInput | string | null
+    global_name?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProfileUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    display_name?: NullableStringFieldUpdateOperationsInput | string | null
+    global_name?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
+    trainer_id?: IntFieldUpdateOperationsInput | number
+  }
+
   export type TrainerCreateInput = {
     username: string
     trainer_name: string
@@ -5144,6 +6362,7 @@ export namespace Prisma {
     created_at?: Date | string
     alts?: TrainerAltCreateNestedManyWithoutTrainerInput
     source?: string | null
+    profile?: ProfileCreateNestedOneWithoutTrainerInput
   }
 
   export type TrainerUncheckedCreateInput = {
@@ -5154,6 +6373,7 @@ export namespace Prisma {
     created_at?: Date | string
     alts?: TrainerAltUncheckedCreateNestedManyWithoutTrainerInput
     source?: string | null
+    profile?: ProfileUncheckedCreateNestedOneWithoutTrainerInput
   }
 
   export type TrainerUpdateInput = {
@@ -5163,6 +6383,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     alts?: TrainerAltUpdateManyWithoutTrainerNestedInput
     source?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUpdateOneWithoutTrainerNestedInput
   }
 
   export type TrainerUncheckedUpdateInput = {
@@ -5173,6 +6394,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     alts?: TrainerAltUncheckedUpdateManyWithoutTrainerNestedInput
     source?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUncheckedUpdateOneWithoutTrainerNestedInput
   }
 
   export type TrainerCreateManyInput = {
@@ -5548,10 +6770,94 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
+  export type DateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
+  export type TrainerRelationFilter = {
+    is?: TrainerWhereInput
+    isNot?: TrainerWhereInput
+  }
+
+  export type ProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    display_name?: SortOrder
+    global_name?: SortOrder
+    locale?: SortOrder
+    avatar_decoration?: SortOrder
+    trainer_id?: SortOrder
+  }
+
+  export type ProfileAvgOrderByAggregateInput = {
+    id?: SortOrder
+    trainer_id?: SortOrder
+  }
+
+  export type ProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    display_name?: SortOrder
+    global_name?: SortOrder
+    locale?: SortOrder
+    avatar_decoration?: SortOrder
+    trainer_id?: SortOrder
+  }
+
+  export type ProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    avatar?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    display_name?: SortOrder
+    global_name?: SortOrder
+    locale?: SortOrder
+    avatar_decoration?: SortOrder
+    trainer_id?: SortOrder
+  }
+
+  export type ProfileSumOrderByAggregateInput = {
+    id?: SortOrder
+    trainer_id?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
   export type TrainerAltListRelationFilter = {
     every?: TrainerAltWhereInput
     some?: TrainerAltWhereInput
     none?: TrainerAltWhereInput
+  }
+
+  export type ProfileRelationFilter = {
+    is?: ProfileWhereInput | null
+    isNot?: ProfileWhereInput | null
   }
 
   export type TrainerAltOrderByRelationAggregateInput = {
@@ -5591,11 +6897,6 @@ export namespace Prisma {
 
   export type TrainerSumOrderByAggregateInput = {
     id?: SortOrder
-  }
-
-  export type TrainerRelationFilter = {
-    is?: TrainerWhereInput
-    isNot?: TrainerWhereInput
   }
 
   export type IntNullableFilter = {
@@ -5730,6 +7031,24 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type TrainerCreateNestedOneWithoutProfileInput = {
+    create?: XOR<TrainerCreateWithoutProfileInput, TrainerUncheckedCreateWithoutProfileInput>
+    connectOrCreate?: TrainerCreateOrConnectWithoutProfileInput
+    connect?: TrainerWhereUniqueInput
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type TrainerUpdateOneRequiredWithoutProfileNestedInput = {
+    create?: XOR<TrainerCreateWithoutProfileInput, TrainerUncheckedCreateWithoutProfileInput>
+    connectOrCreate?: TrainerCreateOrConnectWithoutProfileInput
+    upsert?: TrainerUpsertWithoutProfileInput
+    connect?: TrainerWhereUniqueInput
+    update?: XOR<TrainerUpdateWithoutProfileInput, TrainerUncheckedUpdateWithoutProfileInput>
+  }
+
   export type TrainerAltCreateNestedManyWithoutTrainerInput = {
     create?: XOR<Enumerable<TrainerAltCreateWithoutTrainerInput>, Enumerable<TrainerAltUncheckedCreateWithoutTrainerInput>>
     connectOrCreate?: Enumerable<TrainerAltCreateOrConnectWithoutTrainerInput>
@@ -5737,11 +7056,23 @@ export namespace Prisma {
     connect?: Enumerable<TrainerAltWhereUniqueInput>
   }
 
+  export type ProfileCreateNestedOneWithoutTrainerInput = {
+    create?: XOR<ProfileCreateWithoutTrainerInput, ProfileUncheckedCreateWithoutTrainerInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutTrainerInput
+    connect?: ProfileWhereUniqueInput
+  }
+
   export type TrainerAltUncheckedCreateNestedManyWithoutTrainerInput = {
     create?: XOR<Enumerable<TrainerAltCreateWithoutTrainerInput>, Enumerable<TrainerAltUncheckedCreateWithoutTrainerInput>>
     connectOrCreate?: Enumerable<TrainerAltCreateOrConnectWithoutTrainerInput>
     createMany?: TrainerAltCreateManyTrainerInputEnvelope
     connect?: Enumerable<TrainerAltWhereUniqueInput>
+  }
+
+  export type ProfileUncheckedCreateNestedOneWithoutTrainerInput = {
+    create?: XOR<ProfileCreateWithoutTrainerInput, ProfileUncheckedCreateWithoutTrainerInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutTrainerInput
+    connect?: ProfileWhereUniqueInput
   }
 
   export type TrainerAltUpdateManyWithoutTrainerNestedInput = {
@@ -5758,6 +7089,16 @@ export namespace Prisma {
     deleteMany?: Enumerable<TrainerAltScalarWhereInput>
   }
 
+  export type ProfileUpdateOneWithoutTrainerNestedInput = {
+    create?: XOR<ProfileCreateWithoutTrainerInput, ProfileUncheckedCreateWithoutTrainerInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutTrainerInput
+    upsert?: ProfileUpsertWithoutTrainerInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<ProfileUpdateWithoutTrainerInput, ProfileUncheckedUpdateWithoutTrainerInput>
+  }
+
   export type TrainerAltUncheckedUpdateManyWithoutTrainerNestedInput = {
     create?: XOR<Enumerable<TrainerAltCreateWithoutTrainerInput>, Enumerable<TrainerAltUncheckedCreateWithoutTrainerInput>>
     connectOrCreate?: Enumerable<TrainerAltCreateOrConnectWithoutTrainerInput>
@@ -5770,6 +7111,16 @@ export namespace Prisma {
     update?: Enumerable<TrainerAltUpdateWithWhereUniqueWithoutTrainerInput>
     updateMany?: Enumerable<TrainerAltUpdateManyWithWhereWithoutTrainerInput>
     deleteMany?: Enumerable<TrainerAltScalarWhereInput>
+  }
+
+  export type ProfileUncheckedUpdateOneWithoutTrainerNestedInput = {
+    create?: XOR<ProfileCreateWithoutTrainerInput, ProfileUncheckedCreateWithoutTrainerInput>
+    connectOrCreate?: ProfileCreateOrConnectWithoutTrainerInput
+    upsert?: ProfileUpsertWithoutTrainerInput
+    disconnect?: boolean
+    delete?: boolean
+    connect?: ProfileWhereUniqueInput
+    update?: XOR<ProfileUpdateWithoutTrainerInput, ProfileUncheckedUpdateWithoutTrainerInput>
   }
 
   export type TrainerCreateNestedOneWithoutAltsInput = {
@@ -5986,6 +7337,31 @@ export namespace Prisma {
     not?: NestedIntNullableFilter | number | null
   }
 
+  export type NestedDateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
   export type NestedIntNullableWithAggregatesFilter = {
     equals?: number | null
     in?: Enumerable<number> | null
@@ -6013,6 +7389,54 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter | number | null
   }
 
+  export type TrainerCreateWithoutProfileInput = {
+    username: string
+    trainer_name: string
+    trainer_code: string
+    created_at?: Date | string
+    alts?: TrainerAltCreateNestedManyWithoutTrainerInput
+    source?: string | null
+  }
+
+  export type TrainerUncheckedCreateWithoutProfileInput = {
+    id?: number
+    username: string
+    trainer_name: string
+    trainer_code: string
+    created_at?: Date | string
+    alts?: TrainerAltUncheckedCreateNestedManyWithoutTrainerInput
+    source?: string | null
+  }
+
+  export type TrainerCreateOrConnectWithoutProfileInput = {
+    where: TrainerWhereUniqueInput
+    create: XOR<TrainerCreateWithoutProfileInput, TrainerUncheckedCreateWithoutProfileInput>
+  }
+
+  export type TrainerUpsertWithoutProfileInput = {
+    update: XOR<TrainerUpdateWithoutProfileInput, TrainerUncheckedUpdateWithoutProfileInput>
+    create: XOR<TrainerCreateWithoutProfileInput, TrainerUncheckedCreateWithoutProfileInput>
+  }
+
+  export type TrainerUpdateWithoutProfileInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    trainer_name?: StringFieldUpdateOperationsInput | string
+    trainer_code?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    alts?: TrainerAltUpdateManyWithoutTrainerNestedInput
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TrainerUncheckedUpdateWithoutProfileInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    trainer_name?: StringFieldUpdateOperationsInput | string
+    trainer_code?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    alts?: TrainerAltUncheckedUpdateManyWithoutTrainerNestedInput
+    source?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type TrainerAltCreateWithoutTrainerInput = {
     alt_trainer_name: string
     alt_trainer_code: string
@@ -6034,6 +7458,34 @@ export namespace Prisma {
   export type TrainerAltCreateManyTrainerInputEnvelope = {
     data: Enumerable<TrainerAltCreateManyTrainerInput>
     skipDuplicates?: boolean
+  }
+
+  export type ProfileCreateWithoutTrainerInput = {
+    username: string
+    avatar?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    display_name?: string | null
+    global_name?: string | null
+    locale?: string | null
+    avatar_decoration?: string | null
+  }
+
+  export type ProfileUncheckedCreateWithoutTrainerInput = {
+    id?: number
+    username: string
+    avatar?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string | null
+    display_name?: string | null
+    global_name?: string | null
+    locale?: string | null
+    avatar_decoration?: string | null
+  }
+
+  export type ProfileCreateOrConnectWithoutTrainerInput = {
+    where: ProfileWhereUniqueInput
+    create: XOR<ProfileCreateWithoutTrainerInput, ProfileUncheckedCreateWithoutTrainerInput>
   }
 
   export type TrainerAltUpsertWithWhereUniqueWithoutTrainerInput = {
@@ -6063,12 +7515,41 @@ export namespace Prisma {
     order?: IntNullableFilter | number | null
   }
 
+  export type ProfileUpsertWithoutTrainerInput = {
+    update: XOR<ProfileUpdateWithoutTrainerInput, ProfileUncheckedUpdateWithoutTrainerInput>
+    create: XOR<ProfileCreateWithoutTrainerInput, ProfileUncheckedCreateWithoutTrainerInput>
+  }
+
+  export type ProfileUpdateWithoutTrainerInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    display_name?: NullableStringFieldUpdateOperationsInput | string | null
+    global_name?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ProfileUncheckedUpdateWithoutTrainerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    display_name?: NullableStringFieldUpdateOperationsInput | string | null
+    global_name?: NullableStringFieldUpdateOperationsInput | string | null
+    locale?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type TrainerCreateWithoutAltsInput = {
     username: string
     trainer_name: string
     trainer_code: string
     created_at?: Date | string
     source?: string | null
+    profile?: ProfileCreateNestedOneWithoutTrainerInput
   }
 
   export type TrainerUncheckedCreateWithoutAltsInput = {
@@ -6078,6 +7559,7 @@ export namespace Prisma {
     trainer_code: string
     created_at?: Date | string
     source?: string | null
+    profile?: ProfileUncheckedCreateNestedOneWithoutTrainerInput
   }
 
   export type TrainerCreateOrConnectWithoutAltsInput = {
@@ -6096,6 +7578,7 @@ export namespace Prisma {
     trainer_code?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUpdateOneWithoutTrainerNestedInput
   }
 
   export type TrainerUncheckedUpdateWithoutAltsInput = {
@@ -6105,6 +7588,7 @@ export namespace Prisma {
     trainer_code?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: NullableStringFieldUpdateOperationsInput | string | null
+    profile?: ProfileUncheckedUpdateOneWithoutTrainerNestedInput
   }
 
   export type TrainerAltCreateManyTrainerInput = {
