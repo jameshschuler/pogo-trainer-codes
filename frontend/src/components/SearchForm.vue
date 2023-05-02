@@ -1,21 +1,31 @@
 <template>
-  <div id="search--container" class="absolute p-6 bg-white bottom-0 shadow-lg rounded-lg">
-    <div class="h-full">
-      <input
-        id="search--input"
-        placeholder="Search Trainers by trainer name or discord username"
-        class="p-4 rounded-md border border-gray-500 w-full relative"
-        type="text"
-        name="searchQuery"
-        v-model="query"
-        @input="handleSearch()"
-        data-lpignore="true"
-      />
-      <div class="absolute spinner--input text-gray-500" v-if="store.searching">
+  <div id="search--container" class="p-6 bg-white shadow-lg rounded-lg">
+    <div class="flex flex-row p-4">
+      <div class="flex flex-col min-w-xs mr-6">
+        <label for="location--select" class="mb-2 font-semibold">Location</label>
+        <select id="location-select" class="p-4 rounded-md border border-gray-500" :disabled="true">
+          <option selected value="san-diego">San Diego</option>
+        </select>
+      </div>
+      <div class="flex flex-col w-full">
+        <label for="search-input" class="mb-2 font-semibold">Search Trainers</label>
+        <input
+          id="search--input"
+          placeholder="Search Trainers by trainer name or discord username"
+          class="p-4 rounded-md border border-gray-500 relative"
+          type="text"
+          name="searchQuery"
+          v-model="query"
+          @input="handleSearch()"
+          data-lpignore="true"
+        />
+      </div>
+
+      <!-- <div class="absolute spinner--input text-gray-500" v-if="store.searching">
         <span>
           <i class="fa-solid fa-circle-notch fa-spin fa-xl"></i>
         </span>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -77,19 +87,8 @@ onMounted(async () => {
 });
 </script>
 <style lang="scss" scoped>
-$search-container-height: 100px;
-
 #search--container {
-  height: $search-container-height;
-  left: 10%;
-  width: 80%;
-  bottom: calc($search-container-height / -2);
-
-  @media (max-width: 768px) {
-    width: 100%;
-    left: 0;
-  }
-
+  // TODO: fix spinner position
   .spinner--input {
     right: 35px;
     top: 42%;

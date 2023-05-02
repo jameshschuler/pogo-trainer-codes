@@ -16,11 +16,11 @@
     <div class="flex justify-between items-center mt-4">
       <router-link to="/" class="text-2xl font-medium">PoGo Trainer Hub</router-link>
       <div class="flex justify-between items-center">
-        <router-link to="/search" class="text-lg font-normal">Search</router-link>
-        <router-link to="/profile" class="text-lg font-normal">Profile</router-link>
+        <router-link to="/search" class="text-lg font-normal mr-4">Search</router-link>
+        <router-link v-if="authStore.isLoggedIn" to="/profile" class="text-lg font-normal">Profile</router-link>
       </div>
-      <router-link v-if="!authStore.isLoggedIn" to="/login" class="text-lg font-normal">Login</router-link>
-      <button v-if="authStore.isLoggedIn" @click="authStore.logout" class="text-lg font-normal">Logout</button>
+      <router-link v-if="!authStore.isLoggedIn" to="/login" class="text-lg font-normal">Log In</router-link>
+      <button v-if="authStore.isLoggedIn" @click="authStore.logout" class="text-lg font-normal">Log Out</button>
     </div>
   </nav>
 </template>

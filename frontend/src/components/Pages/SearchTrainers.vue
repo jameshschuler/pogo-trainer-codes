@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <Hero />
+  <div class="pt-12 px-6">
+    <SearchForm />
     <TrainersList />
   </div>
 </template>
 <script setup lang="ts">
-import Hero from "@/components/Hero.vue";
+import SearchForm from "@/components/SearchForm.vue";
 import TrainersList from "@/components/TrainersList.vue";
 </script>
 <style lang="scss" scoped></style>
