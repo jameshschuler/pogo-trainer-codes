@@ -2,6 +2,10 @@ export interface ApiResponse<T> {
   data: T;
 }
 
+export interface CreateProfileRequest {
+  accessCode: string;
+}
+
 export interface TrainerSearchResponse {
   currentPage: number;
   pageSize: number;
@@ -15,4 +19,9 @@ export interface Trainer {
   trainerName: string;
   username: string;
   source: string | null;
+}
+
+export interface Profile {
+  profileId: number;
+  username: string;
 }

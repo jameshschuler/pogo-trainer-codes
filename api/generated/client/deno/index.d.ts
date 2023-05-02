@@ -39,6 +39,7 @@ export type Profile = {
   locale: string | null
   avatar_decoration: string | null
   trainer_id: number
+  user_id: string
 }
 
 /**
@@ -1913,6 +1914,7 @@ export namespace Prisma {
     locale: string | null
     avatar_decoration: string | null
     trainer_id: number | null
+    user_id: string | null
   }
 
   export type ProfileMaxAggregateOutputType = {
@@ -1926,6 +1928,7 @@ export namespace Prisma {
     locale: string | null
     avatar_decoration: string | null
     trainer_id: number | null
+    user_id: string | null
   }
 
   export type ProfileCountAggregateOutputType = {
@@ -1939,6 +1942,7 @@ export namespace Prisma {
     locale: number
     avatar_decoration: number
     trainer_id: number
+    user_id: number
     _all: number
   }
 
@@ -1964,6 +1968,7 @@ export namespace Prisma {
     locale?: true
     avatar_decoration?: true
     trainer_id?: true
+    user_id?: true
   }
 
   export type ProfileMaxAggregateInputType = {
@@ -1977,6 +1982,7 @@ export namespace Prisma {
     locale?: true
     avatar_decoration?: true
     trainer_id?: true
+    user_id?: true
   }
 
   export type ProfileCountAggregateInputType = {
@@ -1990,6 +1996,7 @@ export namespace Prisma {
     locale?: true
     avatar_decoration?: true
     trainer_id?: true
+    user_id?: true
     _all?: true
   }
 
@@ -2091,6 +2098,7 @@ export namespace Prisma {
     locale: string | null
     avatar_decoration: string | null
     trainer_id: number
+    user_id: string
     _count: ProfileCountAggregateOutputType | null
     _avg: ProfileAvgAggregateOutputType | null
     _sum: ProfileSumAggregateOutputType | null
@@ -2124,6 +2132,7 @@ export namespace Prisma {
     avatar_decoration?: boolean
     trainer?: boolean | TrainerArgs
     trainer_id?: boolean
+    user_id?: boolean
   }
 
 
@@ -5847,7 +5856,8 @@ export namespace Prisma {
     global_name: 'global_name',
     locale: 'locale',
     avatar_decoration: 'avatar_decoration',
-    trainer_id: 'trainer_id'
+    trainer_id: 'trainer_id',
+    user_id: 'user_id'
   };
 
   export type ProfileScalarFieldEnum = (typeof ProfileScalarFieldEnum)[keyof typeof ProfileScalarFieldEnum]
@@ -5989,6 +5999,7 @@ export namespace Prisma {
     avatar_decoration?: StringNullableFilter | string | null
     trainer?: XOR<TrainerRelationFilter, TrainerWhereInput>
     trainer_id?: IntFilter | number
+    user_id?: StringFilter | string
   }
 
   export type ProfileOrderByWithRelationInput = {
@@ -6003,11 +6014,13 @@ export namespace Prisma {
     avatar_decoration?: SortOrder
     trainer?: TrainerOrderByWithRelationInput
     trainer_id?: SortOrder
+    user_id?: SortOrder
   }
 
   export type ProfileWhereUniqueInput = {
     id?: number
     trainer_id?: number
+    user_id?: string
   }
 
   export type ProfileOrderByWithAggregationInput = {
@@ -6021,6 +6034,7 @@ export namespace Prisma {
     locale?: SortOrder
     avatar_decoration?: SortOrder
     trainer_id?: SortOrder
+    user_id?: SortOrder
     _count?: ProfileCountOrderByAggregateInput
     _avg?: ProfileAvgOrderByAggregateInput
     _max?: ProfileMaxOrderByAggregateInput
@@ -6042,6 +6056,7 @@ export namespace Prisma {
     locale?: StringNullableWithAggregatesFilter | string | null
     avatar_decoration?: StringNullableWithAggregatesFilter | string | null
     trainer_id?: IntWithAggregatesFilter | number
+    user_id?: StringWithAggregatesFilter | string
   }
 
   export type TrainerWhereInput = {
@@ -6278,6 +6293,7 @@ export namespace Prisma {
     locale?: string | null
     avatar_decoration?: string | null
     trainer: TrainerCreateNestedOneWithoutProfileInput
+    user_id: string
   }
 
   export type ProfileUncheckedCreateInput = {
@@ -6291,6 +6307,7 @@ export namespace Prisma {
     locale?: string | null
     avatar_decoration?: string | null
     trainer_id: number
+    user_id: string
   }
 
   export type ProfileUpdateInput = {
@@ -6303,6 +6320,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
     trainer?: TrainerUpdateOneRequiredWithoutProfileNestedInput
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProfileUncheckedUpdateInput = {
@@ -6316,6 +6334,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
     trainer_id?: IntFieldUpdateOperationsInput | number
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProfileCreateManyInput = {
@@ -6329,6 +6348,7 @@ export namespace Prisma {
     locale?: string | null
     avatar_decoration?: string | null
     trainer_id: number
+    user_id: string
   }
 
   export type ProfileUpdateManyMutationInput = {
@@ -6340,6 +6360,7 @@ export namespace Prisma {
     global_name?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProfileUncheckedUpdateManyInput = {
@@ -6353,6 +6374,7 @@ export namespace Prisma {
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
     trainer_id?: IntFieldUpdateOperationsInput | number
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type TrainerCreateInput = {
@@ -6797,6 +6819,7 @@ export namespace Prisma {
     locale?: SortOrder
     avatar_decoration?: SortOrder
     trainer_id?: SortOrder
+    user_id?: SortOrder
   }
 
   export type ProfileAvgOrderByAggregateInput = {
@@ -6815,6 +6838,7 @@ export namespace Prisma {
     locale?: SortOrder
     avatar_decoration?: SortOrder
     trainer_id?: SortOrder
+    user_id?: SortOrder
   }
 
   export type ProfileMinOrderByAggregateInput = {
@@ -6828,6 +6852,7 @@ export namespace Prisma {
     locale?: SortOrder
     avatar_decoration?: SortOrder
     trainer_id?: SortOrder
+    user_id?: SortOrder
   }
 
   export type ProfileSumOrderByAggregateInput = {
@@ -7469,6 +7494,7 @@ export namespace Prisma {
     global_name?: string | null
     locale?: string | null
     avatar_decoration?: string | null
+    user_id: string
   }
 
   export type ProfileUncheckedCreateWithoutTrainerInput = {
@@ -7481,6 +7507,7 @@ export namespace Prisma {
     global_name?: string | null
     locale?: string | null
     avatar_decoration?: string | null
+    user_id: string
   }
 
   export type ProfileCreateOrConnectWithoutTrainerInput = {
@@ -7529,6 +7556,7 @@ export namespace Prisma {
     global_name?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type ProfileUncheckedUpdateWithoutTrainerInput = {
@@ -7541,6 +7569,7 @@ export namespace Prisma {
     global_name?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
+    user_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type TrainerCreateWithoutAltsInput = {

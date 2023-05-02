@@ -1,45 +1,38 @@
-import { logError } from "@/handlers/commands/createLog.ts";
-import { syncTrainerCodes } from "@/handlers/commands/syncTrainerCodes.ts";
-import { searchTrainers } from "@/handlers/queries/searchTrainers.ts";
+import profileController from "@/controllers/profile.controller.ts";
+import { searchTrainers } from "@/controllers/trainers.controller.ts";
+import { logError } from "@/handlers/commands/createLog.handler.ts";
+import { syncTrainerCodes } from "@/handlers/commands/syncTrainerCodes.handler.ts";
 import { logRequest } from "@/middleware/logRequest.ts";
-import { SearchTrainersRequest } from "@/types/requests/searchTrainersRequest.ts";
+import { SyncTrainersRequest } from "@/types/requests/syncTrainersRequest.ts";
 import { validateApiKey } from "@/utils/auth.ts";
 import { handleResponse } from "@/utils/common.ts";
-import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
-import { getQuery } from "https://deno.land/x/oak@v11.1.0/helpers.ts";
+import { oakCors } from "https://deno.land/x/cors/mod.ts";
 import { Application, Router, RouterContext, Status } from "oak";
-import { SyncTrainersRequest } from "./src/types/requests/syncTrainersRequest.ts";
 
 const app = new Application();
-app.use(oakCors());
+
+app.addEventListener("error", (evt) => {
+  console.error(evt.error);
+});
 
 const router = new Router();
+
+app.use(oakCors());
 
 // Log request information
 app.use(logRequest);
 
 router
-  .get("/api/health", (ctx: RouterContext<string>) => {
+  .get("/api/health", async (ctx: RouterContext<string>) => {
     ctx.response.body = {
       status: "Healthy",
       message: "Welcome to PoGo Trainer Codes",
     };
   })
-  .get("/api/trainer-codes", async (ctx: RouterContext<string>) => {
-    try {
-      const request = getQuery(ctx) as SearchTrainersRequest;
-      const response = await searchTrainers(request);
-
-      handleResponse(ctx, response);
-    } catch (e) {
-      await logError("Error occurred while searching for trainers", e);
-      ctx.response.body = {
-        success: false,
-        message: "Error occurred while searching for trainers",
-      };
-      ctx.response.status = Status.InternalServerError;
-    }
-  })
+  .get("/api/profile", profileController.getProfile)
+  .post("/api/profile", profileController.create)
+  .get("/api/trainer-codes/search", searchTrainers)
+  // TODO: move to controller
   .post("/api/trainer-codes/sync", async (ctx: RouterContext<string>) => {
     try {
       const isValidApiKey = await validateApiKey(ctx.request.headers.get("X-API-KEY"));
