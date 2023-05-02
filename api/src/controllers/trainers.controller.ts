@@ -1,4 +1,4 @@
-import { logError } from "@/handlers/commands/createLog.ts";
+import { logError } from "@/handlers/commands/createLog.handler.ts";
 import queries from "@/handlers/queries/index.ts";
 import { getQuery } from "helpers";
 import { Status } from "https://deno.land/std@0.152.0/http/http_status.ts";

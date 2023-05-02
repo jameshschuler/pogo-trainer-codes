@@ -1,7 +1,7 @@
 import profileController from "@/controllers/profile.controller.ts";
 import { searchTrainers } from "@/controllers/trainers.controller.ts";
-import { logError } from "@/handlers/commands/createLog.ts";
-import { syncTrainerCodes } from "@/handlers/commands/syncTrainerCodes.ts";
+import { logError } from "@/handlers/commands/createLog.handler.ts";
+import { syncTrainerCodes } from "@/handlers/commands/syncTrainerCodes.handler.ts";
 import { logRequest } from "@/middleware/logRequest.ts";
 import { SyncTrainersRequest } from "@/types/requests/syncTrainersRequest.ts";
 import { validateApiKey } from "@/utils/auth.ts";

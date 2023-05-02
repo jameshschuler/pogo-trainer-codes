@@ -119,7 +119,8 @@ exports.Prisma.ProfileScalarFieldEnum = makeEnum({
   global_name: 'global_name',
   locale: 'locale',
   avatar_decoration: 'avatar_decoration',
-  trainer_id: 'trainer_id'
+  trainer_id: 'trainer_id',
+  user_id: 'user_id'
 });
 
 exports.Prisma.QueryMode = makeEnum({

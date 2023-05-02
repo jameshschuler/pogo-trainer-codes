@@ -1,5 +1,6 @@
 <template>
   <nav class="my-8">
+    <!-- TODO: move this somewhere else -->
     <!-- <div class="flex justify-end">
       <a class="mr-4" href="https://github.com/jameshschuler/pogo-trainer-codes" target="_blank">
         <span>
@@ -14,8 +15,8 @@
     </div> -->
     <div class="flex justify-between items-center mt-4">
       <router-link to="/" class="text-2xl font-medium">PoGo Trainer Hub</router-link>
-      <div>
-        <router-link to="/profile" class="text-lg font-normal">Search</router-link>
+      <div class="flex justify-between items-center">
+        <router-link to="/search" class="text-lg font-normal">Search</router-link>
         <router-link to="/profile" class="text-lg font-normal">Profile</router-link>
       </div>
       <router-link v-if="!authStore.isLoggedIn" to="/login" class="text-lg font-normal">Login</router-link>

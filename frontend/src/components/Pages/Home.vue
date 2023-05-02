@@ -1,11 +1,5 @@
 <template>
-  <div>
-    <Hero />
-    <TrainersList />
-  </div>
+  <div>Home!</div>
 </template>
-<script setup lang="ts">
-import Hero from "@/components/Hero.vue";
-import TrainersList from "@/components/TrainersList.vue";
-</script>
+<script setup lang="ts"></script>
 <style lang="scss" scoped></style>

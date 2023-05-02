@@ -1,4 +1,4 @@
-import { logError } from "@/handlers/commands/createLog.ts";
+import { logError } from "@/handlers/commands/createLog.handler.ts";
 
 export async function validateApiKey(requestApiKey: string | null): Promise<boolean> {
   const validApiKey = Deno.env.get("API_KEY");

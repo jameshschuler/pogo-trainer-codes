@@ -1,4 +1,4 @@
-import { log } from "@/handlers/commands/createLog.ts";
+import { log } from "@/handlers/commands/createLog.handler.ts";
 import { RouterContext } from "oak";
 
 export async function logRequest(ctx: RouterContext<string>, next: any) {

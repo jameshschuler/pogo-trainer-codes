@@ -1,13 +1,13 @@
-import getTrainerByUsername from "@/handlers/queries/getTrainerByUsernameHandler.ts";
+import getTrainerByUsername from "@/handlers/queries/getTrainerByUsername.handler.ts";
 import { ApiResponse } from "@/types/common.ts";
 import { CreateProfileRequest } from "@/types/requests/createProfileRequest.ts";
-import { CreateProfileResponse } from "@/types/response/createProfileResponse.ts";
+import { ProfileResponse } from "@/types/response/createProfileResponse.ts";
 import { MeResponse } from "@/types/response/meResponse.ts";
 import prisma from "@prisma";
 
 export default async function handle(
   request: CreateProfileRequest,
-): Promise<ApiResponse<CreateProfileResponse>> {
+): Promise<ApiResponse<ProfileResponse>> {
   const meResponse = await getDiscordProfile(request.accessCode);
 
   if (meResponse === null) {
@@ -25,7 +25,7 @@ export default async function handle(
     };
   }
 
-  const { username, avatar, avatar_decoration, display_name, global_name, locale } = meResponse;
+  const { id, username, avatar, avatar_decoration, display_name, global_name, locale } = meResponse;
   const profile = await prisma.profile.upsert({
     where: {
       trainer_id: trainerId,
@@ -38,6 +38,7 @@ export default async function handle(
       display_name,
       global_name,
       locale,
+      user_id: id,
     },
     update: {
       avatar,
@@ -53,6 +54,7 @@ export default async function handle(
     data: {
       profileId: profile.id,
       username: profile.username,
+      userId: profile.user_id,
     },
     success: true,
   };
