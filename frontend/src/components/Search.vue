@@ -9,6 +9,7 @@
         name="searchQuery"
         v-model="query"
         @input="handleSearch()"
+        data-lpignore="true"
       />
       <div class="absolute spinner--input text-gray-500" v-if="store.searching">
         <span>
@@ -67,7 +68,10 @@ function throttle(callback: Function, time: number) {
 onMounted(async () => {
   await router.isReady();
   store.source = route.params.source as string;
-  store.searchTrainers();
+
+  if (store.trainers.length === 0) {
+    store.searchTrainers();
+  }
 
   window.addEventListener("scroll", handleScroll);
 });

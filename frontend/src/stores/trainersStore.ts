@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { ApiResponse, Trainer, TrainerSearchResponse } from "../models/api";
-import { PagingInfo } from "./store";
+import { ApiResponse, Trainer, TrainerSearchResponse } from "../types/api";
+import { PagingInfo } from "../types/store";
 
-const baseApiUrl = import.meta.env.VITE_APP_API_URL;
+const baseApiUrl = import.meta.env.DEV ? import.meta.env.VITE_APP_DEV_API_URL : import.meta.env.VITE_APP_API_URL;
+const trainersApiBaseUrl = `${baseApiUrl}/trainer-codes`;
 
 export const useTrainersStore = defineStore("trainers", () => {
   const errorMessage = ref<string>();
@@ -36,9 +37,9 @@ export const useTrainersStore = defineStore("trainers", () => {
     }
 
     try {
-      let searchTrainersUrl = baseApiUrl;
+      let searchTrainersUrl = trainersApiBaseUrl;
 
-      searchTrainersUrl += `?page=${page ?? 1}&query=${q ?? ""}`;
+      searchTrainersUrl += `/search?page=${page ?? 1}&query=${q ?? ""}`;
 
       if (source.value) {
         if (source.value.includes("-")) {

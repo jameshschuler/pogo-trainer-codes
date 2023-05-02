@@ -32,7 +32,7 @@
 <script setup lang="ts">
 import QRCode from "qrcode";
 import { onMounted, PropType, ref } from "vue";
-import { Trainer } from "../models/api";
+import { Trainer } from "../types/api";
 
 const props = defineProps({
   trainer: {

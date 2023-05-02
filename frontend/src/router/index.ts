@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import App from "../App.vue";
+import Home from "../components/Pages/Home.vue";
+import Login from "../components/Pages/Login.vue";
+import Profile from "../components/Pages/Profile.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,7 +11,20 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/:source",
     name: "Trainers",
-    component: App,
+    component: Home,
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
+    meta: {
+      requiresAuth: true,
+    },
   },
   // {
   //     path: '/error',

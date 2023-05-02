@@ -2,9 +2,10 @@ import { ApiResponse } from "@/types/common.ts";
 import { TrainerRowData } from "@/types/models.ts";
 import { SyncTrainersResponse } from "@/types/response/syncTrainersResponse.ts";
 import prisma from "@prisma";
-import { parse as parseCsv } from "https://deno.land/std/encoding/csv.ts";
+import { parse as parseCsv } from "https://deno.land/std@0.82.0/encoding/csv.ts";
 import { Trainer, TrainerAlt } from "../../../generated/client/deno/index.d.ts";
 
+// TODO: refactor to only update when necessary
 export async function syncTrainerCodes(source: string): Promise<ApiResponse<SyncTrainersResponse>> {
   const url: string | undefined = Deno.env.get("SHEET_URL");
 
