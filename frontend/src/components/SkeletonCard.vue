@@ -1,5 +1,5 @@
 <template>
-  <div class="trainer--skeleton-card shadow-xl flex flex-col items-center justify-around">
+  <div class="trainer--skeleton-card shadow-xl flex flex-col items-center justify-around bg-white">
     <div class="bg-gray-400 animate-pulse rounded-full skeleton-circle"></div>
     <div class="w-3/4">
       <div class="bg-gray-400 animate-pulse rounded-lg h-8"></div>

@@ -1,6 +1,5 @@
 <template>
   <footer class="pb-6">
-    <hr />
     <div class="flex justify-center items-center pt-6">
       <a class="mr-4" href="https://github.com/jameshschuler/pogo-trainer-codes" target="_blank">
         <span>

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-red-50 h-md rounded-3xl relative">
+  <div class="bg-red-50 h-md rounded-xl relative border-2 border-black">
     <div class="flex items-end justify-center image-container px-4">
       <figure>
         <img :src="HeroImg" alt="Person walking in a park" />

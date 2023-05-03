@@ -22,7 +22,7 @@ export const useProfileStore = defineStore("profile", () => {
       }
 
       const profileData = await createProfileResponse.json();
-      profile.value = profileData;
+      profile.value = profileData.data;
       return true;
     } catch (err) {
       console.error(err);

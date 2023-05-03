@@ -10,6 +10,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { useAuthStore } from "@/stores/authStore";
 import { useProfileStore } from "@/stores/profileStore";
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -20,6 +21,7 @@ const url = ref(import.meta.env.VITE_APP_DISCORD_URL);
 const loading = ref<boolean>(false);
 const errorMessage = ref<string | null>();
 
+const authStore = useAuthStore();
 const profileStore = useProfileStore();
 
 const discordBtnText = computed(() => {
@@ -38,6 +40,8 @@ onMounted(async () => {
     }
 
     localStorage.setItem("created_at", Date.now().toString());
+
+    authStore.validateToken();
 
     const response = await profileStore.createProfile();
     if (response) {
