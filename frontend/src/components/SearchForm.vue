@@ -1,13 +1,13 @@
 <template>
-  <div id="search--container" class="p-6 bg-white shadow-lg rounded-lg">
-    <div class="flex flex-row p-4">
-      <div class="flex flex-col min-w-xs mr-6">
+  <div id="search--container" class="p-6 bg-white shadow-lg rounded-lg absolute bottom-0">
+    <div class="flex flex-row p-4 <lg:flex-col">
+      <div class="flex flex-col min-w-xs mr-6 <lg:w-full">
         <label for="location--select" class="mb-2 font-semibold">Location</label>
         <select id="location-select" class="p-4 rounded-md border border-gray-500" :disabled="true">
           <option selected value="san-diego">San Diego</option>
         </select>
       </div>
-      <div class="flex flex-col w-full">
+      <div class="flex flex-col w-full <lg:mt-4">
         <label for="search-input" class="mb-2 font-semibold">Search Trainers</label>
         <input
           id="search--input"
@@ -87,7 +87,19 @@ onMounted(async () => {
 });
 </script>
 <style lang="scss" scoped>
+$search-container-height: 175px;
+
 #search--container {
+  min-height: $search-container-height;
+  left: 5%;
+  width: 90%;
+  bottom: calc($search-container-height / -2) - 25;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    left: 0;
+  }
+
   // TODO: fix spinner position
   .spinner--input {
     right: 35px;

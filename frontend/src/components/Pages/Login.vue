@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-center items-center mt-24">
+  <div class="flex flex-col justify-center items-center">
     <div v-if="errorMessage">{{ errorMessage }}</div>
     <a :href="url" class="hover border rounded-md border-2 py-4 px-6 bg-purple-400 text-white">
       <span>

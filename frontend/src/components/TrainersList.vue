@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-24">
+  <div class="mt-48">
     <h1 class="font-semibold text-4xl mt-8">Trainers</h1>
     <div
       v-if="store.trainers.length !== 0"

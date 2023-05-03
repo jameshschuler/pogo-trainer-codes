@@ -14,6 +14,7 @@
         <img :src="WalkingOutsideFlippedImg" alt="Person walking in a park" />
       </figure>
     </div>
+    <SearchForm />
   </div>
 </template>
 <script setup lang="ts">
@@ -21,6 +22,7 @@ import HeroOutsideImg from "../assets/middle.svg";
 import NoSunNoPersonImg from "../assets/no_sun_no_person.svg";
 import HeroImg from "../assets/outside_no_sun.svg";
 import WalkingOutsideFlippedImg from "../assets/walking_outside_flipped.svg";
+import SearchForm from "./SearchForm.vue";
 </script>
 <style lang="scss" scoped>
 .image-container {
