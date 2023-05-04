@@ -112,10 +112,4 @@ $search-container-height: 175px;
     border-color: #000;
   }
 }
-
-#search--btn {
-  &:hover {
-    opacity: 0.8;
-  }
-}
 </style>

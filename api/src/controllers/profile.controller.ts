@@ -3,13 +3,19 @@ import { CreateProfileRequest } from "@/types/requests/createProfileRequest.ts";
 import { handleResponse } from "@/utils/common.ts";
 import { Status } from "oak";
 import { RouterContext } from "router";
+import { ApiResponse } from "../types/common.ts";
+import { ProfileResponse } from "../types/response/createProfileResponse.ts";
 
 export function getProfile(ctx: RouterContext<string>) {
   // TODO: need to verify user somehow or get user id and store that?
   // TODO: pass access code and verify somehow?
-  ctx.response.body = {
-    message: "hello",
-  };
+  const response = {
+    data: {
+      username: "",
+    },
+    success: true,
+  } as ApiResponse<ProfileResponse>;
+  handleResponse(ctx, response);
 }
 
 export async function create(ctx: RouterContext<string>) {

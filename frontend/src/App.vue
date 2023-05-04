@@ -50,4 +50,11 @@ html {
     flex-shrink: 0;
   }
 }
+
+.clickable {
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+}
 </style>

@@ -24,4 +24,5 @@ export interface Trainer {
 export interface Profile {
   profileId: number;
   username: string;
+  userId: string;
 }

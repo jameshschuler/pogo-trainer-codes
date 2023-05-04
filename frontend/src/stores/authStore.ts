@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { useProfileStore } from "./profileStore";
 
 export const useAuthStore = defineStore("auth", () => {
   const profileStore = useProfileStore();
   const isLoggedIn = ref<boolean>(false);
+  const router = useRouter();
 
   function logout() {
     localStorage.clear();
@@ -12,7 +14,7 @@ export const useAuthStore = defineStore("auth", () => {
     isLoggedIn.value = false;
     profileStore.profile = null;
 
-    // TODO: if current route requires auth then redirect to home
+    router.push("/");
   }
 
   function validateToken() {

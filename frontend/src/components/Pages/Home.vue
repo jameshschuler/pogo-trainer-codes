@@ -7,20 +7,15 @@
       <h3 class="text-xl">Blah blah blah something about the app Blah blah blah something about the app</h3>
     </div>
     <div class="flex justify-end items-center">
-      <button
-        id="go-to-search--btn"
+      <router-link
+        to="/search"
+        id="go-to-search--btn clickable"
         class="p-4 px-6 border-2 border-black rounded-lg font-semibold dark:text-white dark:bg-black"
       >
         Find Trainers!
-      </button>
+      </router-link>
     </div>
   </div>
 </template>
 <script setup lang="ts"></script>
-<style lang="scss" scoped>
-#go-to-search--btn {
-  &:hover {
-    opacity: 0.8;
-  }
-}
-</style>
+<style lang="scss" scoped></style>
