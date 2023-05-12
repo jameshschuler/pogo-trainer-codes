@@ -1,10 +1,13 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useProfileStore } from "./profileStore";
 
 export const useAuthStore = defineStore("auth", () => {
   const isLoggedIn = ref<boolean>(false);
   const router = useRouter();
+
+  const profileStore = useProfileStore();
 
   const baseApiUrl = import.meta.env.DEV ? import.meta.env.VITE_APP_DEV_API_URL : import.meta.env.VITE_APP_API_URL;
   const authApiBaseUrl = `${baseApiUrl}/auth`;
@@ -32,7 +35,7 @@ export const useAuthStore = defineStore("auth", () => {
     localStorage.clear();
 
     isLoggedIn.value = false;
-    // TODO: profileStore.profile = null;
+    profileStore.profile = null;
 
     router.push("/");
   }
