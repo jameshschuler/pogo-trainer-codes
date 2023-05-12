@@ -38,7 +38,7 @@ export type Profile = {
   global_name: string | null
   locale: string | null
   avatar_decoration: string | null
-  trainer_id: number
+  trainer_id: number | null
   user_id: string
 }
 
@@ -2097,7 +2097,7 @@ export namespace Prisma {
     global_name: string | null
     locale: string | null
     avatar_decoration: string | null
-    trainer_id: number
+    trainer_id: number | null
     user_id: string
     _count: ProfileCountAggregateOutputType | null
     _avg: ProfileAvgAggregateOutputType | null
@@ -2147,12 +2147,12 @@ export namespace Prisma {
     S extends { include: any } & (ProfileArgs | ProfileFindManyArgs)
     ? Profile  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'trainer' ? TrainerGetPayload<S['include'][P]> :  never
+        P extends 'trainer' ? TrainerGetPayload<S['include'][P]> | null :  never
   } 
     : S extends { select: any } & (ProfileArgs | ProfileFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'trainer' ? TrainerGetPayload<S['select'][P]> :  P extends keyof Profile ? Profile[P] : never
+        P extends 'trainer' ? TrainerGetPayload<S['select'][P]> | null :  P extends keyof Profile ? Profile[P] : never
   } 
       : Profile
 
@@ -5997,8 +5997,8 @@ export namespace Prisma {
     global_name?: StringNullableFilter | string | null
     locale?: StringNullableFilter | string | null
     avatar_decoration?: StringNullableFilter | string | null
-    trainer?: XOR<TrainerRelationFilter, TrainerWhereInput>
-    trainer_id?: IntFilter | number
+    trainer?: XOR<TrainerRelationFilter, TrainerWhereInput> | null
+    trainer_id?: IntNullableFilter | number | null
     user_id?: StringFilter | string
   }
 
@@ -6055,7 +6055,7 @@ export namespace Prisma {
     global_name?: StringNullableWithAggregatesFilter | string | null
     locale?: StringNullableWithAggregatesFilter | string | null
     avatar_decoration?: StringNullableWithAggregatesFilter | string | null
-    trainer_id?: IntWithAggregatesFilter | number
+    trainer_id?: IntNullableWithAggregatesFilter | number | null
     user_id?: StringWithAggregatesFilter | string
   }
 
@@ -6292,7 +6292,7 @@ export namespace Prisma {
     global_name?: string | null
     locale?: string | null
     avatar_decoration?: string | null
-    trainer: TrainerCreateNestedOneWithoutProfileInput
+    trainer?: TrainerCreateNestedOneWithoutProfileInput
     user_id: string
   }
 
@@ -6306,7 +6306,7 @@ export namespace Prisma {
     global_name?: string | null
     locale?: string | null
     avatar_decoration?: string | null
-    trainer_id: number
+    trainer_id?: number | null
     user_id: string
   }
 
@@ -6319,7 +6319,7 @@ export namespace Prisma {
     global_name?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
-    trainer?: TrainerUpdateOneRequiredWithoutProfileNestedInput
+    trainer?: TrainerUpdateOneWithoutProfileNestedInput
     user_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -6333,7 +6333,7 @@ export namespace Prisma {
     global_name?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
-    trainer_id?: IntFieldUpdateOperationsInput | number
+    trainer_id?: NullableIntFieldUpdateOperationsInput | number | null
     user_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -6347,7 +6347,7 @@ export namespace Prisma {
     global_name?: string | null
     locale?: string | null
     avatar_decoration?: string | null
-    trainer_id: number
+    trainer_id?: number | null
     user_id: string
   }
 
@@ -6373,7 +6373,7 @@ export namespace Prisma {
     global_name?: NullableStringFieldUpdateOperationsInput | string | null
     locale?: NullableStringFieldUpdateOperationsInput | string | null
     avatar_decoration?: NullableStringFieldUpdateOperationsInput | string | null
-    trainer_id?: IntFieldUpdateOperationsInput | number
+    trainer_id?: NullableIntFieldUpdateOperationsInput | number | null
     user_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -6804,8 +6804,19 @@ export namespace Prisma {
   }
 
   export type TrainerRelationFilter = {
-    is?: TrainerWhereInput
-    isNot?: TrainerWhereInput
+    is?: TrainerWhereInput | null
+    isNot?: TrainerWhereInput | null
+  }
+
+  export type IntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
   }
 
   export type ProfileCountOrderByAggregateInput = {
@@ -6874,6 +6885,22 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter
   }
 
+  export type IntNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
+  }
+
   export type TrainerAltListRelationFilter = {
     every?: TrainerAltWhereInput
     some?: TrainerAltWhereInput
@@ -6924,17 +6951,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type IntNullableFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | null
-    notIn?: Enumerable<number> | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableFilter | number | null
-  }
-
   export type TrainerAltCountOrderByAggregateInput = {
     id?: SortOrder
     trainer_id?: SortOrder
@@ -6969,22 +6985,6 @@ export namespace Prisma {
     id?: SortOrder
     trainer_id?: SortOrder
     order?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | null
-    notIn?: Enumerable<number> | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableWithAggregatesFilter | number | null
-    _count?: NestedIntNullableFilter
-    _avg?: NestedFloatNullableFilter
-    _sum?: NestedIntNullableFilter
-    _min?: NestedIntNullableFilter
-    _max?: NestedIntNullableFilter
   }
 
   export type SyncHistoryCountOrderByAggregateInput = {
@@ -7066,12 +7066,22 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
-  export type TrainerUpdateOneRequiredWithoutProfileNestedInput = {
+  export type TrainerUpdateOneWithoutProfileNestedInput = {
     create?: XOR<TrainerCreateWithoutProfileInput, TrainerUncheckedCreateWithoutProfileInput>
     connectOrCreate?: TrainerCreateOrConnectWithoutProfileInput
     upsert?: TrainerUpsertWithoutProfileInput
+    disconnect?: boolean
+    delete?: boolean
     connect?: TrainerWhereUniqueInput
     update?: XOR<TrainerUpdateWithoutProfileInput, TrainerUncheckedUpdateWithoutProfileInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type TrainerAltCreateNestedManyWithoutTrainerInput = {
@@ -7160,14 +7170,6 @@ export namespace Prisma {
     upsert?: TrainerUpsertWithoutAltsInput
     connect?: TrainerWhereUniqueInput
     update?: XOR<TrainerUpdateWithoutAltsInput, TrainerUncheckedUpdateWithoutAltsInput>
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type NestedIntFilter = {

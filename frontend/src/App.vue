@@ -3,12 +3,12 @@
   <main>
     <router-view class="mt-24"></router-view>
   </main>
-  <FooterContainer />
+  <AppFooter />
   <ModeToggle />
 </template>
 <script setup lang="ts">
 import { onMounted } from "vue";
-import FooterContainer from "./components/FooterContainer.vue";
+import AppFooter from "./components/AppFooter.vue";
 import ModeToggle from "./components/ModeToggle.vue";
 import Navbar from "./components/Navbar.vue";
 import { useAuthStore } from "./stores/authStore";

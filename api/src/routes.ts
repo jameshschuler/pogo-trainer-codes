@@ -1,10 +1,11 @@
+import authController from "@/controllers/auth.controller.ts";
 import profileController from "@/controllers/profile.controller.ts";
 import { searchTrainers } from "@/controllers/trainers.controller.ts";
 import { logError } from "@/handlers/commands/createLog.handler.ts";
 import { syncTrainerCodes } from "@/handlers/commands/syncTrainerCodes.handler.ts";
 import { SyncTrainersRequest } from "@/types/requests/syncTrainersRequest.ts";
 import { validateApiKey } from "@/utils/auth.ts";
-import { handleResponse } from "@/utils/common.ts";
+import { handleResponse } from "@/utils/response.ts";
 import { Router, RouterContext, Status } from "oak";
 
 export function setupRoutes(router: Router<Record<string, any>>) {
@@ -15,8 +16,8 @@ export function setupRoutes(router: Router<Record<string, any>>) {
         message: "Welcome to PoGo Trainer Codes",
       };
     })
+    .post("/api/auth/login", authController.login)
     .get("/api/profile", profileController.getProfile)
-    .post("/api/profile", profileController.create)
     .get("/api/trainer-codes/search", searchTrainers)
     // TODO: move to controller
     .post("/api/trainer-codes/sync", async (ctx: RouterContext<string>) => {

@@ -1,10 +1,10 @@
 import { logError } from "@/handlers/commands/createLog.handler.ts";
 import queries from "@/handlers/queries/index.ts";
+import { SearchTrainersRequest } from "@/types/requests/searchTrainersRequest.ts";
+import { handleResponse } from "@/utils/response.ts";
 import { getQuery } from "helpers";
-import { Status } from "https://deno.land/std@0.152.0/http/http_status.ts";
+import { Status } from "oak";
 import { RouterContext } from "router";
-import { SearchTrainersRequest } from "../types/requests/searchTrainersRequest.ts";
-import { handleResponse } from "../utils/common.ts";
 
 export async function searchTrainers(ctx: RouterContext<string>) {
   try {

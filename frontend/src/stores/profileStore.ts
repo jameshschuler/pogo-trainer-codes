@@ -1,4 +1,4 @@
-import { CreateProfileRequest, Profile } from "@/types/api";
+import { Profile } from "@/types/api";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -6,52 +6,31 @@ const baseApiUrl = import.meta.env.DEV ? import.meta.env.VITE_APP_DEV_API_URL : 
 const profileApiBaseUrl = `${baseApiUrl}/profile`;
 
 export const useProfileStore = defineStore("profile", () => {
-  const profile = ref<Profile>();
+  const profile = ref<Profile | null>();
 
-  async function createProfile(): Promise<boolean> {
+  async function getProfile(): Promise<void> {
     try {
-      const createProfileResponse = await fetch(`${profileApiBaseUrl}`, {
-        method: "POST",
-        body: JSON.stringify({
-          accessCode: localStorage.getItem("access_token"),
-        } as CreateProfileRequest),
-      });
-
-      if (createProfileResponse.status !== 200) {
-        return false;
-      }
-
-      const profileData = await createProfileResponse.json();
-      profile.value = profileData.data;
-      return true;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
-  }
-
-  async function getProfile(): Promise<boolean> {
-    // TODO:
-    try {
+      const accessToken = localStorage.getItem("access_token");
       const response = await fetch(`${profileApiBaseUrl}`, {
         method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        credentials: "include",
       });
 
       if (response.status !== 200) {
-        return false;
+        profile.value = null;
       }
 
       const responseData = await response.json();
-
-      return true;
+      profile.value = responseData.data;
     } catch (err) {
       console.error(err);
-      return false;
     }
   }
 
   return {
-    createProfile,
     getProfile,
 
     profile,

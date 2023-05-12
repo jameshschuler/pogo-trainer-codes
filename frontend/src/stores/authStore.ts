@@ -1,18 +1,38 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { useProfileStore } from "./profileStore";
 
 export const useAuthStore = defineStore("auth", () => {
-  const profileStore = useProfileStore();
   const isLoggedIn = ref<boolean>(false);
   const router = useRouter();
+
+  const baseApiUrl = import.meta.env.DEV ? import.meta.env.VITE_APP_DEV_API_URL : import.meta.env.VITE_APP_API_URL;
+  const authApiBaseUrl = `${baseApiUrl}/auth`;
+
+  async function login(): Promise<void> {
+    try {
+      const accessToken = localStorage.getItem("access_token");
+      const loginResponse = await fetch(`${authApiBaseUrl}/login`, {
+        method: "POST",
+        body: JSON.stringify({
+          accessToken,
+        }),
+        credentials: "include",
+      });
+
+      isLoggedIn.value = loginResponse.status === 200;
+    } catch (err) {
+      // TODO: handle error
+      console.error(err);
+      isLoggedIn.value = false;
+    }
+  }
 
   function logout() {
     localStorage.clear();
 
     isLoggedIn.value = false;
-    profileStore.profile = null;
+    // TODO: profileStore.profile = null;
 
     router.push("/");
   }
@@ -29,6 +49,7 @@ export const useAuthStore = defineStore("auth", () => {
   return {
     isLoggedIn,
 
+    login,
     logout,
     validateToken,
   };

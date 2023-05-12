@@ -1,7 +1,7 @@
-import { RouterContext } from "oak";
-import { ApiResponse } from "../types/common.ts";
+export function isNullOrUndefined(value: any): boolean {
+  return value === undefined || value == null;
+}
 
-export function handleResponse<T>(ctx: RouterContext<string>, response: ApiResponse<T>) {
-  ctx.response.body = response;
-  ctx.response.status = response.success ? 200 : 500;
+export function isNullOrEmpty(value?: string) {
+  return value === undefined || value === null || value.trim() === "";
 }

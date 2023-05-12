@@ -31,7 +31,7 @@
 import QRCode from "qrcode";
 import { onMounted, PropType, ref } from "vue";
 import { Trainer } from "../types/api";
-
+// TODO: add button to copy trainer code to clipboard (for mobile)
 const props = defineProps({
   trainer: {
     type: Object as PropType<Trainer>,

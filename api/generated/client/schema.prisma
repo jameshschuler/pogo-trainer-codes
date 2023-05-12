@@ -32,8 +32,8 @@ model Profile {
   global_name       String?
   locale            String?
   avatar_decoration String?
-  trainer           Trainer   @relation(fields: [trainer_id], references: [id])
-  trainer_id        Int       @unique
+  trainer           Trainer?  @relation(fields: [trainer_id], references: [id])
+  trainer_id        Int?      @unique
   user_id           String    @unique
 }
 

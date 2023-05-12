@@ -1,48 +1,37 @@
-import createProfile from "@/handlers/commands/createProfile.handler.ts";
-import { CreateProfileRequest } from "@/types/requests/createProfileRequest.ts";
-import { handleResponse } from "@/utils/common.ts";
-import { Status } from "oak";
+import { syncProfile } from "@/handlers/commands/syncProfile.handler.ts";
+import { ProfileResponse } from "@/types/profile.ts";
+import { createResponse, handleResponse } from "@/utils/response.ts";
+import prisma from "@prisma";
 import { RouterContext } from "router";
-import { ApiResponse } from "../types/common.ts";
-import { ProfileResponse } from "../types/response/createProfileResponse.ts";
 
-export function getProfile(ctx: RouterContext<string>) {
-  // TODO: need to verify user somehow or get user id and store that?
-  // TODO: pass access code and verify somehow?
-  const response = {
-    data: {
-      username: "",
+async function getProfile(ctx: RouterContext<string>) {
+  const userId = await ctx.state.session.get("userId");
+  const authHeader = ctx.request.headers.get("Authorization");
+
+  let profile = await prisma.profile.findFirst({
+    where: {
+      user_id: {
+        equals: userId,
+      },
     },
-    success: true,
-  } as ApiResponse<ProfileResponse>;
-  handleResponse(ctx, response);
-}
+  });
 
-export async function create(ctx: RouterContext<string>) {
-  const errorResponse = {
-    success: false,
-    message: "Error occurred while logging in. Please try again.",
-  };
-
-  try {
-    const body = ctx.request.body({ type: "json" });
-    const request = (await body.value) as CreateProfileRequest;
-
-    if (!request.accessCode) {
-      ctx.response.status = Status.BadRequest;
-      ctx.response.body = errorResponse;
-      return;
-    }
-
-    const response = await createProfile(request);
-    handleResponse(ctx, response);
-  } catch (_err) {
-    ctx.response.status = Status.InternalServerError;
-    ctx.response.body = errorResponse;
+  if (!profile) {
+    const accessToken = authHeader?.split(" ")[1];
+    profile = await syncProfile(accessToken!);
   }
+
+  const { id, user_id, username } = profile!;
+  handleResponse(
+    ctx,
+    createResponse<ProfileResponse>({
+      profileId: id,
+      userId: user_id,
+      username,
+    }),
+  );
 }
 
 export default {
-  create,
   getProfile,
 };

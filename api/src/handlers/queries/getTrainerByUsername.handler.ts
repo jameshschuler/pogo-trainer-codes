@@ -1,6 +1,6 @@
 import prisma from "@prisma";
 
-export default async function handle(username: string): Promise<number | undefined> {
+export async function getTrainerByUsername(username: string): Promise<number | undefined> {
   const trainer = await prisma.trainer.findFirst({
     where: {
       username: {
