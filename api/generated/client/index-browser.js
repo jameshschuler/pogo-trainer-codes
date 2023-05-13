@@ -136,7 +136,6 @@ exports.Prisma.SortOrder = makeEnum({
 exports.Prisma.SyncHistoryScalarFieldEnum = makeEnum({
   id: 'id',
   total_rows_imported: 'total_rows_imported',
-  total_rows_deleted: 'total_rows_deleted',
   total_row_created: 'total_row_created',
   created_at: 'created_at',
   source: 'source'

@@ -6,6 +6,8 @@ import { RouterContext, Status } from "oak";
 const allowAnonymousRoutes = [
   "/api/auth/login",
   "/api/health",
+  "/api/trainer-codes/search",
+  "/api/trainer-codes/sync",
 ];
 
 export async function validateAccessToken(ctx: RouterContext<string>, next: () => Promise<void>) {
@@ -36,7 +38,7 @@ export async function validateAccessToken(ctx: RouterContext<string>, next: () =
 
   await ctx.state.session.deleteSession();
 
-  handleErrorResponse(ctx, Status.Forbidden);
+  handleErrorResponse(ctx, null, Status.Forbidden);
 }
 
 export async function validateUserId(ctx: RouterContext<string>, next: () => Promise<void>) {
@@ -54,5 +56,5 @@ export async function validateUserId(ctx: RouterContext<string>, next: () => Pro
 
   await ctx.state.session.deleteSession();
 
-  handleErrorResponse(ctx, Status.Forbidden);
+  handleErrorResponse(ctx, null, Status.Forbidden);
 }

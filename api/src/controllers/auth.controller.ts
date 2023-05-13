@@ -3,7 +3,6 @@ import { LoginRequest, LoginResponse } from "@/types/login.ts";
 import { hashValue } from "@/utils/auth.ts";
 import { isNullOrUndefined } from "@/utils/common.ts";
 import { createResponse, handleErrorResponse, handleResponse } from "@/utils/response.ts";
-import { Status } from "oak";
 import { RouterContext } from "router";
 
 // TODO: Validate request with zod
@@ -20,7 +19,7 @@ async function login(ctx: RouterContext<string>) {
     handleResponse(ctx, createResponse<LoginResponse>({ userId: meResponse!.id }));
   } else {
     await ctx.state.session.deleteSession();
-    handleErrorResponse(ctx, Status.InternalServerError, "Unable to login. Please try again later.");
+    handleErrorResponse(ctx, "Unable to login. Please try again later.");
   }
 }
 

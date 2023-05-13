@@ -3,9 +3,8 @@ import profileController from "@/controllers/profile.controller.ts";
 import { searchTrainers } from "@/controllers/trainers.controller.ts";
 import { logError } from "@/handlers/commands/createLog.handler.ts";
 import { syncTrainerCodes } from "@/handlers/commands/syncTrainerCodes.handler.ts";
-import { SyncTrainersRequest } from "@/types/requests/syncTrainersRequest.ts";
 import { validateApiKey } from "@/utils/auth.ts";
-import { handleResponse } from "@/utils/response.ts";
+import { handleErrorResponse, handleResponse } from "@/utils/response.ts";
 import { Router, RouterContext, Status } from "oak";
 
 export function setupRoutes(router: Router<Record<string, any>>) {
@@ -28,30 +27,12 @@ export function setupRoutes(router: Router<Record<string, any>>) {
           return;
         }
 
-        const body = ctx.request.body();
-        const result = (await body.value) as SyncTrainersRequest;
-        const source = result?.source;
-
-        if (!source) {
-          await logError("Missing source", null, ctx.state.requestId);
-          ctx.response.body = {
-            success: false,
-            message: "Missing source",
-          };
-          ctx.response.status = Status.BadRequest;
-          return;
-        }
-
-        const response = await syncTrainerCodes(source!);
+        const response = await syncTrainerCodes();
 
         handleResponse(ctx, response);
       } catch (e) {
         await logError("Unable to sync trainer codes.", e, ctx.state.requestId);
-        ctx.response.body = {
-          success: false,
-          message: "Unable to sync trainer codes.",
-        };
-        ctx.response.status = Status.InternalServerError;
+        handleErrorResponse(ctx, "Unable to sync trainer codes.");
       }
     });
 }

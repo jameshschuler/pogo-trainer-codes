@@ -12,8 +12,8 @@ export function handleResponse<T>(ctx: RouterContext<string>, response?: ApiResp
 
 export function handleErrorResponse(
   ctx: RouterContext<string>,
+  errorMessage?: string | null,
   status: Status = Status.InternalServerError,
-  errorMessage?: string,
 ) {
   ctx.response.body = {
     errorMessage,

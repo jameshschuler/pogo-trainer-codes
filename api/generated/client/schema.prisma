@@ -60,7 +60,6 @@ model TrainerAlt {
 model SyncHistory {
   id                  Int      @id @default(autoincrement())
   total_rows_imported Int
-  total_rows_deleted  Int
   total_row_created   Int
   created_at          DateTime @default(now())
   source              String?

@@ -74,7 +74,6 @@ export type TrainerAlt = {
 export type SyncHistory = {
   id: number
   total_rows_imported: number
-  total_rows_deleted: number
   total_row_created: number
   created_at: Date
   source: string | null
@@ -4890,21 +4889,18 @@ export namespace Prisma {
   export type SyncHistoryAvgAggregateOutputType = {
     id: number | null
     total_rows_imported: number | null
-    total_rows_deleted: number | null
     total_row_created: number | null
   }
 
   export type SyncHistorySumAggregateOutputType = {
     id: number | null
     total_rows_imported: number | null
-    total_rows_deleted: number | null
     total_row_created: number | null
   }
 
   export type SyncHistoryMinAggregateOutputType = {
     id: number | null
     total_rows_imported: number | null
-    total_rows_deleted: number | null
     total_row_created: number | null
     created_at: Date | null
     source: string | null
@@ -4913,7 +4909,6 @@ export namespace Prisma {
   export type SyncHistoryMaxAggregateOutputType = {
     id: number | null
     total_rows_imported: number | null
-    total_rows_deleted: number | null
     total_row_created: number | null
     created_at: Date | null
     source: string | null
@@ -4922,7 +4917,6 @@ export namespace Prisma {
   export type SyncHistoryCountAggregateOutputType = {
     id: number
     total_rows_imported: number
-    total_rows_deleted: number
     total_row_created: number
     created_at: number
     source: number
@@ -4933,21 +4927,18 @@ export namespace Prisma {
   export type SyncHistoryAvgAggregateInputType = {
     id?: true
     total_rows_imported?: true
-    total_rows_deleted?: true
     total_row_created?: true
   }
 
   export type SyncHistorySumAggregateInputType = {
     id?: true
     total_rows_imported?: true
-    total_rows_deleted?: true
     total_row_created?: true
   }
 
   export type SyncHistoryMinAggregateInputType = {
     id?: true
     total_rows_imported?: true
-    total_rows_deleted?: true
     total_row_created?: true
     created_at?: true
     source?: true
@@ -4956,7 +4947,6 @@ export namespace Prisma {
   export type SyncHistoryMaxAggregateInputType = {
     id?: true
     total_rows_imported?: true
-    total_rows_deleted?: true
     total_row_created?: true
     created_at?: true
     source?: true
@@ -4965,7 +4955,6 @@ export namespace Prisma {
   export type SyncHistoryCountAggregateInputType = {
     id?: true
     total_rows_imported?: true
-    total_rows_deleted?: true
     total_row_created?: true
     created_at?: true
     source?: true
@@ -5062,7 +5051,6 @@ export namespace Prisma {
   export type SyncHistoryGroupByOutputType = {
     id: number
     total_rows_imported: number
-    total_rows_deleted: number
     total_row_created: number
     created_at: Date
     source: string | null
@@ -5090,7 +5078,6 @@ export namespace Prisma {
   export type SyncHistorySelect = {
     id?: boolean
     total_rows_imported?: boolean
-    total_rows_deleted?: boolean
     total_row_created?: boolean
     created_at?: boolean
     source?: boolean
@@ -5882,7 +5869,6 @@ export namespace Prisma {
   export const SyncHistoryScalarFieldEnum: {
     id: 'id',
     total_rows_imported: 'total_rows_imported',
-    total_rows_deleted: 'total_rows_deleted',
     total_row_created: 'total_row_created',
     created_at: 'created_at',
     source: 'source'
@@ -6171,7 +6157,6 @@ export namespace Prisma {
     NOT?: Enumerable<SyncHistoryWhereInput>
     id?: IntFilter | number
     total_rows_imported?: IntFilter | number
-    total_rows_deleted?: IntFilter | number
     total_row_created?: IntFilter | number
     created_at?: DateTimeFilter | Date | string
     source?: StringNullableFilter | string | null
@@ -6180,7 +6165,6 @@ export namespace Prisma {
   export type SyncHistoryOrderByWithRelationInput = {
     id?: SortOrder
     total_rows_imported?: SortOrder
-    total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
     source?: SortOrder
@@ -6193,7 +6177,6 @@ export namespace Prisma {
   export type SyncHistoryOrderByWithAggregationInput = {
     id?: SortOrder
     total_rows_imported?: SortOrder
-    total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
     source?: SortOrder
@@ -6210,7 +6193,6 @@ export namespace Prisma {
     NOT?: Enumerable<SyncHistoryScalarWhereWithAggregatesInput>
     id?: IntWithAggregatesFilter | number
     total_rows_imported?: IntWithAggregatesFilter | number
-    total_rows_deleted?: IntWithAggregatesFilter | number
     total_row_created?: IntWithAggregatesFilter | number
     created_at?: DateTimeWithAggregatesFilter | Date | string
     source?: StringNullableWithAggregatesFilter | string | null
@@ -6499,7 +6481,6 @@ export namespace Prisma {
 
   export type SyncHistoryCreateInput = {
     total_rows_imported: number
-    total_rows_deleted: number
     total_row_created: number
     created_at?: Date | string
     source?: string | null
@@ -6508,7 +6489,6 @@ export namespace Prisma {
   export type SyncHistoryUncheckedCreateInput = {
     id?: number
     total_rows_imported: number
-    total_rows_deleted: number
     total_row_created: number
     created_at?: Date | string
     source?: string | null
@@ -6516,7 +6496,6 @@ export namespace Prisma {
 
   export type SyncHistoryUpdateInput = {
     total_rows_imported?: IntFieldUpdateOperationsInput | number
-    total_rows_deleted?: IntFieldUpdateOperationsInput | number
     total_row_created?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6525,7 +6504,6 @@ export namespace Prisma {
   export type SyncHistoryUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     total_rows_imported?: IntFieldUpdateOperationsInput | number
-    total_rows_deleted?: IntFieldUpdateOperationsInput | number
     total_row_created?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6534,7 +6512,6 @@ export namespace Prisma {
   export type SyncHistoryCreateManyInput = {
     id?: number
     total_rows_imported: number
-    total_rows_deleted: number
     total_row_created: number
     created_at?: Date | string
     source?: string | null
@@ -6542,7 +6519,6 @@ export namespace Prisma {
 
   export type SyncHistoryUpdateManyMutationInput = {
     total_rows_imported?: IntFieldUpdateOperationsInput | number
-    total_rows_deleted?: IntFieldUpdateOperationsInput | number
     total_row_created?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6551,7 +6527,6 @@ export namespace Prisma {
   export type SyncHistoryUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     total_rows_imported?: IntFieldUpdateOperationsInput | number
-    total_rows_deleted?: IntFieldUpdateOperationsInput | number
     total_row_created?: IntFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     source?: NullableStringFieldUpdateOperationsInput | string | null
@@ -6990,7 +6965,6 @@ export namespace Prisma {
   export type SyncHistoryCountOrderByAggregateInput = {
     id?: SortOrder
     total_rows_imported?: SortOrder
-    total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
     source?: SortOrder
@@ -6999,14 +6973,12 @@ export namespace Prisma {
   export type SyncHistoryAvgOrderByAggregateInput = {
     id?: SortOrder
     total_rows_imported?: SortOrder
-    total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
   }
 
   export type SyncHistoryMaxOrderByAggregateInput = {
     id?: SortOrder
     total_rows_imported?: SortOrder
-    total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
     source?: SortOrder
@@ -7015,7 +6987,6 @@ export namespace Prisma {
   export type SyncHistoryMinOrderByAggregateInput = {
     id?: SortOrder
     total_rows_imported?: SortOrder
-    total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
     created_at?: SortOrder
     source?: SortOrder
@@ -7024,7 +6995,6 @@ export namespace Prisma {
   export type SyncHistorySumOrderByAggregateInput = {
     id?: SortOrder
     total_rows_imported?: SortOrder
-    total_rows_deleted?: SortOrder
     total_row_created?: SortOrder
   }
 

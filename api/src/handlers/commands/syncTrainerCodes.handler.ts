@@ -1,25 +1,81 @@
 import { ApiResponse } from "@/types/common.ts";
 import { TrainerRowData } from "@/types/models.ts";
 import { SyncTrainersResponse } from "@/types/response/syncTrainersResponse.ts";
-import prisma from "@prisma";
-import { parse as parseCsv } from "https://deno.land/std@0.82.0/encoding/csv.ts";
-import { Trainer, TrainerAlt } from "../../../generated/client/deno/index.d.ts";
+import prisma, { TrainerWithAlts } from "@prisma";
+import { parse } from "https://deno.land/std@0.182.0/encoding/csv.ts";
+import { TrainerAlt } from "../../../generated/client/deno/index.d.ts";
 
-// TODO: refactor to only update when necessary
-export async function syncTrainerCodes(source: string): Promise<ApiResponse<SyncTrainersResponse>> {
+const source = "San Diego";
+
+export async function syncTrainerCodes(): Promise<ApiResponse<SyncTrainersResponse>> {
   const url: string | undefined = Deno.env.get("SHEET_URL");
 
   if (!url || url === "") {
     return {
       success: false,
-      message: "Unable to sync trainer codes.",
+      errorMessage: "Unable to sync trainer codes.",
     };
   }
 
   const response = await fetch(url);
   const data = await response.text();
 
-  const content = (await parseCsv(data, {
+  const mappedTrainerData = parseTrainerCsvData(data);
+
+  const allTrainers = await prisma.trainer.findMany({
+    where: {
+      source: {
+        equals: source,
+      },
+    },
+    select: {
+      trainer_code: true,
+    },
+  });
+
+  let createdCount = 0;
+  for (const trainerData of mappedTrainerData) {
+    const existingTrainer = allTrainers.find((t) => t.trainer_code === trainerData.trainer_code);
+
+    if (!existingTrainer) {
+      // Can't batch create entities with related entities
+      await prisma.trainer.create({
+        data: {
+          ...trainerData,
+          alts: {
+            create: trainerData.alts,
+          },
+        },
+        include: {
+          alts: true,
+        },
+      });
+
+      createdCount++;
+    }
+  }
+
+  await prisma.syncHistory.create({
+    data: {
+      total_rows_imported: mappedTrainerData.length,
+      total_row_created: createdCount,
+      source: source,
+    },
+  });
+
+  return {
+    success: true,
+    data: {
+      totalRowsImported: mappedTrainerData.length,
+      totalRowsCreated: createdCount,
+      oldTotalTrainerCount: allTrainers.length,
+      newTotalTrainerCount: allTrainers.length + createdCount,
+    },
+  };
+}
+
+function parseTrainerCsvData(data: string): TrainerWithAlts[] {
+  const content = parse(data, {
     skipFirstRow: true,
     columns: [
       "trainerName",
@@ -34,7 +90,7 @@ export async function syncTrainerCodes(source: string): Promise<ApiResponse<Sync
       "altTrainerName4",
       "altTrainerCode4",
     ],
-  })) as unknown as TrainerRowData[];
+  } as any) as unknown as TrainerRowData[];
 
   // Filter out duplicates
   const unique = new Array<TrainerRowData>();
@@ -50,115 +106,48 @@ export async function syncTrainerCodes(source: string): Promise<ApiResponse<Sync
       : unique.push(row);
   });
 
-  const mappedTrainerData = unique.map((row) => {
+  return unique.map((row) => {
+    const altData = createTrainerAlts(row);
+
     return {
+      alts: altData,
       username: row.username,
       trainer_code: row.trainerCode,
       trainer_name: row.trainerName,
-      source: source,
-    } as Trainer;
+      source,
+    } as TrainerWithAlts;
   });
-
-  // Note: If rows are removed from the import data, we'll lost that data after syncing
-  const [_deleteTrainerAltsQuery, deleteTrainersQuery, createQuery] = await prisma.$transaction([
-    prisma.trainerAlt.deleteMany({
-      where: {
-        trainer: {
-          source: {
-            equals: source,
-          },
-        },
-      },
-    }),
-    prisma.trainer.deleteMany({
-      where: {
-        source: {
-          equals: source,
-        },
-      },
-    }),
-    prisma.trainer.createMany({
-      data: mappedTrainerData,
-    }),
-  ]);
-
-  createTrainerAlts(unique);
-
-  const { total_row_created, total_rows_deleted, total_rows_imported } = await prisma.syncHistory.create({
-    data: {
-      total_rows_imported: content.length,
-      total_rows_deleted: deleteTrainersQuery.count,
-      total_row_created: createQuery.count,
-      source: source,
-    },
-  });
-
-  return {
-    success: true,
-    message: "Successfully synced trainer codes.",
-    data: {
-      totalRowsImported: total_rows_imported,
-      totalRowsCreated: total_row_created,
-      totalRowsDeleted: total_rows_deleted,
-    },
-  };
 }
 
-function createTrainerAlts(trainerRowData: TrainerRowData[]) {
-  // Get any rows that have alt trainer code / name data
-  const hasAlts = trainerRowData.filter(
-    (row) =>
-      row.altTrainerName !== "" ||
-      row.altTrainerCode !== "" ||
-      row.altTrainerName2 !== "" ||
-      row.altTrainerCode2 !== "" ||
-      row.altTrainerName3 !== "" ||
-      row.altTrainerCode3 !== "" ||
-      row.altTrainerName4 !== "" ||
-      row.altTrainerCode4 !== "",
-  );
+function createTrainerAlts(trd: TrainerRowData): TrainerAlt[] {
+  const hasAlts = trd.altTrainerName !== "" ||
+    trd.altTrainerCode !== "" ||
+    trd.altTrainerName2 !== "" ||
+    trd.altTrainerCode2 !== "" ||
+    trd.altTrainerName3 !== "" ||
+    trd.altTrainerCode3 !== "" ||
+    trd.altTrainerName4 !== "" ||
+    trd.altTrainerCode4 !== "";
 
-  // Loop through each row and use username, code, and trainerName to lookup trainer id
-  // If trainer is found, create row for each alt trainer code / name pair
-  hasAlts.forEach(async (trd: TrainerRowData) => {
-    const trainer = await prisma.trainer.findFirst({
-      where: {
-        username: {
-          equals: trd.username,
-        },
-        trainer_code: {
-          equals: trd.trainerCode,
-        },
-        trainer_name: {
-          equals: trd.trainerName,
-        },
-      },
-      select: {
-        id: true,
-      },
-    });
+  if (hasAlts) {
+    const trainerAlts = [
+      createTrainerAlt(trd.altTrainerCode, trd.altTrainerName),
+      createTrainerAlt(trd.altTrainerCode2, trd.altTrainerName2),
+      createTrainerAlt(trd.altTrainerCode3, trd.altTrainerName3),
+      createTrainerAlt(trd.altTrainerCode4, trd.altTrainerName4),
+    ]
+      .filter((ta) => ta !== null)
+      .map((t, index) => {
+        return {
+          ...t,
+          //trainer_id: trainer.id,
+          order: index,
+        };
+      }) as TrainerAlt[];
+    return trainerAlts;
+  }
 
-    if (trainer) {
-      const trainerAlts = [
-        createTrainerAlt(trd.altTrainerCode, trd.altTrainerName),
-        createTrainerAlt(trd.altTrainerCode2, trd.altTrainerName2),
-        createTrainerAlt(trd.altTrainerCode3, trd.altTrainerName3),
-        createTrainerAlt(trd.altTrainerCode4, trd.altTrainerName4),
-      ]
-        .filter((ta) => ta !== null)
-        .map((t, index) => {
-          return {
-            ...t,
-            trainer_id: trainer.id,
-            order: index,
-          };
-        }) as TrainerAlt[];
-
-      await prisma.trainerAlt.createMany({
-        data: trainerAlts,
-      });
-    }
-  });
+  return [];
 }
 
 function createTrainerAlt(code?: string, name?: string): TrainerAlt | null {
