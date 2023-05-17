@@ -16,6 +16,7 @@ export function setupRoutes(router: Router<Record<string, any>>) {
       };
     })
     .post("/api/auth/login", authController.login)
+    .post("/api/auth/logout", authController.logout)
     .get("/api/profile", profileController.getProfile)
     .get("/api/trainer-codes/search", searchTrainers)
     // TODO: move to controller

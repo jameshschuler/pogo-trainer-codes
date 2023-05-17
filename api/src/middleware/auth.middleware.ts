@@ -20,10 +20,8 @@ export async function validateAccessToken(ctx: RouterContext<string>, next: () =
   const accessToken = authHeader?.split(" ")[1];
 
   if (isNullOrUndefined(accessToken)) {
-    ctx.response.status = Status.Forbidden;
-    ctx.response.body = {
-      message: "Forbidden",
-    };
+    // TODO: log error
+    handleErrorResponse(ctx, "Unauthorized", Status.Unauthorized);
     return;
   }
 
@@ -38,7 +36,7 @@ export async function validateAccessToken(ctx: RouterContext<string>, next: () =
 
   await ctx.state.session.deleteSession();
 
-  handleErrorResponse(ctx, null, Status.Forbidden);
+  handleErrorResponse(ctx, null, Status.Unauthorized);
 }
 
 export async function validateUserId(ctx: RouterContext<string>, next: () => Promise<void>) {
@@ -56,5 +54,6 @@ export async function validateUserId(ctx: RouterContext<string>, next: () => Pro
 
   await ctx.state.session.deleteSession();
 
-  handleErrorResponse(ctx, null, Status.Forbidden);
+  // TODO: log error
+  handleErrorResponse(ctx, "Unauthorized", Status.Unauthorized);
 }

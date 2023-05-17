@@ -52,6 +52,7 @@ function debounce(func: Function, timeout = 500) {
 
 function handleScroll() {
   throttle(() => {
+    // TODO: this seems too sensitive
     const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
 
     if (endOfPage) {

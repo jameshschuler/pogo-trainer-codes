@@ -17,7 +17,7 @@ export const router = new Router<AppState>();
 app.use(Session.initMiddleware());
 
 app.use(oakCors({
-  origin: ["localhost:3000", "https://pogotrainerhub.com", "https://pogotrainerhub.app"],
+  origin: ["http://localhost:3000", "https://pogotrainerhub.com", "https://pogotrainerhub.app"],
   credentials: true,
 }));
 

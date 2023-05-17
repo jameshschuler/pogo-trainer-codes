@@ -23,6 +23,12 @@ async function login(ctx: RouterContext<string>) {
   }
 }
 
+async function logout(ctx: RouterContext<string>) {
+  await ctx.state.session.deleteSession();
+  handleResponse(ctx);
+}
+
 export default {
   login,
+  logout,
 };

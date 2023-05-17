@@ -1,9 +1,9 @@
+import Home from "@/components/pages/Home.vue";
+import Login from "@/components/pages/Login.vue";
+import ProfilePage from "@/components/pages/ProfilePage.vue";
+import SearchTrainers from "@/components/pages/SearchTrainers.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import Home from "../components/Pages/Home.vue";
-import Login from "../components/Pages/Login.vue";
-import Profile from "../components/Pages/Profile.vue";
-import SearchTrainers from "../components/Pages/SearchTrainers.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -23,7 +23,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/profile",
     name: "Profile",
-    component: Profile,
+    component: ProfilePage,
     meta: {
       requiresAuth: true,
     },

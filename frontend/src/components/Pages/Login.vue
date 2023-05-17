@@ -15,7 +15,7 @@ import { generateRandomString } from "@/utils";
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-// TODO: support .app redirect
+// TODO: support .app redirect (window.location)
 const discordUrl = import.meta.env.DEV
   ? import.meta.env.VITE_APP_DISCORD_URL
   : import.meta.env.VITE_APP_PROD_DISCORD_URL;
