@@ -1,11 +1,10 @@
-import { ProfileWithTrainer } from "@/types/profile.ts";
 import { MeResponse } from "@/types/response/meResponse.ts";
 import prisma from "@prisma";
 
 export async function createProfile(
   me: MeResponse,
   trainerId?: number,
-): Promise<ProfileWithTrainer> {
+): Promise<string> {
   const { id, username, avatar, avatar_decoration, display_name, global_name, locale } = me;
   const profile = await prisma.profile.upsert({
     where: {
@@ -29,10 +28,10 @@ export async function createProfile(
       locale,
       updated_at: new Date(),
     },
-    include: {
-      trainer: true,
+    select: {
+      user_id: true,
     },
   });
 
-  return profile;
+  return profile.user_id;
 }

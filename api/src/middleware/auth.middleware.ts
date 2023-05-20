@@ -1,3 +1,4 @@
+import { logError } from "@/handlers/commands/createLog.handler.ts";
 import { compareValues } from "@/utils/auth.ts";
 import { isNullOrEmpty, isNullOrUndefined } from "@/utils/common.ts";
 import { handleErrorResponse } from "@/utils/response.ts";
@@ -20,7 +21,7 @@ export async function validateAccessToken(ctx: RouterContext<string>, next: () =
   const accessToken = authHeader?.split(" ")[1];
 
   if (isNullOrUndefined(accessToken)) {
-    // TODO: log error
+    await logError("No request access token found.");
     handleErrorResponse(ctx, "Unauthorized", Status.Unauthorized);
     return;
   }
@@ -35,6 +36,8 @@ export async function validateAccessToken(ctx: RouterContext<string>, next: () =
   }
 
   await ctx.state.session.deleteSession();
+
+  await logError("No access token found in session.");
 
   handleErrorResponse(ctx, null, Status.Unauthorized);
 }
@@ -54,6 +57,7 @@ export async function validateUserId(ctx: RouterContext<string>, next: () => Pro
 
   await ctx.state.session.deleteSession();
 
-  // TODO: log error
+  await logError("No user id found in session");
+
   handleErrorResponse(ctx, "Unauthorized", Status.Unauthorized);
 }
