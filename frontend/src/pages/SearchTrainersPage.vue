@@ -5,7 +5,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import TrainersList from "@/components/TrainersList.vue";
-import Hero from "../Hero.vue";
+import Hero from "../components/Hero.vue";
+import TrainersList from "../components/TrainersList.vue";
 </script>
 <style lang="scss" scoped></style>
