@@ -1,24 +1,24 @@
-import Home from "@/components/pages/Home.vue";
-import Login from "@/components/pages/Login.vue";
-import ProfilePage from "@/components/pages/ProfilePage.vue";
-import SearchTrainers from "@/components/pages/SearchTrainers.vue";
+import HomePage from "@/pages/HomePage.vue";
+import LoginPage from "@/pages/LoginPage.vue";
+import ProfilePage from "@/pages/ProfilePage.vue";
+import SearchTrainersPage from "@/pages/SearchTrainersPage.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    component: Home,
+    component: HomePage,
   },
   {
     path: "/search",
     name: "SearchTrainers",
-    component: SearchTrainers,
+    component: SearchTrainersPage,
   },
   {
     path: "/login",
     name: "Login",
-    component: Login,
+    component: LoginPage,
   },
   {
     path: "/profile",
