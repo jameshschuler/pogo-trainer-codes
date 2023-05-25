@@ -1,4 +1,4 @@
-import prisma from "@prisma";
+import { prisma } from "@/deps.ts";
 
 export async function getTrainerByUsername(username: string): Promise<number | undefined> {
   const trainer = await prisma.trainer.findFirst({

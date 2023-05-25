@@ -1,9 +1,9 @@
+import { Status } from "@/deps.ts";
 import { logError } from "@/handlers/commands/createLog.handler.ts";
 import queries from "@/handlers/queries/index.ts";
 import { SearchTrainersRequest } from "@/types/requests/searchTrainersRequest.ts";
 import { handleResponse } from "@/utils/response.ts";
 import { getQuery } from "helpers";
-import { Status } from "oak";
 import { RouterContext } from "router";
 
 export async function searchTrainers(ctx: RouterContext<string>) {

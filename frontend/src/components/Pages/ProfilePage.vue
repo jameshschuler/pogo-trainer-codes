@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white border-2 border-black rounded-xl p-12">
+  <div class="bg-white border-2 border-black rounded-xl p-12 dark:bg-dark-200">
     <Modal type="loading" message="Getting Profile..." v-if="loading" />
     <ProfileForm :loading="loading" />
   </div>

@@ -17,10 +17,18 @@ export interface Trainer {
   source: string | null;
 }
 
+export interface TrainerAltResponse {
+  id: number;
+  name: string;
+  code: string;
+  order: number;
+}
+
 export interface Profile {
   profileId: number;
   username: string;
   userId: string;
   trainerCode: string;
   trainerName: string;
+  trainerAlts: TrainerAltResponse[];
 }

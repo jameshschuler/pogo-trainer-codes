@@ -1,4 +1,5 @@
 import { Profile, Trainer, TrainerAlt } from "../../generated/client/deno/index.d.ts";
+import { TrainerAltResponse } from "./trainer.ts";
 
 export interface ProfileResponse {
   profileId: number;
@@ -6,6 +7,7 @@ export interface ProfileResponse {
   userId: string;
   trainerName?: string;
   trainerCode?: string;
+  trainerAlts: TrainerAltResponse[];
 }
 
 export type ProfileWithTrainer = Profile & { trainer: Trainer | null } | null;

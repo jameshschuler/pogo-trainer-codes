@@ -1,7 +1,7 @@
+import { prisma } from "@/deps.ts";
 import { ApiResponse } from "@/types/common.ts";
 import { SearchTrainersRequest } from "@/types/requests/searchTrainersRequest.ts";
 import { SearchTrainersResponse, TrainerResponse } from "@/types/response/searchTrainersResponse.ts";
-import prisma from "@prisma";
 import { Trainer } from "../../../generated/client/deno/index.d.ts";
 
 const defaultPageSize = 15;

@@ -7,4 +7,6 @@ const trainerWithAlts = Prisma.validator<Prisma.TrainerArgs>()({
 
 export type TrainerWithAlts = Prisma.TrainerGetPayload<typeof trainerWithAlts>
 
-export default prisma;
+export {
+  prisma
+};

@@ -1,7 +1,7 @@
+import { prisma, TrainerWithAlts } from "@/deps.ts";
 import { ApiResponse } from "@/types/common.ts";
 import { TrainerRowData } from "@/types/models.ts";
 import { SyncTrainersResponse } from "@/types/response/syncTrainersResponse.ts";
-import prisma, { TrainerWithAlts } from "@prisma";
 import { parse } from "https://deno.land/std@0.182.0/encoding/csv.ts";
 import { TrainerAlt } from "../../../generated/client/deno/index.d.ts";
 

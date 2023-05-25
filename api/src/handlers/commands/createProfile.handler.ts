@@ -1,5 +1,5 @@
+import { prisma } from "@/deps.ts";
 import { MeResponse } from "@/types/response/meResponse.ts";
-import prisma from "@prisma";
 
 export async function createProfile(
   me: MeResponse,

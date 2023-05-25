@@ -29,7 +29,17 @@ export const useProfileStore = defineStore("profile", () => {
         return;
       }
 
-      const responseData = await response.json();
+      const responseData = (await response.json()) as Profile;
+
+      if (responseData.trainerAlts.length === 0) {
+        responseData.trainerAlts.push({
+          name: "",
+          code: "",
+          order: 0,
+          id: 1,
+        });
+      }
+
       profile.value = responseData;
     } catch (err) {
       console.error(err);

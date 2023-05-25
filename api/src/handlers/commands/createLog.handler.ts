@@ -1,4 +1,4 @@
-import prisma from "@prisma";
+import { prisma } from "@/deps.ts";
 
 export async function log(level: string, logType: string, message: string, meta?: any, requestId?: string) {
   await prisma.log.create({
