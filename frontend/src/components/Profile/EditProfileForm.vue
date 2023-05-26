@@ -4,15 +4,18 @@
     :validation-schema="schema"
     :initial-values="profile"
     v-slot="{ errors, isSubmitting }"
+    autocomplete="off"
   >
     <div class="flex justify-between items-center">
       <h1 class="text-3xl">Edit Trainer Profile</h1>
       <button
         id="save-profile--btn"
         class="py-2 px-4 border-2 border-black rounded-lg clickable hover:bg-green-400 text-lg font-normal"
-        :disabled="isSubmitting"
+        :disabled="isSubmitting || Object.keys(errors).length !== 0"
       >
-        <i v-if="isSubmitting" class="fa-solid fa-circle-notch fa-lg fa-fw fa-spin mr-2"></i>
+        <span v-if="isSubmitting">
+          <i v-if="isSubmitting" class="fa-solid fa-circle-notch fa-lg fa-fw fa-spin mr-2"></i>
+        </span>
         Save Changes
       </button>
     </div>
@@ -80,6 +83,7 @@
           type="button"
           class="m-4 rounded-lg border-2 border-black p-4 flex items-center hover:bg-gray-100"
           @click="addAlt"
+          :disabled="isSubmitting"
         >
           <i class="fa-solid fa-plus fa-lg fa-fw mr-2"></i>
           <span class="text-lg font-normal">Add Trainer Alt</span>
@@ -108,18 +112,28 @@
 <script setup lang="ts">
 import { useProfileStore } from "@/stores/profileStore";
 import { storeToRefs } from "pinia";
-import { ErrorMessage, Field, Form } from "vee-validate";
+import { configure, ErrorMessage, Field, Form } from "vee-validate";
 import * as Yup from "yup";
 
 const profileStore = useProfileStore();
 let profile: any = null;
 ({ profile } = storeToRefs(profileStore));
 
+configure({
+  validateOnBlur: true,
+  validateOnChange: true,
+  validateOnInput: true,
+  validateOnModelUpdate: true,
+});
+
 const schema = Yup.object().shape({
   trainerAlts: Yup.array().of(
     Yup.object().shape({
       name: Yup.string().required("Trainer Name is required"),
-      code: Yup.string().required("Trainer Code is required"),
+      code: Yup.string()
+        .matches(/^\d+$/, "Trainer Code must only contain numbers")
+        .length(12, "Trainer Code must be 12 digits")
+        .required("Trainer Code is required"),
     })
   ),
 });
@@ -136,7 +150,7 @@ function removeAlt(index: number) {
 }
 
 async function onSubmit(values: any) {
-  console.log(values);
+  await profileStore.updateProfile(values.trainerAlts);
 }
 </script>
 <style lang="scss" scoped>

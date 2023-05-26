@@ -18,10 +18,9 @@ export interface Trainer {
 }
 
 export interface TrainerAltResponse {
-  id: number;
+  id?: number;
   name: string;
   code: string;
-  order: number;
 }
 
 export interface Profile {
@@ -31,4 +30,13 @@ export interface Profile {
   trainerCode: string;
   trainerName: string;
   trainerAlts: TrainerAltResponse[];
+}
+
+export interface TrainerAltRequest {
+  name: string;
+  code: string;
+}
+
+export interface UpdateProfileRequest {
+  trainerAlts: TrainerAltRequest[];
 }

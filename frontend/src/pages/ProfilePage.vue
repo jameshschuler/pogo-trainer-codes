@@ -1,11 +1,11 @@
 <template>
   <div class="bg-white border-2 border-black rounded-xl p-12 dark:bg-dark-200">
     <Modal type="loading" message="Getting Profile..." v-if="loading" />
-    <ProfileForm v-if="!loading" />
+    <EditProfileForm v-if="!loading" />
   </div>
 </template>
 <script setup lang="ts">
-import ProfileForm from "@/components/Profile/ProfileForm.vue";
+import EditProfileForm from "@/components/Profile/EditProfileForm.vue";
 import Modal from "@/components/common/Modal.vue";
 import { useCommonStore } from "@/stores/commonStore";
 import { useProfileStore } from "@/stores/profileStore";

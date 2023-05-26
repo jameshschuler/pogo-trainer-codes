@@ -1,7 +1,9 @@
 <template>
   <div @click="toggleCard" :class="{ flipped: flipped }" class="trainer--card cursor-pointer">
     <div class="card--inner p-4 px-8 w-full h-full">
-      <div class="card--front rounded-md bg-white border-2 border-black rounded-xl">
+      <div
+        class="card--front rounded-md bg-white dark:bg-dark-200 border-2 border-black rounded-xl"
+      >
         <div class="flex justify-end pt-4 pr-4">
           <span>
             <i class="fa-solid fa-fw fa-lg fa-qrcode"></i>
@@ -14,13 +16,17 @@
             <h3 class="mt-3 text-gray-500 dark:text-blue-500 flex items-center">
               {{ trainer.trainerCode }}
               <span class="ml-2 mb-2" @click.stop="copyTrainerCode(trainer.trainerCode)">
-                <i class="fa-solid fa-fw fa-lg fa-copy text-black hover:text-blue-500"></i>
+                <i
+                  class="fa-solid fa-fw fa-lg fa-copy text-black hover:text-blue-500 dark:text-white"
+                ></i>
               </span>
             </h3>
           </div>
         </div>
       </div>
-      <div class="card--back bg-gray-200 flex flex-col justify-center items-center border-2 border-black rounded-xl">
+      <div
+        class="card--back bg-gray-200 dark:bg-dark-200 flex flex-col justify-center items-center border-2 border-black rounded-xl"
+      >
         <canvas ref="canvas"></canvas>
         <h1 class="text-xl font-semibold mt-5">
           <span class="mr-2">

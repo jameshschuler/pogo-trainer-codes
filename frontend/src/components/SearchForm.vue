@@ -1,9 +1,16 @@
 <template>
-  <div id="search--container" class="p-6 bg-white shadow-lg rounded-xl absolute bottom-0 border-2 border-black">
+  <div
+    id="search--container"
+    class="p-6 bg-white dark:bg-dark-200 shadow-lg rounded-xl absolute bottom-0 border-2 border-black"
+  >
     <div class="flex flex-row p-4 <lg:flex-col">
       <div class="flex flex-col min-w-xs mr-6 <lg:w-full">
         <label for="location--select" class="mb-2 font-semibold">Location</label>
-        <select id="location-select" class="p-4 rounded-lg border-2 border-black" :disabled="true">
+        <select
+          id="location-select"
+          class="p-4 rounded-lg border-2 border-black dark:text-black"
+          :disabled="true"
+        >
           <option selected value="san-diego">San Diego</option>
         </select>
       </div>
