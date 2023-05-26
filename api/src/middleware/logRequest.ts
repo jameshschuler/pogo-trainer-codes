@@ -6,13 +6,16 @@ export async function logRequest(ctx: RouterContext<string>, next: any) {
   ctx.state.requestId = requestId;
 
   await next();
-  await log(
-    "Info",
-    "Request",
-    `${ctx.request.method} ${ctx.request.url}`,
-    {
-      headers: JSON.stringify(ctx.request.headers),
-    },
-    requestId,
-  );
+
+  if (Deno.env.get("ENV") === "production") {
+    await log(
+      "Info",
+      "Request",
+      `${ctx.request.method} ${ctx.request.url}`,
+      {
+        headers: JSON.stringify(ctx.request.headers),
+      },
+      requestId,
+    );
+  }
 }

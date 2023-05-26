@@ -13,7 +13,7 @@
         :disabled="isSubmitting"
       >
         <i v-if="isSubmitting" class="fa-solid fa-circle-notch fa-lg fa-fw fa-spin mr-2"></i>
-        Save
+        Save Changes
       </button>
     </div>
     <section class="my-6">
