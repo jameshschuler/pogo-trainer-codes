@@ -18,6 +18,7 @@ app.use(Session.initMiddleware(store, {
   cookieSetOptions: {
     httpOnly: true,
     sameSite: "none",
+    secure: true,
   },
 }));
 

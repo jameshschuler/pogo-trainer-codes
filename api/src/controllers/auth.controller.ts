@@ -14,8 +14,6 @@ async function login(ctx: RouterContext<string>) {
   const meResponse = await getDiscordProfile(request.accessToken!);
   if (!isNullOrUndefined(meResponse)) {
     const hashedAccessToken = await hashValue(request.accessToken);
-    console.error("hashed at");
-    console.error("Session missing ", ctx.state.session === undefined);
     ctx.state.session.set("accessToken", hashedAccessToken);
     ctx.state.session.set("userId", meResponse!.id);
 
