@@ -51,7 +51,6 @@ export const useProfileStore = defineStore("profile", () => {
         responseData.trainerAlts.push({
           name: "",
           code: "",
-          order: 0,
         });
       }
 
