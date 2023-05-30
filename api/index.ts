@@ -3,7 +3,7 @@ import { handleError } from "@/middleware/handleError.ts";
 import { logRequest } from "@/middleware/logRequest.ts";
 import { setupRoutes } from "@/routes.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
-import { Session } from "https://deno.land/x/oak_sessions/mod.ts";
+import { CookieStore, Session } from "https://deno.land/x/oak_sessions/mod.ts";
 import { Application, Router } from "oak";
 
 type AppState = {
@@ -13,8 +13,8 @@ type AppState = {
 const app = new Application<AppState>();
 
 export const router = new Router<AppState>();
-
-app.use(Session.initMiddleware(undefined, {
+const store = new CookieStore(Deno.env.get("COOKIE_STORE_SECRET")!);
+app.use(Session.initMiddleware(store, {
   cookieSetOptions: {
     httpOnly: true,
     sameSite: "lax",
