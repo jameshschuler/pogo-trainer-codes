@@ -12,9 +12,9 @@ async function login(ctx: RouterContext<string>) {
   const request = (await body.value) as LoginRequest;
 
   const meResponse = await getDiscordProfile(request.accessToken!);
-  console.log("meResponse", meResponse?.id);
   if (!isNullOrUndefined(meResponse)) {
     const hashedAccessToken = await hashValue(request.accessToken);
+    console.log("Session: ", ctx.state.session);
     ctx.state.session.set("accessToken", hashedAccessToken);
     ctx.state.session.set("userId", meResponse!.id);
 
