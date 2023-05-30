@@ -6,7 +6,7 @@ export async function handleError(ctx: RouterContext<string>, next: () => Promis
     await next();
   } catch (err) {
     await logError("Application Error", { ...err, message: err.message });
-    console.error({ ...err });
+    console.error({ ...err, message: err.message });
 
     ctx.response.status = 500;
     ctx.response.body = { message: "Something went wrong processing your request. Please try again later." };
