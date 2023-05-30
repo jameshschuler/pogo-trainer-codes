@@ -17,7 +17,7 @@ const store = new CookieStore(Deno.env.get("COOKIE_STORE_SECRET")!);
 app.use(Session.initMiddleware(store, {
   cookieSetOptions: {
     httpOnly: true,
-    sameSite: "lax",
+    sameSite: "none",
   },
 }));
 

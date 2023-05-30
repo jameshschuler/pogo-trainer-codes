@@ -38,9 +38,7 @@ export const useProfileStore = defineStore("profile", () => {
       });
 
       if (response.status !== 200) {
-        if (response.status === 401) {
-          await authStore.logout();
-        }
+        await authStore.logout();
 
         return;
       }
