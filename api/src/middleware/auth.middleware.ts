@@ -38,7 +38,7 @@ export async function validateAccessToken(ctx: RouterContext<string>, next: () =
     }
   }
 
-  await logError(errorMessage, ctx.state.session);
+  await logError(errorMessage);
   await ctx.state.session.deleteSession();
 
   handleErrorResponse(ctx, null, Status.Unauthorized);
