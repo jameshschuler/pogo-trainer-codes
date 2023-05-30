@@ -8,6 +8,10 @@ export function handleResponse<T>(ctx: RouterContext<string>, response?: ApiResp
 
   ctx.response.body = response;
   ctx.response.status = status;
+  ctx.response.headers.append(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept",
+  );
 }
 
 export function handleErrorResponse(

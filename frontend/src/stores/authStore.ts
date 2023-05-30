@@ -12,7 +12,9 @@ export const useAuthStore = defineStore("auth", () => {
   const profileStore = useProfileStore();
   const toastStore = useToastStore();
 
-  const baseApiUrl = import.meta.env.DEV ? import.meta.env.VITE_APP_DEV_API_URL : import.meta.env.VITE_APP_API_URL;
+  const baseApiUrl = import.meta.env.DEV
+    ? import.meta.env.VITE_APP_DEV_API_URL
+    : import.meta.env.VITE_APP_API_URL;
   const authApiBaseUrl = `${baseApiUrl}/auth`;
 
   async function login(): Promise<void> {

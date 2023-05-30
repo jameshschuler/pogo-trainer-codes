@@ -14,7 +14,12 @@ const app = new Application<AppState>();
 
 export const router = new Router<AppState>();
 
-app.use(Session.initMiddleware());
+app.use(Session.initMiddleware(undefined, {
+  cookieSetOptions: {
+    httpOnly: true,
+    sameSite: "lax",
+  },
+}));
 
 app.use(oakCors({
   origin: ["http://localhost:3000", "https://pogotrainerhub.com", "https://pogotrainerhub.app"],
