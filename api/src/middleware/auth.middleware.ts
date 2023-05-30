@@ -26,18 +26,20 @@ export async function validateAccessToken(ctx: RouterContext<string>, next: () =
     return;
   }
 
+  let errorMessage = "No access token found in session.";
   const storedAccessToken: string = await ctx.state.session.get("accessToken");
   if (!isNullOrUndefined(storedAccessToken)) {
     const result = await compareValues(accessToken!, storedAccessToken);
     if (result) {
       await next();
       return;
+    } else {
+      errorMessage = "Access Tokens don't match";
     }
   }
 
+  await logError(errorMessage, ctx.state.session);
   await ctx.state.session.deleteSession();
-
-  await logError("No access token found in session.");
 
   handleErrorResponse(ctx, null, Status.Unauthorized);
 }
