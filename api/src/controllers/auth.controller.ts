@@ -1,3 +1,4 @@
+import { logError } from "@/handlers/commands/createLog.handler.ts";
 import { getDiscordProfile } from "@/handlers/commands/getDiscordProfile.handler.ts";
 import { LoginRequest, LoginResponse } from "@/types/login.ts";
 import { hashValue } from "@/utils/auth.ts";
@@ -18,6 +19,7 @@ async function login(ctx: RouterContext<string>) {
 
     handleResponse(ctx, createResponse<LoginResponse>({ userId: meResponse!.id }));
   } else {
+    await logError("Unable to get discord profile", meResponse);
     await ctx.state.session.deleteSession();
     handleErrorResponse(ctx, "Unable to login. Please try again later.");
   }
