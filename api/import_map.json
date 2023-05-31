@@ -4,6 +4,7 @@
         "prisma": "./prisma/mod.ts",
         "oak": "https://deno.land/x/oak@v12.2.0/mod.ts",
         "router": "https://deno.land/x/oak@v12.2.0/router.ts",
-        "helpers": "https://deno.land/x/oak@v12.2.0/helpers.ts"
+        "helpers": "https://deno.land/x/oak@v12.2.0/helpers.ts",
+        "cron": "https://deno.land/x/croner@6.0.3/dist/croner.js"
     }
 }

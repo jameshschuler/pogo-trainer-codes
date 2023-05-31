@@ -1,3 +1,4 @@
+import { start } from "@/jobs/syncTrainersJob.ts";
 import { validateAccessToken, validateUserId } from "@/middleware/auth.middleware.ts";
 import { handleError } from "@/middleware/handleError.ts";
 import { logRequest } from "@/middleware/logRequest.ts";
@@ -36,5 +37,7 @@ app.use(validateUserId);
 setupRoutes(router);
 app.use(router.routes());
 app.use(router.allowedMethods());
+
+start();
 
 await app.listen({ port: 8000 });
