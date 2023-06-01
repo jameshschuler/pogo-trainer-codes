@@ -4,7 +4,7 @@
     class="p-6 bg-white dark:bg-dark-200 shadow-lg rounded-xl absolute bottom-0 border-2 border-black"
   >
     <div class="flex flex-row p-4 <lg:flex-col">
-      <div class="flex flex-col min-w-xs mr-6 <lg:w-full">
+      <!-- <div class="flex flex-col min-w-xs mr-6 <lg:w-full">
         <label for="location--select" class="mb-2 font-semibold">Location</label>
         <select
           id="location-select"
@@ -13,7 +13,7 @@
         >
           <option selected value="san-diego">San Diego</option>
         </select>
-      </div>
+      </div> -->
       <div class="flex flex-col w-full <lg:mt-4 relative">
         <label for="search-input" class="mb-2 font-semibold">Search Trainers</label>
         <input
@@ -59,11 +59,13 @@ function debounce(func: Function, timeout = 500) {
 
 function handleScroll() {
   throttle(() => {
-    // TODO: this seems too sensitive
-    const endOfPage = window.innerHeight + window.pageYOffset >= document.body.offsetHeight;
+    const container = document.getElementById("trainers--container");
+    if (container) {
+      const { scrollTop, scrollHeight, clientHeight } = container;
 
-    if (endOfPage) {
-      store.loadNextPage();
+      if (scrollTop + clientHeight >= scrollHeight - 5) {
+        store.loadNextPage();
+      }
     }
   }, 1000);
 }
